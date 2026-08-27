@@ -149,7 +149,7 @@ Chapter 2: JVM Architecture
               value={rawText}
               onChange={(e) => setRawText(e.target.value)}
               placeholder="Paste units, chapters, and bulleted topics here..."
-              className="w-full h-32 p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white font-mono focus:outline-hidden focus:ring-2 focus:ring-indigo-500/20 resize-none"
+              className="w-full h-36 p-4 rounded-2xl bg-white dark:bg-slate-950 border-2 border-slate-300 dark:border-slate-700 text-xs sm:text-sm font-mono text-slate-950 dark:text-white placeholder:text-slate-500 dark:placeholder:text-slate-400 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-500/25 resize-none shadow-xs leading-relaxed"
             />
           </div>
 

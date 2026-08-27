@@ -53,7 +53,7 @@ export const SessionNotes: React.FC<SessionNotesProps> = ({
         value={notes}
         onChange={(e) => onNotesChange(e.target.value)}
         placeholder="Type rough notes, unsolved questions, key insights, or exam reminders..."
-        className="w-full h-36 p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 text-xs text-slate-900 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-indigo-500/20 resize-none font-sans leading-relaxed"
+        className="w-full h-36 p-4 rounded-2xl bg-white dark:bg-slate-950 border-2 border-slate-300 dark:border-slate-700 text-xs sm:text-sm font-medium text-slate-950 dark:text-white placeholder:text-slate-500 dark:placeholder:text-slate-400 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-500/25 resize-none font-sans leading-relaxed shadow-xs"
       />
     </div>
   );

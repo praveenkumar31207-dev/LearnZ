@@ -162,7 +162,7 @@ export default function SettingsPage() {
             <select
               value={stabilityThreshold}
               onChange={(e) => setStabilityThreshold(Number(e.target.value))}
-              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white"
+              className="w-full px-3.5 py-2.5 rounded-2xl bg-white dark:bg-slate-950 border-2 border-slate-300 dark:border-slate-700 text-xs sm:text-sm font-medium text-slate-950 dark:text-white shadow-xs"
             >
               <option value={5}>5 mins (Highly Reactive)</option>
               <option value={10}>10 mins (Balanced - Recommended)</option>
@@ -181,7 +181,7 @@ export default function SettingsPage() {
             <select
               value={pomodoroFocus}
               onChange={(e) => setPomodoroFocus(Number(e.target.value))}
-              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white"
+              className="w-full px-3.5 py-2.5 rounded-2xl bg-white dark:bg-slate-950 border-2 border-slate-300 dark:border-slate-700 text-xs sm:text-sm font-medium text-slate-950 dark:text-white shadow-xs"
             >
               <option value={25}>25 mins (Classic Pomodoro)</option>
               <option value={45}>45 mins (Standard Lecture)</option>
@@ -197,7 +197,7 @@ export default function SettingsPage() {
             <select
               value={pomodoroBreak}
               onChange={(e) => setPomodoroBreak(Number(e.target.value))}
-              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white"
+              className="w-full px-3.5 py-2.5 rounded-2xl bg-white dark:bg-slate-950 border-2 border-slate-300 dark:border-slate-700 text-xs sm:text-sm font-medium text-slate-950 dark:text-white shadow-xs"
             >
               <option value={5}>5 mins</option>
               <option value={10}>10 mins (Recommended)</option>
@@ -226,7 +226,7 @@ export default function SettingsPage() {
               type="text"
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
-              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white"
+              className="w-full px-3.5 py-2.5 rounded-2xl bg-white dark:bg-slate-950 border-2 border-slate-300 dark:border-slate-700 text-xs sm:text-sm font-medium text-slate-950 dark:text-white shadow-xs"
             />
           </div>
 
@@ -238,7 +238,7 @@ export default function SettingsPage() {
               type="text"
               value={courseDegree}
               onChange={(e) => setCourseDegree(e.target.value)}
-              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white"
+              className="w-full px-3.5 py-2.5 rounded-2xl bg-white dark:bg-slate-950 border-2 border-slate-300 dark:border-slate-700 text-xs sm:text-sm font-medium text-slate-950 dark:text-white shadow-xs"
             />
           </div>
         </div>
@@ -252,7 +252,7 @@ export default function SettingsPage() {
               type="text"
               value={targetGpaGrade}
               onChange={(e) => setTargetGpaGrade(e.target.value)}
-              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white"
+              className="w-full px-3.5 py-2.5 rounded-2xl bg-white dark:bg-slate-950 border-2 border-slate-300 dark:border-slate-700 text-xs sm:text-sm font-medium text-slate-950 dark:text-white shadow-xs"
             />
           </div>
 
@@ -267,7 +267,7 @@ export default function SettingsPage() {
               min={1}
               max={16}
               step={0.5}
-              className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white"
+              className="w-full px-3.5 py-2.5 rounded-2xl bg-white dark:bg-slate-950 border-2 border-slate-300 dark:border-slate-700 text-xs sm:text-sm font-medium text-slate-950 dark:text-white shadow-xs"
             />
           </div>
         </div>
