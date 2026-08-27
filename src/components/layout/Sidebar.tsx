@@ -85,15 +85,28 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onMobileClose }) =
         </nav>
       </div>
 
-      {/* Footer Info Box */}
-      <div className="p-3.5 rounded-2xl bg-indigo-50/70 dark:bg-indigo-950/40 border border-indigo-100 dark:border-indigo-900/60 text-slate-700 dark:text-slate-300">
-        <div className="flex items-center gap-2 text-indigo-700 dark:text-indigo-400 font-semibold text-xs mb-1">
-          <Sparkles className="w-3.5 h-3.5" />
-          Continuous Adaptive AI
+      {/* Footer Info & PWA Install Box */}
+      <div className="space-y-2">
+        <div className="p-3.5 rounded-2xl bg-indigo-50/70 dark:bg-indigo-950/40 border border-indigo-100 dark:border-indigo-900/60 text-slate-700 dark:text-slate-300">
+          <div className="flex items-center gap-2 text-indigo-700 dark:text-indigo-400 font-semibold text-xs mb-1">
+            <Sparkles className="w-3.5 h-3.5" />
+            Continuous Adaptive AI
+          </div>
+          <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
+            The timetable automatically recalibrates when you finish early or take longer.
+          </p>
         </div>
-        <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
-          The timetable automatically recalibrates when you finish early or take longer.
-        </p>
+
+        <button
+          onClick={() => {
+            const event = new CustomEvent('trigger-pwa-install');
+            window.dispatchEvent(event);
+            alert('📱 Install CogniStudy:\n\n• On Chrome/Android/Desktop: Look for the Install icon (⬇️) in your browser address bar\n• On iPhone/iPad (Safari): Tap the Share button & choose "Add to Home Screen"');
+          }}
+          className="w-full flex items-center justify-center gap-2 py-2.5 px-3 rounded-2xl bg-slate-900 hover:bg-slate-800 dark:bg-slate-800 dark:hover:bg-slate-700 text-white text-xs font-bold transition-all shadow-xs"
+        >
+          <span>📱 Install Web App</span>
+        </button>
       </div>
     </aside>
   );

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4f46e5" />
+      <stop offset="50%" stop-color="#6366f1" />
+      <stop offset="100%" stop-color="#14b8a6" />
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="16" stdDeviation="24" flood-color="#000000" flood-opacity="0.3" />
+    </filter>
+  </defs>
+
+  <!-- App Icon Background -->
+  <rect width="512" height="512" rx="128" fill="url(#grad)" />
+  
+  <!-- Subtle Inner Border -->
+  <rect x="12" y="12" width="488" height="488" rx="116" fill="none" stroke="#ffffff" stroke-width="4" stroke-opacity="0.25" />
+
+  <!-- App Symbol / Brain & Sparkles -->
+  <g filter="url(#shadow)" fill="#ffffff">
+    <!-- Brain / Intellect Center -->
+    <path d="M256 120 C 190 120, 140 170, 140 236 C 140 270, 156 300, 180 320 L 180 360 C 180 376, 194 390, 210 390 L 302 390 C 318 390, 332 376, 332 360 L 332 320 C 356 300, 372 270, 372 236 C 372 170, 322 120, 256 120 Z" opacity="0.95" />
+    
+    <!-- Sparkles -->
+    <path d="M380 140 L390 115 L415 105 L390 95 L380 70 L370 95 L345 105 L370 115 Z" fill="#facc15" />
+    <path d="M130 150 L137 132 L155 125 L137 118 L130 100 L123 118 L105 125 L123 132 Z" fill="#facc15" />
+    <path d="M375 330 L382 315 L397 310 L382 305 L375 290 L368 305 L353 310 L368 315 Z" fill="#facc15" />
+  </g>
+</svg>
