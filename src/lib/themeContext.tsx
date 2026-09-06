@@ -133,14 +133,18 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
     try {
       localStorage.setItem(THEME_STORAGE_KEY, themeMode);
-    } catch (e) {}
+    } catch {
+      // Ignore storage errors in restricted contexts
+    }
   }, [themeMode, selectedPreset, customColor, isMounted]);
 
   const setThemeMode = (mode: ThemeMode) => {
     setThemeModeState(mode);
     try {
       localStorage.setItem(THEME_STORAGE_KEY, mode);
-    } catch (e) {}
+    } catch {
+      // Ignore storage errors in restricted contexts
+    }
   };
 
   const setSelectedPreset = (preset: CustomThemePreset) => {
@@ -149,14 +153,18 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     try {
       localStorage.setItem(PRESET_STORAGE_KEY, preset.id);
       localStorage.setItem(CUSTOM_COLOR_KEY, preset.primary);
-    } catch (e) {}
+    } catch {
+      // Ignore storage errors in restricted contexts
+    }
   };
 
   const setCustomColor = (color: string) => {
     setCustomColorState(color);
     try {
       localStorage.setItem(CUSTOM_COLOR_KEY, color);
-    } catch (e) {}
+    } catch {
+      // Ignore storage errors in restricted contexts
+    }
   };
 
   return (

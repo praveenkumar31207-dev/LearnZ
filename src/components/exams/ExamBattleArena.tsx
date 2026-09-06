@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useAppStore } from '@/lib/store';
 import { BattleChallenger, BattleQuestion } from '@/types';
 import {
@@ -48,6 +48,23 @@ export const ExamBattleArena: React.FC = () => {
   const currentQuestions = battleQuestions.slice(0, totalRounds);
   const currentQ: BattleQuestion = currentQuestions[roundIdx] || currentQuestions[0];
 
+  const handleEndRound = useCallback((userChoice: string | null) => {
+    setRoundEnded(true);
+
+    setTimeout(() => {
+      if (roundIdx < totalRounds - 1) {
+        setRoundIdx((prev) => prev + 1);
+        setUserSelectedOption(null);
+        setOpponentSelectedOption(null);
+        setRoundEnded(false);
+        setRoundTimeLeft(15);
+      } else {
+        // Match Finished — call inline to avoid forward reference
+        setGameState('results');
+      }
+    }, 1600);
+  }, [roundIdx, totalRounds]);
+
   // Matchmaking animation timer
   useEffect(() => {
     if (gameState === 'matchmaking') {
@@ -78,7 +95,7 @@ export const ExamBattleArena: React.FC = () => {
       handleEndRound(null);
     }
     return () => clearInterval(timer);
-  }, [gameState, roundEnded, roundTimeLeft]);
+  }, [gameState, roundEnded, roundTimeLeft, handleEndRound]);
 
   // Opponent AI answer simulation (between 2.5s and 5.5s)
   useEffect(() => {
@@ -108,7 +125,7 @@ export const ExamBattleArena: React.FC = () => {
 
       return () => clearTimeout(oppTimer);
     }
-  }, [gameState, roundIdx, roundEnded]);
+  }, [gameState, roundIdx, roundEnded, currentQ, selectedChallenger]);
 
   const handleStartMatchmaking = (challenger?: BattleChallenger) => {
     if (challenger) setSelectedChallenger(challenger);
@@ -138,24 +155,7 @@ export const ExamBattleArena: React.FC = () => {
     }, 1200);
   };
 
-  const handleEndRound = (userChoice: string | null) => {
-    setRoundEnded(true);
-
-    setTimeout(() => {
-      if (roundIdx < totalRounds - 1) {
-        setRoundIdx((prev) => prev + 1);
-        setUserSelectedOption(null);
-        setOpponentSelectedOption(null);
-        setRoundEnded(false);
-        setRoundTimeLeft(15);
-      } else {
-        // Match Finished
-        handleFinishMatch();
-      }
-    }, 1600);
-  };
-
-  const handleFinishMatch = () => {
+  const handleFinishMatch = useCallback(() => {
     const isVictory = userScore >= opponentScore;
     const eloDelta = isVictory ? +32 : -14;
     const xpDelta = isVictory ? 150 : 50;
@@ -174,7 +174,15 @@ export const ExamBattleArena: React.FC = () => {
     }
 
     setGameState('results');
-  };
+  }, [userScore, opponentScore, selectedChallenger, currentQ, recordBattleVictory]);
+
+  // Record battle result when round ends and game transitions to 'results'
+  useEffect(() => {
+    if (gameState === 'results') {
+      handleFinishMatch();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gameState]);
 
   // 1. Lobby Screen
   if (gameState === 'lobby') {

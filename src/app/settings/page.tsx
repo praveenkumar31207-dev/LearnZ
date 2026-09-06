@@ -126,7 +126,7 @@ export default function SettingsPage() {
                 Supabase Cloud PostgreSQL Backend
               </h3>
               <p className="text-[11px] text-slate-500 dark:text-slate-400 font-mono">
-                kokbkmdsxlcdxfzekdgk.supabase.co
+                {process.env.NEXT_PUBLIC_SUPABASE_URL ? process.env.NEXT_PUBLIC_SUPABASE_URL.replace(/^https?:\/\//, '') : 'Configured via .env.local'}
               </p>
             </div>
           </div>
@@ -138,8 +138,8 @@ export default function SettingsPage() {
                 : 'bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800'
             }`}
           >
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span>Live Supabase Connected</span>
+            <span className={`w-2 h-2 rounded-full ${isSupabaseConfigured ? 'bg-emerald-500 animate-pulse' : 'bg-slate-400'}`}></span>
+            <span>{isSupabaseConfigured ? 'Live Supabase Connected' : 'Local Resilient State Active'}</span>
           </span>
         </div>
 
@@ -157,12 +157,12 @@ export default function SettingsPage() {
           </button>
 
           <a
-            href="https://supabase.com/dashboard/project/kokbkmdsxlcdxfzekdgk/sql/new"
+            href="https://supabase.com/dashboard"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold shadow-xs transition-colors"
           >
-            <span>Open Supabase SQL Editor</span>
+            <span>Open Supabase Dashboard</span>
             <ExternalLink className="w-3.5 h-3.5" />
           </a>
         </div>

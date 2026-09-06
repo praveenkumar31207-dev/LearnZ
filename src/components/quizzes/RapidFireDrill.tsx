@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useAppStore } from '@/lib/store';
 import { QuizQuestion, DrillResult } from '@/types';
 import {
@@ -52,6 +52,36 @@ export const RapidFireDrill: React.FC<RapidFireDrillProps> = ({ onFinish, onExit
 
   const currentQ = drillQuestions[currentIdx % drillQuestions.length];
 
+  const handleCompleteDrill = useCallback(() => {
+    setIsActive(false);
+    setIsFinished(true);
+
+    const accuracy = answeredCount > 0 ? Math.round((correctCount / answeredCount) * 100) : 0;
+    const avgSec = answeredCount > 0 ? Math.round(((60 - timeLeft) / answeredCount) * 10) / 10 : 0;
+    const xpEarned = Math.round(score * 0.25);
+
+    const drillResult: DrillResult = {
+      id: `drill-${Date.now()}`,
+      drillTitle: '⚡ 60-Second Rapid Recall Sprint',
+      subjectName: 'Mixed Engineering Core',
+      drillMode: 'rapid_fire',
+      score,
+      totalQuestions: answeredCount,
+      accuracyPercentage: accuracy,
+      avgSecondsPerQuestion: avgSec,
+      maxStreak,
+      xpEarned,
+      completedAt: new Date().toISOString(),
+      weakTopicsIdentified: weakTopics,
+    };
+
+    recordDrillResult(drillResult);
+    if (accuracy >= 70 && answeredCount >= 5) {
+      confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } });
+    }
+    if (onFinish) onFinish(drillResult);
+  }, [answeredCount, correctCount, timeLeft, score, maxStreak, weakTopics, recordDrillResult, onFinish]);
+
   // Timer Effect
   useEffect(() => {
     let interval: any = null;
@@ -63,7 +93,7 @@ export const RapidFireDrill: React.FC<RapidFireDrillProps> = ({ onFinish, onExit
       handleCompleteDrill();
     }
     return () => clearInterval(interval);
-  }, [isActive, timeLeft]);
+  }, [isActive, timeLeft, handleCompleteDrill]);
 
   const handleStart = () => {
     setTimeLeft(60);
@@ -111,35 +141,7 @@ export const RapidFireDrill: React.FC<RapidFireDrillProps> = ({ onFinish, onExit
     }, 450);
   };
 
-  const handleCompleteDrill = () => {
-    setIsActive(false);
-    setIsFinished(true);
 
-    const accuracy = answeredCount > 0 ? Math.round((correctCount / answeredCount) * 100) : 0;
-    const avgSec = answeredCount > 0 ? Math.round(((60 - timeLeft) / answeredCount) * 10) / 10 : 0;
-    const xpEarned = Math.round(score * 0.25);
-
-    const drillResult: DrillResult = {
-      id: `drill-${Date.now()}`,
-      drillTitle: '⚡ 60-Second Rapid Recall Sprint',
-      subjectName: 'Mixed Engineering Core',
-      drillMode: 'rapid_fire',
-      score,
-      totalQuestions: answeredCount,
-      accuracyPercentage: accuracy,
-      avgSecondsPerQuestion: avgSec,
-      maxStreak,
-      xpEarned,
-      completedAt: new Date().toISOString(),
-      weakTopicsIdentified: weakTopics,
-    };
-
-    recordDrillResult(drillResult);
-    if (accuracy >= 70 && answeredCount >= 5) {
-      confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } });
-    }
-    if (onFinish) onFinish(drillResult);
-  };
 
   // 1. Initial Start Screen
   if (!isActive && !isFinished) {
