@@ -28,13 +28,13 @@ export default function OnboardingPage() {
 
   // Step 1: Student Info
   const [fullName, setFullName] = useState(profile.fullName);
-  const [educationLevel, setEducationLevel] = useState<EducationLevel>(profile.educationLevel);
-  const [courseDegree, setCourseDegree] = useState(profile.courseDegree);
-  const [currentSemester, setCurrentSemester] = useState(profile.currentSemester);
-  const [targetGpaGrade, setTargetGpaGrade] = useState(profile.targetGpaGrade);
-  const [dailyMaxStudyHours, setDailyMaxStudyHours] = useState(profile.dailyMaxStudyHours);
+  const [educationLevel, setEducationLevel] = useState<EducationLevel>(profile.educationLevel || 'Self-Taught / Professional');
+  const [courseDegree, setCourseDegree] = useState(profile.courseDegree || '');
+  const [currentSemester, setCurrentSemester] = useState(profile.currentSemester || '');
+  const [targetGpaGrade, setTargetGpaGrade] = useState(profile.targetGpaGrade || '');
+  const [dailyMaxStudyHours, setDailyMaxStudyHours] = useState(profile.dailyMaxStudyHours || 3);
   const [preferredStudyTime, setPreferredStudyTime] = useState<PreferredStudyTime>(
-    profile.preferredStudyTime
+    (profile.preferredStudyTime as PreferredStudyTime) || 'morning'
   );
 
   // Step 2: Routine & Availability
@@ -77,7 +77,7 @@ export default function OnboardingPage() {
     });
 
     setTimeout(() => {
-      router.push('/');
+      router.push('/dashboard');
     }, 1000);
   };
 

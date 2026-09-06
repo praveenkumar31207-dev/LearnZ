@@ -2,16 +2,22 @@
 
 import React, { useState } from 'react';
 import { useAppStore } from '@/lib/store';
+import { ExamBattleArena } from '@/components/exams/ExamBattleArena';
+import { LeaderboardTable } from '@/components/exams/LeaderboardTable';
+import { StudentBattleCard } from '@/components/exams/StudentBattleCard';
 import {
   Target,
+  Swords,
+  Trophy,
+  UserCheck,
+  Flame,
   Calendar,
-  AlertTriangle,
   Sparkles,
   CheckCircle2,
   Clock,
   ShieldAlert,
-  Flame,
   ArrowRight,
+  TrendingUp,
 } from 'lucide-react';
 import { calculateDaysRemaining, formatRelativeDays } from '@/lib/utils';
 import confetti from 'canvas-confetti';
@@ -20,6 +26,7 @@ export default function ExamsPage() {
   const { academicEvents, subjects, allTopics, regenerateSchedule, addNotification } =
     useAppStore();
 
+  const [activeTab, setActiveTab] = useState<'battle_arena' | 'leaderboard' | 'showcase' | 'warroom'>('battle_arena');
   const [emergencyModalOpen, setEmergencyModalOpen] = useState(false);
 
   const handleActivateEmergencyPlan = () => {
@@ -36,16 +43,16 @@ export default function ExamsPage() {
   };
 
   return (
-    <div className="space-y-6 animate-in fade-in duration-300">
+    <div className="space-y-7 animate-in fade-in duration-300">
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white flex items-center gap-2.5">
-            <Target className="w-7 h-7 text-rose-600 dark:text-rose-400" />
-            Exam Preparation War-Room
+            <Swords className="w-7 h-7 text-rose-600 dark:text-rose-400" />
+            Exam War-Site & Competitive Battle Arena
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">
-            Readiness risk prediction, syllabus coverage meters, and high-yield crunch restructuring.
+            Live 1v1 multiplayer exam clashes, global student leaderboards, performance showcase cards, and exam prep.
           </p>
         </div>
 
@@ -54,114 +61,165 @@ export default function ExamsPage() {
           className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-2xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold shadow-md shadow-rose-600/30 transition-all hover:scale-105"
         >
           <Flame className="w-4 h-4" />
-          <span>Emergency Cram & Restructure</span>
+          <span>Emergency Cram Restructure</span>
         </button>
       </div>
 
-      {/* Exam Countdown Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {academicEvents.map((evt) => {
-          const daysLeft = calculateDaysRemaining(evt.eventDate);
-          const subj = subjects.find((s) => s.id === evt.subjectId);
-
-          const subjTopics = allTopics.filter((t) =>
-            subj?.units?.some((u) => u.chapters?.some((c) => c.topics?.some((tp) => tp.id === t.id)))
-          );
-
-          const completedSubjTopics = subjTopics.filter((t) => t.isCompleted);
-          const coveragePercent =
-            subjTopics.length > 0
-              ? Math.round((completedSubjTopics.length / subjTopics.length) * 100)
-              : 0;
-
-          const isUrgent = daysLeft <= 7;
-          const status =
-            coveragePercent >= 80
-              ? 'Ahead of Schedule 🚀'
-              : coveragePercent >= 50
-              ? 'On Track 🎯'
-              : 'At Risk / Behind Schedule ⚠️';
+      {/* Main Mode Navigation Tabs */}
+      <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
+        {[
+          { id: 'battle_arena', label: '⚔️ Live 1v1 Battle Arena', icon: Swords },
+          { id: 'leaderboard', label: '🏆 Global & University Leaderboard', icon: Trophy },
+          { id: 'showcase', label: '🪪 Performance Showcase Card', icon: UserCheck },
+          { id: 'warroom', label: '🎯 Exam Readiness & Countdowns', icon: Target },
+        ].map((tab) => {
+          const Icon = tab.icon;
+          const isActive = activeTab === tab.id;
 
           return (
-            <div
-              key={evt.id}
-              className="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 shadow-sm flex flex-col justify-between space-y-5"
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id as any)}
+              className={`px-4 py-2.5 rounded-2xl text-xs font-bold flex items-center gap-2 shrink-0 transition-all ${
+                isActive
+                  ? 'bg-rose-600 text-white shadow-md shadow-rose-600/25'
+                  : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-800 hover:bg-slate-50'
+              }`}
             >
-              <div>
-                <div className="flex items-center justify-between gap-2 mb-3">
-                  <span
-                    className="px-3 py-1 rounded-full text-xs font-bold text-white"
-                    style={{ backgroundColor: evt.subjectColor || '#6366f1' }}
-                  >
-                    {evt.subjectName}
-                  </span>
-                  <span
-                    className={`px-2 py-0.5 rounded-lg text-[10px] font-bold ${
-                      isUrgent
-                        ? 'bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300'
-                        : 'bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300'
-                    }`}
-                  >
-                    {formatRelativeDays(evt.eventDate)}
-                  </span>
-                </div>
-
-                <h3 className="text-base font-bold text-slate-900 dark:text-white">
-                  {evt.title}
-                </h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                  Weightage: {evt.weightagePercentage}% of final course grade
-                </p>
-
-                {/* Coverage Progress Bar */}
-                <div className="mt-4 space-y-1.5">
-                  <div className="flex justify-between text-xs font-semibold">
-                    <span className="text-slate-600 dark:text-slate-400">
-                      Syllabus Coverage:
-                    </span>
-                    <span className="text-slate-900 dark:text-white">{coveragePercent}%</span>
-                  </div>
-                  <div className="w-full h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
-                    <div
-                      className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-teal-400 transition-all duration-500"
-                      style={{ width: `${coveragePercent}%` }}
-                    />
-                  </div>
-                </div>
-
-                {/* Risk Status */}
-                <div className="mt-4 p-3 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 text-xs">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-0.5">
-                    AI Readiness Prediction
-                  </span>
-                  <span
-                    className={`font-bold ${
-                      coveragePercent >= 80
-                        ? 'text-emerald-600 dark:text-emerald-400'
-                        : coveragePercent >= 50
-                        ? 'text-indigo-600 dark:text-indigo-400'
-                        : 'text-rose-600 dark:text-rose-400'
-                    }`}
-                  >
-                    {status}
-                  </span>
-                </div>
-              </div>
-
-              <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500">
-                <span>{daysLeft} Days Remaining</span>
-                <span className="font-bold text-indigo-600 dark:text-indigo-400">
-                  {subjTopics.length - completedSubjTopics.length} Topics Left
-                </span>
-              </div>
-            </div>
+              <Icon className="w-4 h-4" />
+              <span>{tab.label}</span>
+            </button>
           );
         })}
       </div>
 
+      {/* TAB 1: ⚔️ Live 1v1 Battle Arena */}
+      {activeTab === 'battle_arena' && <ExamBattleArena />}
+
+      {/* TAB 2: 🏆 Global & University Leaderboard */}
+      {activeTab === 'leaderboard' && <LeaderboardTable />}
+
+      {/* TAB 3: 🪪 Student Performance Showcase */}
+      {activeTab === 'showcase' && <StudentBattleCard />}
+
+      {/* TAB 4: 🎯 Exam Readiness War-Room & Emergency Cram */}
+      {activeTab === 'warroom' && (
+        <div className="space-y-6 animate-in fade-in">
+          <div className="flex items-center justify-between">
+            <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <Target className="w-5 h-5 text-rose-600" />
+              Upcoming Academic Exams & Syllabus Readiness
+            </h3>
+            <span className="text-xs font-semibold text-slate-500">
+              {academicEvents.length} Exams Tracked
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {academicEvents.map((evt) => {
+              const daysLeft = calculateDaysRemaining(evt.eventDate);
+              const subj = subjects.find((s) => s.id === evt.subjectId);
+
+              const subjTopics = allTopics.filter((t) =>
+                subj?.units?.some((u) => u.chapters?.some((c) => c.topics?.some((tp) => tp.id === t.id)))
+              );
+
+              const completedSubjTopics = subjTopics.filter((t) => t.isCompleted);
+              const coveragePercent =
+                subjTopics.length > 0
+                  ? Math.round((completedSubjTopics.length / subjTopics.length) * 100)
+                  : 0;
+
+              const isUrgent = daysLeft <= 7;
+              const status =
+                coveragePercent >= 80
+                  ? 'Ahead of Schedule 🚀'
+                  : coveragePercent >= 50
+                  ? 'On Track 🎯'
+                  : 'At Risk / Behind Schedule ⚠️';
+
+              return (
+                <div
+                  key={evt.id}
+                  className="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 shadow-sm flex flex-col justify-between space-y-5 hover:border-rose-300 dark:hover:border-rose-700 transition-colors"
+                >
+                  <div>
+                    <div className="flex items-center justify-between gap-2 mb-3">
+                      <span
+                        className="px-3 py-1 rounded-full text-xs font-bold text-white"
+                        style={{ backgroundColor: evt.subjectColor || '#6366f1' }}
+                      >
+                        {evt.subjectName}
+                      </span>
+                      <span
+                        className={`px-2 py-0.5 rounded-lg text-[10px] font-bold ${
+                          isUrgent
+                            ? 'bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300'
+                            : 'bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300'
+                        }`}
+                      >
+                        {formatRelativeDays(evt.eventDate)}
+                      </span>
+                    </div>
+
+                    <h3 className="text-base font-bold text-slate-900 dark:text-white">
+                      {evt.title}
+                    </h3>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                      Weightage: {evt.weightagePercentage}% of final course grade
+                    </p>
+
+                    {/* Coverage Progress Bar */}
+                    <div className="mt-4 space-y-1.5">
+                      <div className="flex justify-between text-xs font-semibold">
+                        <span className="text-slate-600 dark:text-slate-400">
+                          Syllabus Coverage:
+                        </span>
+                        <span className="text-slate-900 dark:text-white">{coveragePercent}%</span>
+                      </div>
+                      <div className="w-full h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                        <div
+                          className="h-full rounded-full bg-gradient-to-r from-rose-500 via-amber-500 to-emerald-500 transition-all duration-500"
+                          style={{ width: `${coveragePercent}%` }}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Risk Status */}
+                    <div className="mt-4 p-3 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 text-xs">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-0.5">
+                        AI Readiness Prediction
+                      </span>
+                      <span
+                        className={`font-bold ${
+                          coveragePercent >= 80
+                            ? 'text-emerald-600 dark:text-emerald-400'
+                            : coveragePercent >= 50
+                            ? 'text-indigo-600 dark:text-indigo-400'
+                            : 'text-rose-600 dark:text-rose-400'
+                        }`}
+                      >
+                        {status}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500">
+                    <span>{daysLeft} Days Remaining</span>
+                    <span className="font-bold text-rose-600 dark:text-rose-400">
+                      {subjTopics.length - completedSubjTopics.length} Topics Left
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
       {/* Emergency Cram Modal */}
       {emergencyModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm animate-in fade-in">
           <div className="w-full max-w-md rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-8 shadow-2xl space-y-5">
             <div className="text-center space-y-2">
               <div className="w-12 h-12 rounded-2xl bg-rose-100 dark:bg-rose-950 text-rose-600 dark:text-rose-400 flex items-center justify-center mx-auto">

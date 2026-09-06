@@ -5,10 +5,12 @@ import Link from 'next/link';
 import { useAppStore } from '@/lib/store';
 import {
   Calendar,
-  AlertCircle,
+  Award,
   Clock,
   Target,
   ArrowRight,
+  GraduationCap,
+  ShieldCheck,
 } from 'lucide-react';
 import { formatRelativeDays, calculateDaysRemaining } from '@/lib/utils';
 
@@ -20,25 +22,25 @@ export const UpcomingDeadlines: React.FC = () => {
   );
 
   return (
-    <div className="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 shadow-sm">
+    <div className="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 shadow-xs">
       <div className="flex items-center justify-between gap-4 mb-4">
         <h3 className="font-bold text-sm sm:text-base text-slate-900 dark:text-white flex items-center gap-2">
-          <Target className="w-4 h-4 text-indigo-500" />
-          Academic Deadlines & Exams
+          <GraduationCap className="w-4 h-4 text-blue-600" />
+          Cadre Milestones & TPAC Evaluations
         </h3>
         <Link
-          href="/exams"
-          className="text-xs text-indigo-600 dark:text-indigo-400 font-semibold hover:underline flex items-center gap-1"
+          href="/schedule"
+          className="text-xs text-blue-600 dark:text-blue-400 font-semibold hover:underline flex items-center gap-1"
         >
-          <span>War-Room</span>
+          <span>Calendar</span>
           <ArrowRight className="w-3 h-3" />
         </Link>
       </div>
 
       <div className="space-y-3">
         {sortedEvents.length === 0 ? (
-          <div className="py-6 text-center text-xs text-slate-500 dark:text-slate-400">
-            No upcoming exams or assessments.
+          <div className="py-6 text-center text-xs text-slate-400">
+            No pending training milestones.
           </div>
         ) : (
           sortedEvents.map((evt) => {
@@ -48,12 +50,12 @@ export const UpcomingDeadlines: React.FC = () => {
             return (
               <div
                 key={evt.id}
-                className="flex items-center justify-between p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800"
+                className="flex items-center justify-between p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/60"
               >
                 <div className="flex items-center gap-3">
                   <div
                     className="w-2.5 h-10 rounded-full shrink-0"
-                    style={{ backgroundColor: evt.subjectColor || '#6366f1' }}
+                    style={{ backgroundColor: evt.subjectColor || '#2563eb' }}
                   />
                   <div>
                     <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
@@ -70,13 +72,13 @@ export const UpcomingDeadlines: React.FC = () => {
                     className={`inline-block px-2 py-0.5 rounded-lg text-[10px] font-bold ${
                       isUrgent
                         ? 'bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800'
-                        : 'bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800'
+                        : 'bg-blue-50 dark:bg-blue-950 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800'
                     }`}
                   >
                     {formatRelativeDays(evt.eventDate)}
                   </span>
                   <p className="text-[10px] text-slate-400 mt-0.5">
-                    {evt.weightagePercentage}% Final Weight
+                    {evt.weightagePercentage}% Competency Weight
                   </p>
                 </div>
               </div>

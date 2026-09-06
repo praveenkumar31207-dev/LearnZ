@@ -1,22 +1,32 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useAppStore } from '@/lib/store';
 import {
   LayoutDashboard,
-  CalendarDays,
-  BookOpen,
-  RotateCcw,
-  Bot,
+  Award,
+  AlertCircle,
   Compass,
+  BookOpen,
+  GraduationCap,
   HelpCircle,
-  Flame,
+  TrendingUp,
+  Bot,
+  User,
+  UploadCloud,
+  FileCheck2,
+  Users,
   BarChart3,
-  Settings,
+  Flame,
   Sparkles,
   X,
-  Target,
+  Globe,
+  ShieldCheck,
+  Building2,
+  Database,
+  Cpu,
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -24,30 +34,61 @@ interface SidebarProps {
   onMobileClose?: () => void;
 }
 
-const navItems = [
-  { name: 'Dashboard', href: '/', icon: LayoutDashboard },
-  { name: 'Study Plan', href: '/schedule', icon: CalendarDays },
-  { name: 'My Subjects', href: '/subjects', icon: BookOpen },
-  { name: 'Spaced Revisions', href: '/revisions', icon: RotateCcw },
-  { name: 'AI Tutors', href: '/tutors', icon: Bot },
-  { name: 'Resource Box', href: '/resources', icon: Compass },
-  { name: 'Quizzes & Drills', href: '/quizzes', icon: HelpCircle },
-  { name: 'Exam War-Room', href: '/exams', icon: Target },
-  { name: 'Analytics', href: '/analytics', icon: BarChart3 },
-  { name: 'Settings & Supabase', href: '/settings', icon: Settings },
-];
-
 export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onMobileClose }) => {
   const pathname = usePathname();
+  const { activeRole, profile } = useAppStore();
+
+  // Role-specific navigation menus
+  const learnerNavItems = [
+    { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
+    { name: 'My Competencies', href: '/subjects', icon: Award },
+    { name: 'Skill Gaps & AI Analysis', href: '/subjects?tab=gaps', icon: AlertCircle },
+    { name: 'AI Learning Path', href: '/schedule', icon: Compass },
+    { name: 'iGOT Karmayogi Courses', href: '/resources', icon: BookOpen },
+    { name: 'NSSTA Training Programmes', href: '/resources?tab=nssta', icon: GraduationCap },
+    { name: 'AI Assessments & MCQs', href: '/quizzes', icon: HelpCircle },
+    { name: 'Competency Progress', href: '/analytics', icon: TrendingUp },
+    { name: 'AI Statistical Assistant', href: '/tutors', icon: Bot },
+    { name: 'Official Profile', href: '/settings', icon: User },
+  ];
+
+  const trainerNavItems = [
+    { name: 'Trainer Control Studio', href: '/trainer', icon: LayoutDashboard },
+    { name: 'Learner Dashboard View', href: '/dashboard', icon: BarChart3 },
+    { name: 'Upload Learning Materials', href: '/trainer', icon: UploadCloud },
+    { name: 'AI MCQ Generator', href: '/trainer', icon: Cpu },
+    { name: 'Question Quality Review', href: '/trainer', icon: FileCheck2 },
+    { name: 'Competency Assessments', href: '/quizzes', icon: HelpCircle },
+    { name: 'Statistical Syllabus Mapping', href: '/subjects', icon: Award },
+  ];
+
+  const adminNavItems = [
+    { name: 'Cadre Governance Admin', href: '/admin', icon: LayoutDashboard },
+    { name: 'Cadre Overview Dashboard', href: '/dashboard', icon: Building2 },
+    { name: 'Workforce Analytics', href: '/analytics', icon: BarChart3 },
+    { name: 'Department Skill-Gap Heatmap', href: '/analytics?tab=heatmap', icon: Building2 },
+    { name: 'Future Skill Predictions', href: '/analytics?tab=predictions', icon: Sparkles },
+    { name: 'Official Competency Mapping', href: '/subjects', icon: Award },
+    { name: 'System & iGOT Sync Engine', href: '/admin', icon: Database },
+  ];
+
+  const currentNavItems =
+    activeRole === 'trainer'
+      ? trainerNavItems
+      : activeRole === 'admin'
+      ? adminNavItems
+      : learnerNavItems;
 
   const content = (
-    <aside className="w-64 h-full flex flex-col justify-between bg-slate-50/75 dark:bg-slate-900/75 border-r border-slate-200 dark:border-slate-800 p-4 transition-colors">
-      <div className="space-y-6">
+    <aside className="w-64 h-full flex flex-col justify-between bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 p-4 transition-colors">
+      <div className="space-y-4">
         {/* Mobile Header with close button */}
         <div className="flex items-center justify-between lg:hidden pb-3 border-b border-slate-200 dark:border-slate-800">
           <div className="flex items-center gap-2">
-            <Sparkles className="w-5 h-5 text-indigo-600" />
-            <span className="font-bold text-slate-900 dark:text-white">CogniStudy</span>
+            <div className="w-7 h-7 rounded-lg bg-blue-700 text-white flex items-center justify-center font-bold text-xs">
+              <Building2 className="w-4 h-4" />
+            </div>
+            <span className="font-bold text-sm text-slate-900 dark:text-white">Skill Intelligence</span>
           </div>
           <button
             onClick={onMobileClose}
@@ -57,71 +98,91 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onMobileClose }) =
           </button>
         </div>
 
+        {/* Current Active Role Badge */}
+        <div className="px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
+            Navigation Mode:
+          </span>
+          <div className="flex items-center justify-between mt-0.5">
+            <span className="text-xs font-extrabold text-blue-700 dark:text-blue-400 flex items-center gap-1.5">
+              {activeRole === 'learner' && '👤 Official / Learner'}
+              {activeRole === 'trainer' && '🎓 NSSTA Trainer'}
+              {activeRole === 'admin' && '🏛️ Cadre Administrator'}
+            </span>
+            <span className="text-[10px] px-1.5 py-0.2 rounded bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-300 font-semibold uppercase">
+              {activeRole}
+            </span>
+          </div>
+        </div>
+
         {/* Navigation Items */}
         <nav className="space-y-1">
-          {navItems.map((item) => {
+          {currentNavItems.map((item) => {
             const Icon = item.icon;
             const isActive =
-              item.href === '/'
-                ? pathname === '/'
-                : pathname.startsWith(item.href);
+              item.href === '/dashboard'
+                ? pathname === '/dashboard' || pathname === '/'
+                : pathname === item.href.split('?')[0];
 
             return (
               <Link
-                key={item.href}
+                key={item.name}
                 href={item.href}
                 onClick={onMobileClose}
-                className={`flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all ${
+                className={`flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all ${
                   isActive
-                    ? 'bg-indigo-600 text-white shadow-sm shadow-indigo-600/30'
-                    : 'text-slate-600 dark:text-slate-300 hover:bg-slate-200/60 dark:hover:bg-slate-800/60 hover:text-slate-900 dark:hover:text-white'
+                    ? 'bg-blue-700 text-white shadow-sm shadow-blue-700/25'
+                    : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white'
                 }`}
               >
-                <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-slate-400 dark:text-slate-400'}`} />
-                <span>{item.name}</span>
+                <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-white' : 'text-slate-400 dark:text-slate-400'}`} />
+                <span className="truncate">{item.name}</span>
               </Link>
             );
           })}
+
+          <div className="pt-2 border-t border-slate-200/80 dark:border-slate-800/80 mt-2">
+            <Link
+              href="/"
+              onClick={onMobileClose}
+              className="flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white transition-colors"
+            >
+              <Globe className="w-4 h-4 text-blue-600" />
+              <span>National Portal Home</span>
+            </Link>
+          </div>
         </nav>
       </div>
 
-      {/* Footer Info & PWA Install Box */}
-      <div className="space-y-2">
-        <div className="p-3.5 rounded-2xl bg-indigo-50/70 dark:bg-indigo-950/40 border border-indigo-100 dark:border-indigo-900/60 text-slate-700 dark:text-slate-300">
-          <div className="flex items-center gap-2 text-indigo-700 dark:text-indigo-400 font-semibold text-xs mb-1">
-            <Sparkles className="w-3.5 h-3.5" />
-            Continuous Adaptive AI
+      {/* Footer Info: Government Enterprise Accreditation Box */}
+      <div className="space-y-2.5 pt-3 border-t border-slate-200/80 dark:border-slate-800/80">
+        <div className="p-3 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50/50 dark:from-blue-950/40 dark:to-slate-900 border border-blue-100 dark:border-blue-900/60 text-slate-700 dark:text-slate-300">
+          <div className="flex items-center gap-1.5 text-blue-800 dark:text-blue-300 font-bold text-xs mb-1">
+            <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+            iGOT Karmayogi Ready
           </div>
-          <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-relaxed">
-            The timetable automatically recalibrates when you finish early or take longer.
+          <p className="text-[10px] text-slate-600 dark:text-slate-400 leading-relaxed">
+            Personalized competency loops mapped to NSSTA TPAC & Mission Karmayogi standards.
           </p>
         </div>
 
-        <button
-          onClick={() => {
-            const event = new CustomEvent('trigger-pwa-install');
-            window.dispatchEvent(event);
-            alert('📱 Install CogniStudy:\n\n• On Chrome/Android/Desktop: Look for the Install icon (⬇️) in your browser address bar\n• On iPhone/iPad (Safari): Tap the Share button & choose "Add to Home Screen"');
-          }}
-          className="w-full flex items-center justify-center gap-2 py-2.5 px-3 rounded-2xl bg-slate-900 hover:bg-slate-800 dark:bg-slate-800 dark:hover:bg-slate-700 text-white text-xs font-bold transition-all shadow-xs"
-        >
-          <span>📱 Install Web App</span>
-        </button>
+        <div className="flex items-center justify-between text-[10px] text-slate-400 px-1 font-medium">
+          <span>MoSPI Official System</span>
+          <span className="text-emerald-600 dark:text-emerald-400 font-bold">● Live Sync</span>
+        </div>
       </div>
     </aside>
   );
 
   return (
     <>
-      {/* Desktop Persistent Sidebar */}
       <div className="hidden lg:block h-[calc(100vh-4rem)] sticky top-16 shrink-0">
         {content}
       </div>
 
-      {/* Mobile Drawer Backdrop */}
       {mobileOpen && (
         <div
-          className="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-sm lg:hidden animate-in fade-in"
+          className="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-xs lg:hidden animate-in fade-in"
           onClick={onMobileClose}
         >
           <div

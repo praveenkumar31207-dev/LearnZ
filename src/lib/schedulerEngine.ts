@@ -26,6 +26,7 @@ export function estimateTopicStudyTime(
     Easy: 0.8,
     Medium: 1.0,
     Hard: 1.4,
+    Mixed: 1.0,
   };
 
   // Knowledge gap multiplier (Lower knowledge = more time needed)

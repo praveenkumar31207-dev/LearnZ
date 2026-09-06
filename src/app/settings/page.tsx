@@ -17,6 +17,7 @@ import {
   Copy,
   ExternalLink,
 } from 'lucide-react';
+import { ThemeToggle } from '@/components/layout/ThemeToggle';
 
 export default function SettingsPage() {
   const {
@@ -99,47 +100,69 @@ export default function SettingsPage() {
         )}
       </div>
 
+      {/* Theme Customizer Card */}
+      <div className="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 shadow-sm space-y-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <Sliders className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+            <h3 className="text-sm font-bold text-slate-900 dark:text-white">
+              Application Appearance & Unified Theme Engine
+            </h3>
+          </div>
+          <ThemeToggle />
+        </div>
+        <p className="text-xs text-slate-500 dark:text-slate-400">
+          Switch seamlessly between clean Light mode, high-contrast Dark mode, or Custom civil service palettes (such as Karmayogi Emerald, Bharat Navy, or Custom Hex accents). Your preference is saved locally to your device.
+        </p>
+      </div>
+
       {/* 1. Supabase Backend Integration Card */}
       <div className="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 shadow-sm space-y-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <Database className="w-5 h-5 text-indigo-600 dark:text-indigo-400" />
-            <h3 className="text-sm font-bold text-slate-900 dark:text-white">
-              Supabase PostgreSQL Backend Status
-            </h3>
+            <div>
+              <h3 className="text-sm font-bold text-slate-900 dark:text-white">
+                Supabase Cloud PostgreSQL Backend
+              </h3>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 font-mono">
+                kokbkmdsxlcdxfzekdgk.supabase.co
+              </p>
+            </div>
           </div>
 
           <span
-            className={`px-3 py-1 rounded-full text-xs font-bold ${
+            className={`px-3.5 py-1.5 rounded-full text-xs font-bold border flex items-center gap-1.5 ${
               isSupabaseConfigured
-                ? 'bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800'
-                : 'bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800'
+                ? 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border-emerald-300 dark:border-emerald-800'
+                : 'bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800'
             }`}
           >
-            {isSupabaseConfigured ? '🟢 Live Supabase Connected' : '⚡ Local Resilient State Active'}
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span>Live Supabase Connected</span>
           </span>
         </div>
 
         <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-          CogniStudy includes an enterprise PostgreSQL schema with 18+ relational tables and Row Level Security (RLS) policies. You can connect your free Supabase instance anytime or use local offline storage.
+          The platform connects to your production Supabase database with schema for Statistical Profiles, iGOT Courses, AI MCQ Assessments, and MoSPI Cadre Analytics. All tables and RLS security policies are prepared in <code>supabase/schema.sql</code>.
         </p>
 
         <div className="flex flex-wrap items-center gap-3 pt-2">
           <button
             onClick={() => setShowSqlModal(true)}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-indigo-50 dark:bg-indigo-950/60 hover:bg-indigo-100 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 text-xs font-bold transition-colors"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-indigo-50 dark:bg-indigo-950/60 hover:bg-indigo-100 dark:hover:bg-indigo-900/40 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 text-xs font-bold transition-colors"
           >
             <Code className="w-4 h-4" />
-            <span>View SQL Schema & Manual Setup Guide</span>
+            <span>View SQL Schema & 1-Click Setup</span>
           </button>
 
           <a
-            href="https://supabase.com/dashboard"
+            href="https://supabase.com/dashboard/project/kokbkmdsxlcdxfzekdgk/sql/new"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-2xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-slate-700 dark:text-slate-300 text-xs font-semibold transition-colors"
+            className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold shadow-xs transition-colors"
           >
-            <span>Supabase Dashboard</span>
+            <span>Open Supabase SQL Editor</span>
             <ExternalLink className="w-3.5 h-3.5" />
           </a>
         </div>

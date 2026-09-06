@@ -4,8 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:local": "node server.js dev",
     "build": "next build",
     "start": "next start",
+    "start:local": "node server.js prod",
     "lint": "eslint"
   },
   "dependencies": {
