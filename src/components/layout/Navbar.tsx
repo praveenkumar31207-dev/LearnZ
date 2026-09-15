@@ -1,26 +1,21 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAppStore } from '@/lib/store';
 import { useAuth } from '@/lib/authContext';
 import {
   Bell,
-  Sparkles,
   Award,
   User,
   LogOut,
-  LogIn,
   Settings,
   ChevronDown,
-  Globe,
   ShieldCheck,
   CheckCircle2,
-  AlertTriangle,
   Zap,
   Building2,
-  Lock,
   GraduationCap,
 } from 'lucide-react';
 import { UserRole } from '@/types';
@@ -34,6 +29,8 @@ export const Navbar: React.FC<{ onMobileMenuToggle?: () => void }> = ({
     profile,
     activeRole,
     setActiveRole,
+    userTrack,
+    setUserTrack,
     notifications,
     markNotificationRead,
     lastReschedulePlan,
@@ -43,9 +40,14 @@ export const Navbar: React.FC<{ onMobileMenuToggle?: () => void }> = ({
 
   const { signOut } = useAuth();
 
+  const [mounted, setMounted] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showUserDropdown, setShowUserDropdown] = useState(false);
   const [showRoleSelector, setShowRoleSelector] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const unreadCount = notifications.filter((n) => !n.isRead).length;
 
@@ -126,6 +128,34 @@ export const Navbar: React.FC<{ onMobileMenuToggle?: () => void }> = ({
           {/* Unified Theme Toggle (Light, Dark, Custom) */}
           <ThemeToggle />
 
+          {/* Learning Track Switcher (Normal Learner vs iGOT Karmayogi Track) */}
+          <div className="flex items-center p-0.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-bold">
+            <button
+              onClick={() => setUserTrack('learner')}
+              className={`px-2.5 py-1 rounded-lg transition-all flex items-center gap-1.5 ${
+                mounted && userTrack === 'learner'
+                  ? 'bg-white dark:bg-slate-900 text-indigo-700 dark:text-indigo-400 shadow-2xs font-extrabold'
+                  : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
+              }`}
+              title="Student & General Learning Track (Subjects, DSA, Coding, Study Plans)"
+            >
+              <GraduationCap className="w-3.5 h-3.5" />
+              <span className="hidden md:inline">Student Track</span>
+            </button>
+            <button
+              onClick={() => setUserTrack('karmayogi')}
+              className={`px-2.5 py-1 rounded-lg transition-all flex items-center gap-1.5 ${
+                !mounted || userTrack === 'karmayogi'
+                  ? 'bg-blue-700 text-white shadow-2xs font-extrabold'
+                  : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
+              }`}
+              title="FRAC Civil Service Competencies, iGOT Courses & NSSTA Assessments"
+            >
+              <Building2 className="w-3.5 h-3.5" />
+              <span className="hidden md:inline">Karmayogi Track</span>
+            </button>
+          </div>
+
           {/* Role Switcher Pill */}
           <div className="relative">
             <button
@@ -133,7 +163,7 @@ export const Navbar: React.FC<{ onMobileMenuToggle?: () => void }> = ({
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-50 dark:bg-blue-950/50 hover:bg-blue-100 border border-blue-200 dark:border-blue-800 text-blue-800 dark:text-blue-300 text-xs font-bold transition-colors"
             >
               <span>Role:</span>
-              <span className="capitalize">{activeRole}</span>
+              <span className="capitalize">{mounted ? activeRole : 'learner'}</span>
               <ChevronDown className="w-3 h-3 text-blue-500" />
             </button>
 

@@ -34,6 +34,24 @@ export const PRESET_THEMES: CustomThemePreset[] = [
     bgDark: '#0b1329',
   },
   {
+    id: 'cyberpunk-neon',
+    name: 'Cyberpunk Neon (Neo-Tokyo)',
+    primary: '#00F0FF', // Electric Cyan
+    secondary: '#FF2E93', // Neon Magenta
+    accent: '#05FFA1', // Acid Green
+    bgLight: '#0E0F17', // Soft dark baseline
+    bgDark: '#0E0F17', // Soft dark baseline
+  },
+  {
+    id: 'ocean-teal',
+    name: 'Ocean Deep Teal',
+    primary: '#00E5BC', // Bioluminescent Teal
+    secondary: '#38BDF8', // Cyan Blue
+    accent: '#10B981', // Emerald
+    bgLight: '#0B131B', // Deep Oceanic dark
+    bgDark: '#0B131B',
+  },
+  {
     id: 'sunset-amber',
     name: 'Sunset Saffron',
     primary: '#ea580c', // Orange 600
@@ -70,8 +88,8 @@ const CUSTOM_COLOR_KEY = 'learnz_custom_primary_color_v2';
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [themeMode, setThemeModeState] = useState<ThemeMode>('light');
-  const [selectedPreset, setSelectedPresetState] = useState<CustomThemePreset>(PRESET_THEMES[1]); // Bharat Navy default
-  const [customColor, setCustomColorState] = useState<string>('#1d4ed8');
+  const [selectedPreset, setSelectedPresetState] = useState<CustomThemePreset>(PRESET_THEMES[0]); // Karmayogi Emerald default (White and Green)
+  const [customColor, setCustomColorState] = useState<string>('#059669');
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -122,6 +140,9 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       root.style.removeProperty('--custom-bg');
     } else if (themeMode === 'custom') {
       root.classList.add('theme-custom');
+      if (selectedPreset.id === 'cyberpunk-neon' || selectedPreset.id === 'ocean-teal') {
+        root.classList.add('dark');
+      }
       // Apply custom preset CSS variables
       const activePrimary = customColor || selectedPreset.primary;
       root.style.setProperty('--custom-primary', activePrimary);

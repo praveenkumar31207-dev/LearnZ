@@ -5,6 +5,7 @@
 // ==============================================================================
 
 export type UserRole = 'learner' | 'trainer' | 'admin';
+export type UserTrack = 'learner' | 'karmayogi';
 
 export type EducationLevel = 
   | 'High School' 
@@ -50,6 +51,7 @@ export interface UserProfile {
   email: string;
   fullName: string;
   role: UserRole;
+  userTrack?: UserTrack;
   designation: string; // e.g. "Senior Statistical Officer (SSO)"
   department: string; // e.g. "National Accounts Division, MoSPI"
   cadre: string; // e.g. "Indian Statistical Service (ISS) / Subordinate Statistical Service (SSS)"

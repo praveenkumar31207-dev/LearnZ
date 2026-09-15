@@ -23,8 +23,11 @@ export default function RegisterPage() {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [userTrack, setUserTrack] = useState<'learner' | 'karmayogi'>('learner');
   const [educationLevel, setEducationLevel] = useState<EducationLevel>('Undergraduate');
   const [courseDegree, setCourseDegree] = useState('');
+  const [department, setDepartment] = useState('');
+  const [roleTitle, setRoleTitle] = useState('');
   const [errorMsg, setErrorMsg] = useState('');
   const [loading, setLoading] = useState(false);
 

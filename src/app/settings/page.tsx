@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useAppStore } from '@/lib/store';
 import { isSupabaseConfigured } from '@/lib/supabaseClient';
+import { cloudStorage } from '@/lib/cloudStorage';
 import {
   Settings,
   Database,
@@ -16,6 +17,8 @@ import {
   Code,
   Copy,
   ExternalLink,
+  CloudUpload,
+  RefreshCw,
 } from 'lucide-react';
 import { ThemeToggle } from '@/components/layout/ThemeToggle';
 
@@ -34,6 +37,8 @@ export default function SettingsPage() {
   const [savedSuccess, setSavedSuccess] = useState(false);
   const [copiedSql, setCopiedSql] = useState(false);
   const [showSqlModal, setShowSqlModal] = useState(false);
+  const [syncingCloud, setSyncingCloud] = useState(false);
+  const [syncMessage, setSyncMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
   // Settings State
   const [fullName, setFullName] = useState(profile.fullName);
@@ -76,6 +81,25 @@ export default function SettingsPage() {
     a.href = url;
     a.download = `cognistudy_export_${new Date().toISOString().split('T')[0]}.json`;
     a.click();
+  };
+
+  const handleCloudSync = async () => {
+    setSyncingCloud(true);
+    setSyncMessage(null);
+
+    const result = await cloudStorage.fullCloudBackup({
+      profile,
+      studySessions,
+    });
+
+    setSyncingCloud(false);
+    if (result.success) {
+      setSyncMessage({ type: 'success', text: result.message });
+    } else {
+      setSyncMessage({ type: 'error', text: result.message });
+    }
+
+    setTimeout(() => setSyncMessage(null), 4000);
   };
 
   return (
@@ -149,6 +173,24 @@ export default function SettingsPage() {
 
         <div className="flex flex-wrap items-center gap-3 pt-2">
           <button
+            onClick={handleCloudSync}
+            disabled={syncingCloud}
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white text-xs font-bold shadow-xs transition-all"
+          >
+            {syncingCloud ? (
+              <>
+                <RefreshCw className="w-4 h-4 animate-spin" />
+                <span>Syncing Cloud Storage...</span>
+              </>
+            ) : (
+              <>
+                <CloudUpload className="w-4 h-4" />
+                <span>Sync to Cloud Storage</span>
+              </>
+            )}
+          </button>
+
+          <button
             onClick={() => setShowSqlModal(true)}
             className="inline-flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-indigo-50 dark:bg-indigo-950/60 hover:bg-indigo-100 dark:hover:bg-indigo-900/40 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 text-xs font-bold transition-colors"
           >
@@ -166,6 +208,19 @@ export default function SettingsPage() {
             <ExternalLink className="w-3.5 h-3.5" />
           </a>
         </div>
+
+        {syncMessage && (
+          <div
+            className={`p-3 rounded-xl text-xs flex items-center gap-2 ${
+              syncMessage.type === 'success'
+                ? 'bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800'
+                : 'bg-amber-50 dark:bg-amber-950/50 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-800'
+            }`}
+          >
+            <CheckCircle2 className="w-4 h-4 shrink-0" />
+            <span>{syncMessage.text}</span>
+          </div>
+        )}
       </div>
 
       {/* 2. Rescheduling & Engine Configuration */}

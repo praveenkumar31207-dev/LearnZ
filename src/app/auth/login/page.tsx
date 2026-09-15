@@ -12,20 +12,15 @@ import {
   ArrowRight,
   AlertCircle,
   CheckCircle2,
-  Sparkles,
-  Award,
-  Globe,
-  Users,
-  GraduationCap,
 } from 'lucide-react';
 import { ThemeToggle } from '@/components/layout/ThemeToggle';
 
 export default function LoginPage() {
   const router = useRouter();
-  const { signInWithIgot, loginAsDemoUser } = useAuth();
+  const { signInWithIgot, signInWithGoogle } = useAuth();
 
-  const [identifier, setIdentifier] = useState('KB-MOSPI-8921');
-  const [password, setPassword] = useState('••••••••••••');
+  const [identifier, setIdentifier] = useState('');
+  const [password, setPassword] = useState('');
   const [selectedRole, setSelectedRole] = useState<UserRole>('learner');
   const [errorMsg, setErrorMsg] = useState('');
   const [loading, setLoading] = useState(false);
@@ -57,13 +52,6 @@ export default function LoginPage() {
     }
   };
 
-  const handleQuickLogin = (role: UserRole) => {
-    loginAsDemoUser(role);
-    if (role === 'trainer') router.push('/trainer');
-    else if (role === 'admin') router.push('/admin');
-    else router.push('/dashboard');
-  };
-
   return (
     <div className="min-h-screen w-full flex flex-col justify-between py-8 px-4 sm:px-6 lg:px-8 bg-slate-50 dark:bg-slate-950 transition-colors">
       {/* Top Bar with Emblem & Theme Selector */}
@@ -75,14 +63,14 @@ export default function LoginPage() {
           <div>
             <div className="flex items-center gap-2">
               <span className="font-extrabold text-sm sm:text-base text-slate-900 dark:text-white">
-                iGOT Karmayogi Bharat Single Sign-On
+                LearnZ Platform Authentication
               </span>
               <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
-                MoSPI Affiliated
+                Secure SSO
               </span>
             </div>
             <span className="text-[11px] text-slate-500 dark:text-slate-400">
-              National Statistical Systems Training & Competency Framework
+              Student Track (DSA & Coding) & iGOT Karmayogi Competency Framework
             </span>
           </div>
         </div>
@@ -93,83 +81,9 @@ export default function LoginPage() {
       </div>
 
       {/* Main Login Box */}
-      <div className="w-full max-w-xl mx-auto my-6 space-y-6">
+      <div className="w-full max-w-md mx-auto my-6 space-y-6">
         {/* Tricolor Official Accent */}
         <div className="h-1.5 w-full rounded-full bg-gradient-to-r from-orange-500 via-white to-emerald-600 shadow-xs" />
-
-        {/* 1-Click Role Quick Access Profiles */}
-        <div className="rounded-3xl bg-blue-50/70 dark:bg-blue-950/30 border border-blue-200/80 dark:border-blue-900/60 p-5 space-y-3 shadow-xs">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold uppercase tracking-wider text-blue-800 dark:text-blue-300 flex items-center gap-1.5">
-              <ShieldCheck className="w-4 h-4 text-blue-600" /> Instant Role-Based Access (Pre-Configured iGOT Accounts)
-            </span>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-            {/* Learner Card */}
-            <button
-              onClick={() => handleQuickLogin('learner')}
-              className="p-3 rounded-2xl bg-white dark:bg-slate-900 hover:bg-blue-50/80 dark:hover:bg-slate-800 text-left border border-slate-200 dark:border-slate-800 hover:border-blue-400 transition-all group shadow-2xs"
-            >
-              <div className="flex items-center justify-between mb-1">
-                <span className="p-1 rounded-lg bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300">
-                  <Users className="w-3.5 h-3.5" />
-                </span>
-                <span className="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300">
-                  Learner
-                </span>
-              </div>
-              <div className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400">
-                Rajesh Kumar, ISS
-              </div>
-              <div className="text-[10px] text-slate-500 truncate">
-                Senior Statistical Officer (SSO)
-              </div>
-            </button>
-
-            {/* Trainer Card */}
-            <button
-              onClick={() => handleQuickLogin('trainer')}
-              className="p-3 rounded-2xl bg-white dark:bg-slate-900 hover:bg-indigo-50/80 dark:hover:bg-slate-800 text-left border border-slate-200 dark:border-slate-800 hover:border-indigo-400 transition-all group shadow-2xs"
-            >
-              <div className="flex items-center justify-between mb-1">
-                <span className="p-1 rounded-lg bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300">
-                  <GraduationCap className="w-3.5 h-3.5" />
-                </span>
-                <span className="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300">
-                  Trainer
-                </span>
-              </div>
-              <div className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400">
-                Dr. Sunita Sharma
-              </div>
-              <div className="text-[10px] text-slate-500 truncate">
-                Director & Faculty (NSSTA)
-              </div>
-            </button>
-
-            {/* Admin Card */}
-            <button
-              onClick={() => handleQuickLogin('admin')}
-              className="p-3 rounded-2xl bg-white dark:bg-slate-900 hover:bg-emerald-50/80 dark:hover:bg-slate-800 text-left border border-slate-200 dark:border-slate-800 hover:border-emerald-400 transition-all group shadow-2xs"
-            >
-              <div className="flex items-center justify-between mb-1">
-                <span className="p-1 rounded-lg bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300">
-                  <Building2 className="w-3.5 h-3.5" />
-                </span>
-                <span className="text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300">
-                  Admin
-                </span>
-              </div>
-              <div className="text-xs font-bold text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400">
-                P. Venkatachalam, ISS
-              </div>
-              <div className="text-[10px] text-slate-500 truncate">
-                ADG (Human Resources & Cadre)
-              </div>
-            </button>
-          </div>
-        </div>
 
         {/* Form Card */}
         <div className="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 sm:p-8 shadow-sm space-y-5">
@@ -291,10 +205,53 @@ export default function LoginPage() {
                 <span>Authenticating with iGOT Karmayogi...</span>
               ) : (
                 <>
-                  <span>Sign In as {selectedRole.toUpperCase()}</span>
+                  <span>Sign In as {selectedRole.toUpperCase()} (iGOT Karmayogi)</span>
                   <ArrowRight className="w-4 h-4" />
                 </>
               )}
+            </button>
+
+            <div className="relative flex py-2 items-center">
+              <div className="flex-grow border-t border-slate-200 dark:border-slate-800"></div>
+              <span className="flex-shrink mx-3 text-[11px] font-semibold text-slate-400 uppercase tracking-wider">or sign in with</span>
+              <div className="flex-grow border-t border-slate-200 dark:border-slate-800"></div>
+            </div>
+
+            <button
+              type="button"
+              disabled={loading}
+              onClick={async () => {
+                setLoading(true);
+                setErrorMsg('');
+                const res = await signInWithGoogle();
+                setLoading(false);
+                if (res.error) {
+                  setErrorMsg(res.error);
+                } else {
+                  router.push('/dashboard');
+                }
+              }}
+              className="w-full py-2.5 px-4 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-750 text-slate-700 dark:text-slate-200 font-semibold text-xs border border-slate-200 dark:border-slate-700 shadow-xs transition-all flex items-center justify-center gap-2.5 hover:scale-[1.01]"
+            >
+              <svg className="w-4 h-4" viewBox="0 0 24 24">
+                <path
+                  fill="#4285F4"
+                  d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.8-2.4 3.66v3.05h3.88c2.27-2.09 3.66-5.17 3.66-9.15z"
+                />
+                <path
+                  fill="#34A853"
+                  d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.24v3.15C3.26 21.36 7.36 24 12 24z"
+                />
+                <path
+                  fill="#FBBC05"
+                  d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.24C.45 8.16 0 9.98 0 12c0 2.02.45 3.84 1.24 5.42l4.04-3.15z"
+                />
+                <path
+                  fill="#EA4335"
+                  d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.36 0 3.26 2.64 1.24 6.58l4.04 3.15c.95-2.83 3.6-4.98 6.72-4.98z"
+                />
+              </svg>
+              <span>Continue with Google</span>
             </button>
           </form>
         </div>

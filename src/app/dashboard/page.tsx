@@ -31,19 +31,25 @@ import {
 } from 'lucide-react';
 
 export default function DashboardPage() {
-  const { profile, activeRole, competencyDomains, criticalGaps, igotCourses, departmentMetrics, emergingSkills } = useAppStore();
+  const { profile, activeRole, userTrack, competencyDomains, criticalGaps, igotCourses, departmentMetrics, emergingSkills } = useAppStore();
 
   return (
     <div className="space-y-8 animate-in fade-in duration-300">
-      {/* 1. Official Header & Cadre Badge */}
+      {/* 1. Header & Track Badge */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-slate-200 dark:border-slate-800">
         <div>
           <div className="flex items-center gap-2">
-            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
-              {profile.cadre}
+            <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider border ${
+              userTrack === 'learner'
+                ? 'bg-indigo-100 dark:bg-indigo-950 text-indigo-800 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800'
+                : 'bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-300 border border-blue-200 dark:border-blue-800'
+            }`}>
+              {userTrack === 'learner' ? '🎓 General Student Track' : `🏛️ ${profile.cadre}`}
             </span>
             <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">
-              ID: {profile.id} • Posting: {profile.department}
+              {userTrack === 'learner'
+                ? `Major / Focus: ${profile.courseDegree || 'Data Structures & Full-Stack Development'}`
+                : `ID: ${profile.id} • Posting: ${profile.department}`}
             </span>
           </div>
 
@@ -51,8 +57,17 @@ export default function DashboardPage() {
             Welcome back, {profile.fullName} 👋
           </h1>
           <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-0.5 font-medium">
-            Assignment: <span className="font-bold text-slate-800 dark:text-slate-200">{profile.currentAssignment}</span> • Role:{' '}
-            <span className="font-semibold text-blue-700 dark:text-blue-400">{profile.jobRole}</span>
+            {userTrack === 'learner' ? (
+              <>
+                Active Target: <span className="font-bold text-slate-800 dark:text-slate-200">Coding, DSA & Technical Interview Mastery</span> • Pace:{' '}
+                <span className="font-semibold text-indigo-700 dark:text-indigo-400">{profile.dailyMaxStudyHours} hrs/day</span>
+              </>
+            ) : (
+              <>
+                Assignment: <span className="font-bold text-slate-800 dark:text-slate-200">{profile.currentAssignment}</span> • Role:{' '}
+                <span className="font-semibold text-blue-700 dark:text-blue-400">{profile.jobRole}</span>
+              </>
+            )}
           </p>
         </div>
 
@@ -238,10 +253,10 @@ export default function DashboardPage() {
                 <BookOpen className="w-4 h-4" />
               </div>
               <h4 className="text-xs font-bold text-slate-900 dark:text-white">
-                iGOT & NSSTA Repo
+                {userTrack === 'learner' ? 'DSA & Online Repo' : 'iGOT & NSSTA Repo'}
               </h4>
               <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">
-                Accredited capacity courses & manuals
+                {userTrack === 'learner' ? 'Curated code sandboxes & roadmaps' : 'Accredited capacity courses & manuals'}
               </p>
             </Link>
 

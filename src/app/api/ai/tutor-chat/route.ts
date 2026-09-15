@@ -1,51 +1,43 @@
 import { NextResponse } from 'next/server';
+import { callAIModel } from '@/lib/aiClient';
 
 export async function POST(req: Request) {
   try {
     const { messages, tutorName, personality, systemPrompt, topicContext } = await req.json();
 
-    const apiKey = process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY || process.env.GROQ_API_KEY;
     const lastUserMessage = messages[messages.length - 1]?.content || '';
+    const sysInstruction = `${systemPrompt || 'You are an expert AI academic tutor.'}\nTutor Name: ${tutorName || 'Tutor'}\nTeaching Style: ${personality || 'Socratic and clear'}\nActive Topic Context: ${topicContext || 'General academic concepts'}`;
 
-    if (apiKey && process.env.GEMINI_API_KEY) {
-      try {
-        const fullPrompt = `${systemPrompt || 'You are an expert AI academic tutor.'}\nTutor Name: ${tutorName || 'Tutor'}\nTeaching Style: ${personality || 'Socratic and clear'}\nActive Topic Context: ${topicContext || 'General academic concepts'}\n\nStudent question: ${lastUserMessage}\n\nProvide an engaging, helpful, educational response with code snippets or step-by-step math breakdowns where relevant:`;
+    const result = await callAIModel({
+      messages: (messages || []).map((m: any) => ({
+        role: m.role === 'user' ? 'user' : 'assistant',
+        content: m.content || '',
+      })),
+      systemInstruction: sysInstruction,
+    });
 
-        const geminiRes = await fetch(
-          `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
-          {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              contents: [{ parts: [{ text: fullPrompt }] }],
-            }),
-          }
-        );
-
-        if (geminiRes.ok) {
-          const data = await geminiRes.json();
-          const reply = data.candidates?.[0]?.content?.parts?.[0]?.text;
-          if (reply) {
-            return NextResponse.json({ reply, source: 'ai_gemini' });
-          }
-        }
-      } catch (err) {
-        console.warn('Gemini chat failed, falling back to heuristic tutor engine', err);
-      }
+    if (result?.text) {
+      return NextResponse.json({ reply: result.text, source: `ai_${result.provider}` });
     }
 
     // High-quality contextual fallback responses
     const queryLower = lastUserMessage.toLowerCase();
     let reply = '';
 
-    if (queryLower.includes('polymorphism') || queryLower.includes('override')) {
-      reply = `**Polymorphism** in Java literally means "many forms" and allows an object to take on different behaviors depending on its runtime type.\n\n### 1. Two Main Types:\n- **Compile-Time (Static) Polymorphism**: Method Overloading (same method name, different signatures).\n- **Runtime (Dynamic) Polymorphism**: Method Overriding (subclass provides a specific implementation of a method defined in its superclass).\n\n\`\`\`java\nclass Animal {\n    void makeSound() {\n        System.out.println("Animal sound");\n    }\n}\nclass Dog extends Animal {\n    @Override\n    void makeSound() {\n        System.out.println("Woof! 🐶");\n    }\n}\n\nAnimal myPet = new Dog();\nmyPet.makeSound(); // Outputs: Woof! (Dynamic dispatch)\n\`\`\`\n\n💡 **Key Takeaway**: The method that gets executed is decided at **runtime** based on the actual object instance, not the reference type!`;
+    if (queryLower.includes('two sum') || (queryLower.includes('hash map') && queryLower.includes('array'))) {
+      reply = `### Two Sum — Optimal $O(N)$ Hash Map Pattern ⚡\n\n**Problem**: Given an array of integers \`nums\` and an integer \`target\`, return indices of the two numbers such that they add up to target.\n\n#### 1. Intuition:\nFor every element $x$, the required partner value is $complement = target - x$. We store each visited number along with its index in a hash map for $O(1)$ lookup.\n\n#### 2. Clean Implementation (TypeScript / Python):\n\`\`\`typescript\nfunction twoSum(nums: number[], target: number): number[] {\n  const seen = new Map<number, number>(); // num -> index\n  \n  for (let i = 0; i < nums.length; i++) {\n    const complement = target - nums[i];\n    if (seen.has(complement)) {\n      return [seen.get(complement)!, i];\n    }\n    seen.set(nums[i], i);\n  }\n  return [];\n}\n\`\`\`\n\n- **Time Complexity**: $O(N)$ — Single pass through array.\n- **Space Complexity**: $O(N)$ — In worst case, storing $N$ entries in the hash map.`;
+    } else if (queryLower.includes('dijkstra') || (queryLower.includes('shortest path') && queryLower.includes('graph'))) {
+      reply = `### Dijkstra's Shortest Path Algorithm 🧭\n\n**Goal**: Find the shortest path from a single source node to all other vertices in a weighted graph with non-negative edge weights.\n\n#### Core Mechanism:\n1. Maintain a min-heap (priority queue) of \`(distance, vertex)\` pairs.\n2. Initialize source distance as \`0\` and all other vertices as \`Infinity\`.\n3. Greedily extract the vertex with minimum distance and relax all outgoing edges:\n$$\\text{If } dist[u] + weight(u, v) < dist[v] \\implies dist[v] = dist[u] + weight(u, v)$$\n\n- **Time Complexity**: $O((V + E) \\log V)$ using a Binary Min-Heap.\n- **Space Complexity**: $O(V + E)$ for adjacency list and distance array.\n- **Constraint Warning**: Dijkstra fails with **negative weight cycles**; use **Bellman-Ford** if negative weights exist!`;
+    } else if (queryLower.includes('knapsack') || queryLower.includes('dynamic programming')) {
+      reply = `### 0/1 Knapsack Dynamic Programming Blueprint 🎒\n\n**State Definition**: Let \`dp[i][w]\` be the maximum value attainable using a subset of the first \`i\` items with knapsack capacity \`w\`.\n\n#### State Transition Equation:\n$$\\text{dp}[i][w] = \\max\\Big(\\text{dp}[i-1][w], \\quad \\text{values}[i-1] + \\text{dp}[i-1][w - \\text{weights}[i-1]]\\Big)$$\n*(Only include item if $weights[i-1] \\le w$)*\n\n#### Space Optimization to $O(W)$:\nBecause each row only relies on the row directly above it, we can collapse the matrix to a 1D array by iterating backwards from $W$ down to $weight$ to prevent using the same item multiple times:\n\`\`\`python\nfor weight, val in items:\n    for w in range(W, weight - 1, -1):\n        dp[w] = max(dp[w], dp[w - weight] + val)\n\`\`\``;
+    } else if (queryLower.includes('polymorphism') || queryLower.includes('override')) {
+      reply = `**Polymorphism** in Java/OOP literally means "many forms" and allows an object to take on different behaviors depending on its runtime type.\n\n### Two Main Types:\n- **Compile-Time (Static) Polymorphism**: Method Overloading (same method name, different signatures).\n- **Runtime (Dynamic) Polymorphism**: Method Overriding (subclass provides a specific implementation).\n\n💡 **Key Takeaway**: The method that gets executed is decided at **runtime** based on the actual object instance!`;
     } else if (queryLower.includes('differential') || queryLower.includes('integration') || queryLower.includes('calculus')) {
-      reply = `Let's break down this mathematical concept step-by-step! 📐\n\n### Standard Form for First-Order Linear ODEs:\n$$\\frac{dy}{dx} + P(x)y = Q(x)$$\n\n**Step 1:** Calculate the Integrating Factor (IF):\n$$IF = e^{\\int P(x) dx}$$\n\n**Step 2:** Multiply both sides and integrate:\n$$y \\cdot (IF) = \\int \\big(Q(x) \\cdot IF\\big) dx + C$$\n\nTry applying this to $\\frac{dy}{dx} + 2y = 4$. What would your $P(x)$ and $Q(x)$ be?`;
+      reply = `Let's break down this mathematical concept step-by-step! 📐\n\n### Standard Form for First-Order Linear ODEs:\n$$\\frac{dy}{dx} + P(x)y = Q(x)$$\n\n**Step 1:** Calculate Integrating Factor: $IF = e^{\\int P(x) dx}$\n**Step 2:** Integrate: $y \\cdot (IF) = \\int (Q(x) \\cdot IF) dx + C$`;
     } else if (queryLower.includes('quiz') || queryLower.includes('test me')) {
-      reply = `Here is a quick diagnostic question for you:\n\n**Question**: In Java, can a \`static\` method override an instance method defined in the parent class?\n\n*A)* Yes, using the \`@Override\` annotation.\n*B)* No, static methods are hidden (method hiding), not overridden.\n*C)* Only if both methods are \`public\`.\n\nTake a guess and I'll explain the mechanics! 🎯`;
+      reply = `Here is a quick diagnostic DSA question for you:\n\n**Question**: What is the worst-case time complexity of searching for an element in an unbalanced Binary Search Tree (BST)?\n\n*A)* $O(1)$\n*B)* $O(\\log N)$\n*C)* $O(N)$\n*D)* $O(N \\log N)$\n\nTake a guess and I'll break down how self-balancing trees (AVL / Red-Black) prevent degradation! 🎯`;
     } else {
-      reply = `Great question regarding **${topicContext || 'your study session'}**!\n\nHere is how to think about this conceptually:\n1. **Core Intuition**: Break the problem down into its fundamental building blocks.\n2. **Common Exam Trap**: Pay close attention to boundary conditions and edge cases.\n3. **Practical Application**: Try writing a small 5-line code snippet or calculating a sample problem with concrete numbers to verify your understanding.\n\nWould you like me to walk you through a specific example or generate a quick practice question? 🚀`;
+      reply = `Great question regarding **${topicContext || 'your study session'}**!\n\nHere is how to think about this conceptually:\n1. **Core Intuition**: Break the problem down into its fundamental building blocks.\n2. **Common Trap**: Pay close attention to edge cases (e.g. empty arrays, $O(N^2)$ vs $O(N \\log N)$ constraints, off-by-one errors).\n3. **Active Practice**: Trace the algorithm on a small example with pencil and paper.\n\nWould you like me to walk through a concrete code implementation or provide a visual dry-run? 🚀`;
     }
 
     return NextResponse.json({ reply, source: 'heuristic_tutor' });

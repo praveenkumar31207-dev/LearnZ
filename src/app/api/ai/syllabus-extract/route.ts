@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { callAIModel } from '@/lib/aiClient';
 
 export async function POST(req: Request) {
   try {
@@ -11,11 +12,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const apiKey = process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY || process.env.GROQ_API_KEY;
-
-    if (apiKey && process.env.GEMINI_API_KEY) {
-      try {
-        const prompt = `You are an expert curriculum architect. Analyze this study material/syllabus text for the subject "${subjectName || 'Academic Course'}" and break it down into a clean hierarchical JSON array of units, chapters, and topics with difficulty (Easy/Medium/Hard), importance (Low/Medium/High/Critical), and estimated study minutes.
+    const prompt = `You are an expert curriculum architect. Analyze this study material/syllabus text for the subject "${subjectName || 'Academic Course'}" and break it down into a clean hierarchical JSON array of units, chapters, and topics with difficulty (Easy/Medium/Hard), importance (Low/Medium/High/Critical), and estimated study minutes.
 
 Return ONLY a valid JSON array matching this exact schema:
 [
@@ -47,28 +44,23 @@ Return ONLY a valid JSON array matching this exact schema:
 Input Content:
 ${rawText.slice(0, 8000)}`;
 
-        const geminiRes = await fetch(
-          `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
-          {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              contents: [{ parts: [{ text: prompt }] }],
-              generationConfig: { responseMimeType: 'application/json' },
-            }),
-          }
-        );
+    const result = await callAIModel({
+      prompt,
+      systemInstruction: 'You are an expert curriculum architect. You return strictly a valid JSON array of units, chapters, and topics.',
+      responseFormat: 'json',
+    });
 
-        if (geminiRes.ok) {
-          const data = await geminiRes.json();
-          const jsonText = data.candidates?.[0]?.content?.parts?.[0]?.text;
-          if (jsonText) {
-            const parsed = JSON.parse(jsonText);
-            return NextResponse.json({ units: parsed, source: 'ai_gemini' });
-          }
+    if (result?.text) {
+      try {
+        let parsed = JSON.parse(result.text);
+        if (!Array.isArray(parsed) && parsed.units) {
+          parsed = parsed.units;
+        }
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return NextResponse.json({ units: parsed, source: `ai_${result.provider}` });
         }
       } catch (err) {
-        console.warn('Gemini extraction failed, falling back to heuristic parser', err);
+        console.warn('Failed to parse syllabus extraction JSON:', err);
       }
     }
 

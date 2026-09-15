@@ -1,24 +1,33 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f8fafc;
-  --foreground: #0f172a;
-  --primary-brand: #1d4ed8;
-  --primary-accent: #f97316;
+  --background: #fcfdfc;
+  --foreground: #092615;
+  --primary-brand: #059669; /* Rich Emerald Green */
+  --primary-accent: #10b981; /* Fresh Mint Green */
+  --sidebar-bg: #f2f7f4;
+  --card-bg: #ffffff;
 }
 
 /* Dark mode class-based overrides */
 .dark {
-  --background: #090d16;
-  --foreground: #f8fafc;
-  --primary-brand: #3b82f6;
-  --primary-accent: #fb923c;
+  --background: #06180e;
+  --foreground: #ecfdf5;
+  --primary-brand: #10b981;
+  --primary-accent: #34d399;
+  --sidebar-bg: #092014;
+  --card-bg: #0b291a;
 }
 
 /* Custom theme mode */
 .theme-custom {
   --primary-brand: var(--custom-primary, #059669);
-  --primary-accent: var(--custom-accent, #f59e0b);
+  --primary-accent: var(--custom-accent, #10b981);
+}
+
+.theme-custom.dark {
+  --background: var(--custom-bg-dark, #06180e);
+  --foreground: #ecfdf5;
 }
 
 @theme inline {
@@ -39,40 +48,60 @@ body {
 
 /* High-Contrast Input, Textarea & Select Box Visibility Rules */
 input, textarea, select {
-  color: #0f172a !important;
+  color: #092615 !important;
   background-color: #ffffff !important;
-  border-color: #cbd5e1;
+  border-color: #a7f3d0;
 }
 
 input::placeholder, textarea::placeholder {
-  color: #64748b !important;
-  opacity: 1;
+  color: #059669 !important;
+  opacity: 0.7;
 }
 
 input:focus, textarea:focus, select:focus {
   outline: none;
-  border-color: var(--primary-brand) !important;
-  box-shadow: 0 0 0 3px rgba(29, 78, 216, 0.25) !important;
+  border-color: #059669 !important;
+  box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.2) !important;
 }
 
 /* Dark Mode Overrides for Inputs */
 .dark input, 
 .dark textarea, 
 .dark select {
-  color: #ffffff !important;
-  background-color: #0f172a !important;
-  border-color: #334155 !important;
+  color: #ecfdf5 !important;
+  background-color: #06180e !important;
+  border-color: #064e3b !important;
 }
 
 .dark input::placeholder, 
 .dark textarea::placeholder {
-  color: #94a3b8 !important;
-  opacity: 1;
+  color: #6ee7b7 !important;
+  opacity: 0.7;
 }
 
 .dark input:focus, 
 .dark textarea:focus, 
 .dark select:focus {
-  border-color: var(--primary-brand) !important;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3) !important;
+  border-color: #10b981 !important;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25) !important;
+}
+
+/* High-Visibility Interactive Quiz & Choice Option Cards */
+.quiz-option-card {
+  color: #0f291e !important;
+  background-color: #ffffff !important;
+  border-color: #d1fae5 !important;
+}
+.dark .quiz-option-card {
+  color: #f0fdf4 !important;
+  background-color: #092014 !important;
+  border-color: #064e3b !important;
+}
+.quiz-option-card:hover {
+  border-color: #10b981 !important;
+  background-color: #f0fdf4 !important;
+}
+.dark .quiz-option-card:hover {
+  border-color: #34d399 !important;
+  background-color: #0c2b1b !important;
 }

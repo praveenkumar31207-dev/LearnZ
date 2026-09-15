@@ -1,14 +1,11 @@
 import { NextResponse } from 'next/server';
+import { callAIModel } from '@/lib/aiClient';
 
 export async function POST(req: Request) {
   try {
     const { topicTitle, subjectName, difficulty } = await req.json();
 
-    const apiKey = process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY || process.env.GROQ_API_KEY;
-
-    if (apiKey && process.env.GEMINI_API_KEY) {
-      try {
-        const prompt = `Suggest 4 high-quality curated learning resources for a student studying "${topicTitle}" in "${subjectName || 'Course'}".
+    const prompt = `Suggest 4 high-quality curated learning resources for a student studying "${topicTitle || 'General Topic'}" in "${subjectName || 'Course'}".
 Categorize by type: video, documentation, article, practice. Include why this resource is uniquely helpful and realistic estimated minutes.
 
 Return ONLY a valid JSON array matching this format:
@@ -25,28 +22,23 @@ Return ONLY a valid JSON array matching this format:
   }
 ]`;
 
-        const geminiRes = await fetch(
-          `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
-          {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              contents: [{ parts: [{ text: prompt }] }],
-              generationConfig: { responseMimeType: 'application/json' },
-            }),
-          }
-        );
+    const result = await callAIModel({
+      prompt,
+      systemInstruction: 'You are an expert educational curator. You return strictly a valid JSON array of recommended learning resources.',
+      responseFormat: 'json',
+    });
 
-        if (geminiRes.ok) {
-          const data = await geminiRes.json();
-          const jsonText = data.candidates?.[0]?.content?.parts?.[0]?.text;
-          if (jsonText) {
-            const parsed = JSON.parse(jsonText);
-            return NextResponse.json({ resources: parsed, source: 'ai_gemini' });
-          }
+    if (result?.text) {
+      try {
+        let parsed = JSON.parse(result.text);
+        if (!Array.isArray(parsed) && parsed.resources) {
+          parsed = parsed.resources;
+        }
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return NextResponse.json({ resources: parsed, source: `ai_${result.provider}` });
         }
       } catch (err) {
-        console.warn('Gemini recommendation failed, using curated fallback engine', err);
+        console.warn('Failed to parse AI recommended resources JSON:', err);
       }
     }
 

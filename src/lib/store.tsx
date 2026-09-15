@@ -5,6 +5,7 @@ import {
   UserProfile,
   UserAvailability,
   UserRole,
+  UserTrack,
   CompetencyDomain,
   CompetencySkill,
   IGOTCourse,
@@ -69,6 +70,8 @@ interface AppContextType {
   profile: UserProfile;
   activeRole: UserRole;
   setActiveRole: (role: UserRole) => void;
+  userTrack: UserTrack;
+  setUserTrack: (track: UserTrack) => void;
   updateProfile: (updates: Partial<UserProfile>) => void;
   availability: UserAvailability;
   updateAvailability: (updates: Partial<UserAvailability>) => void;
@@ -195,6 +198,7 @@ const LOCAL_STORAGE_KEY = 'skill_intelligence_platform_v2';
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [profile, setProfile] = useState<UserProfile>(initialProfile);
   const [activeRole, setActiveRoleState] = useState<UserRole>('learner');
+  const [userTrack, setUserTrackState] = useState<UserTrack>(initialProfile.userTrack || 'karmayogi');
   const [availability, setAvailability] = useState<UserAvailability>(initialAvailability);
   const [competencyDomains, setCompetencyDomains] = useState<CompetencyDomain[]>(initialCompetencyDomains);
   const [igotCourses, setIgotCourses] = useState<IGOTCourse[]>(initialIGOTCourses);
@@ -230,7 +234,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
       if (saved) {
         const parsed = JSON.parse(saved);
-        if (parsed.profile) setProfile(parsed.profile);
+        if (parsed.profile) {
+          setProfile(parsed.profile);
+          if (parsed.profile.userTrack) setUserTrackState(parsed.profile.userTrack);
+        }
+        if (parsed.userTrack) setUserTrackState(parsed.userTrack);
         if (parsed.activeRole) setActiveRoleState(parsed.activeRole);
         if (parsed.availability) setAvailability(parsed.availability);
         if (parsed.competencyDomains) setCompetencyDomains(parsed.competencyDomains);
@@ -319,6 +327,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       setProfile(initialProfile);
     }
     saveState({ activeRole: role });
+  };
+
+  const setUserTrack = (track: UserTrack) => {
+    setUserTrackState(track);
+    setProfile((prev) => {
+      const next = { ...prev, userTrack: track };
+      saveState({ profile: next, userTrack: track });
+      return next;
+    });
   };
 
   const updateProfile = (updates: Partial<UserProfile>) => {
@@ -1344,6 +1361,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         profile,
         activeRole,
         setActiveRole,
+        userTrack,
+        setUserTrack,
         updateProfile,
         availability,
         updateAvailability,

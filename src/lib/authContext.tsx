@@ -21,6 +21,7 @@ interface AuthContextType {
   activeRole: UserRole;
   setActiveRole: (role: UserRole) => void;
   signInWithIgot: (karmayogiIdOrEmail: string, passwordOrOtp: string, role?: UserRole) => Promise<{ error?: string }>;
+  signInWithGoogle: () => Promise<{ error?: string }>;
   signUp: (email: string, password: string, fullName: string, educationLevel?: any, courseDegree?: string) => Promise<{ error?: string }>;
   resetPassword: (email: string) => Promise<{ error?: string }>;
   signOut: () => Promise<void>;
@@ -138,10 +139,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       ? karmayogiIdOrEmail.toUpperCase()
       : `KB-${Math.floor(10000 + Math.random() * 90000)}`;
 
+    const enteredName = karmayogiIdOrEmail.includes('@')
+      ? karmayogiIdOrEmail.split('@')[0].replace(/[._-]/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
+      : karmayogiIdOrEmail.toUpperCase();
+
     const newUser = {
-      id: targetProfile.id,
+      id: `usr-${Date.now()}`,
       email: karmayogiIdOrEmail.includes('@') ? karmayogiIdOrEmail : `${karmayogiIdOrEmail.toLowerCase()}@gov.in`,
-      fullName: targetProfile.fullName,
+      fullName: enteredName,
       karmayogiId: igotId,
       cadre: targetCadre,
       designation: targetDesignation,
@@ -152,6 +157,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       ...targetProfile,
       id: newUser.id,
       email: newUser.email,
+      fullName: enteredName,
       role,
     };
 
@@ -163,6 +169,61 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       localStorage.setItem(AUTH_USER_KEY, JSON.stringify(newUser));
       localStorage.setItem(AUTH_PROFILE_KEY, JSON.stringify(newProfile));
       localStorage.setItem(AUTH_ACTIVE_ROLE_KEY, role);
+    } catch (e) {}
+
+    setIsLoading(false);
+    return {};
+  };
+
+  const signInWithGoogle = async (): Promise<{ error?: string }> => {
+    setIsLoading(true);
+    if (isSupabaseConfigured) {
+      try {
+        const { data, error } = await supabase.auth.signInWithOAuth({
+          provider: 'google',
+          options: {
+            redirectTo: typeof window !== 'undefined' ? `${window.location.origin}/dashboard` : undefined,
+          },
+        });
+        if (error) {
+          console.warn('Supabase Google provider returned error:', error.message);
+          // If Google provider is not yet enabled in Supabase dashboard, fall back to simulated Google session
+        } else if (data?.url) {
+          // Redirecting to Google OAuth flow
+          return {};
+        }
+      } catch (err: any) {
+        console.warn('Supabase Google OAuth error, falling back to local Google session:', err);
+      }
+    }
+
+    // Fast-track simulated Google authentication session (for local dev or when Supabase OAuth isn't toggled yet)
+    const googleUser = {
+      id: `usr-google-${Date.now()}`,
+      email: 'user.google@gmail.com',
+      fullName: 'Google Authenticated Learner',
+      karmayogiId: `KB-GOOG-${Math.floor(1000 + Math.random() * 9000)}`,
+      cadre: 'Official Statistics Trainee',
+      designation: 'Statistical Trainee / Officer',
+      role: 'learner' as UserRole,
+    };
+
+    const googleProfile = {
+      ...initialProfile,
+      id: googleUser.id,
+      email: googleUser.email,
+      fullName: googleUser.fullName,
+      role: 'learner' as UserRole,
+    };
+
+    setUser(googleUser);
+    setProfile(googleProfile);
+    setActiveRoleState('learner');
+
+    try {
+      localStorage.setItem(AUTH_USER_KEY, JSON.stringify(googleUser));
+      localStorage.setItem(AUTH_PROFILE_KEY, JSON.stringify(googleProfile));
+      localStorage.setItem(AUTH_ACTIVE_ROLE_KEY, 'learner');
     } catch (e) {}
 
     setIsLoading(false);
@@ -281,6 +342,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         activeRole,
         setActiveRole,
         signInWithIgot,
+        signInWithGoogle,
         signUp,
         resetPassword,
         signOut,

@@ -36,12 +36,25 @@ interface SidebarProps {
 
 export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onMobileClose }) => {
   const pathname = usePathname();
-  const { activeRole, profile } = useAppStore();
+  const { activeRole, userTrack, setUserTrack, profile } = useAppStore();
 
-  // Role-specific navigation menus
-  const learnerNavItems = [
+  // 1. General Learner (Student / Developer) Track Navigation
+  const studentNavItems = [
     { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
-    { name: 'My Competencies', href: '/subjects', icon: Award },
+    { name: 'Subjects & Coding / DSA', href: '/subjects', icon: Award },
+    { name: 'Weak Topics & Gaps', href: '/subjects?tab=gaps', icon: AlertCircle },
+    { name: 'Adaptive Study Timetable', href: '/schedule', icon: Compass },
+    { name: 'Online Practice & Roadmaps', href: '/resources', icon: BookOpen },
+    { name: 'Quizzes & Rapid-Fire', href: '/quizzes', icon: HelpCircle },
+    { name: 'AI Coding & DSA Mentor', href: '/tutors', icon: Bot },
+    { name: 'Analytics & Mastery', href: '/analytics', icon: TrendingUp },
+    { name: 'Profile & Cloud Sync', href: '/settings', icon: User },
+  ];
+
+  // 2. Karmayogi (Civil Service / FRAC) Track Navigation
+  const karmayogiLearnerNavItems = [
+    { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
+    { name: 'FRAC Competencies', href: '/subjects', icon: Award },
     { name: 'Skill Gaps & AI Analysis', href: '/subjects?tab=gaps', icon: AlertCircle },
     { name: 'AI Learning Path', href: '/schedule', icon: Compass },
     { name: 'iGOT Karmayogi Courses', href: '/resources', icon: BookOpen },
@@ -77,7 +90,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onMobileClose }) =
       ? trainerNavItems
       : activeRole === 'admin'
       ? adminNavItems
-      : learnerNavItems;
+      : userTrack === 'learner'
+      ? studentNavItems
+      : karmayogiLearnerNavItems;
 
   const content = (
     <aside className="w-64 h-full flex flex-col justify-between bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 p-4 transition-colors">
@@ -104,12 +119,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onMobileClose }) =
             Navigation Mode:
           </span>
           <div className="flex items-center justify-between mt-0.5">
-            <span className="text-xs font-extrabold text-blue-700 dark:text-blue-400 flex items-center gap-1.5">
+            <span className="text-xs font-extrabold text-emerald-700 dark:text-emerald-400 flex items-center gap-1.5">
               {activeRole === 'learner' && '👤 Official / Learner'}
               {activeRole === 'trainer' && '🎓 NSSTA Trainer'}
               {activeRole === 'admin' && '🏛️ Cadre Administrator'}
             </span>
-            <span className="text-[10px] px-1.5 py-0.2 rounded bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-300 font-semibold uppercase">
+            <span className="text-[10px] px-1.5 py-0.2 rounded bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 font-semibold uppercase">
               {activeRole}
             </span>
           </div>
@@ -131,8 +146,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onMobileClose }) =
                 onClick={onMobileClose}
                 className={`flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-semibold transition-all ${
                   isActive
-                    ? 'bg-blue-700 text-white shadow-sm shadow-blue-700/25'
-                    : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white'
+                    ? 'bg-emerald-600 text-white shadow-sm shadow-emerald-600/25 font-bold'
+                    : 'text-slate-600 dark:text-slate-300 hover:bg-emerald-50 dark:hover:bg-slate-800 hover:text-emerald-700 dark:hover:text-white'
                 }`}
               >
                 <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-white' : 'text-slate-400 dark:text-slate-400'}`} />
@@ -154,21 +169,23 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onMobileClose }) =
         </nav>
       </div>
 
-      {/* Footer Info: Government Enterprise Accreditation Box */}
+      {/* Footer Info: Module Track & Disclaimer Box */}
       <div className="space-y-2.5 pt-3 border-t border-slate-200/80 dark:border-slate-800/80">
-        <div className="p-3 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50/50 dark:from-blue-950/40 dark:to-slate-900 border border-blue-100 dark:border-blue-900/60 text-slate-700 dark:text-slate-300">
-          <div className="flex items-center gap-1.5 text-blue-800 dark:text-blue-300 font-bold text-xs mb-1">
-            <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-            iGOT Karmayogi Ready
+        <div className="p-3 rounded-2xl bg-gradient-to-br from-slate-50 to-blue-50/50 dark:from-slate-850 dark:to-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300">
+          <div className="flex items-center gap-1.5 text-slate-900 dark:text-white font-bold text-xs mb-1">
+            <ShieldCheck className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
+            <span>{userTrack === 'learner' ? '🎓 General Learner Track' : '🏛️ FRAC Competency Track'}</span>
           </div>
-          <p className="text-[10px] text-slate-600 dark:text-slate-400 leading-relaxed">
-            Personalized competency loops mapped to NSSTA TPAC & Mission Karmayogi standards.
+          <p className="text-[10px] text-slate-500 dark:text-slate-400 leading-relaxed">
+            {userTrack === 'learner'
+              ? 'Personalized study schedule, coding & DSA roadmaps, and adaptive practice drills.'
+              : 'Independent capacity building track inspired by the FRAC competency model.'}
           </p>
         </div>
 
         <div className="flex items-center justify-between text-[10px] text-slate-400 px-1 font-medium">
-          <span>MoSPI Official System</span>
-          <span className="text-emerald-600 dark:text-emerald-400 font-bold">● Live Sync</span>
+          <span>{userTrack === 'learner' ? 'LearnZ Academic' : 'Civil Services Track'}</span>
+          <span className="text-emerald-600 dark:text-emerald-400 font-bold">● Active Track</span>
         </div>
       </div>
     </aside>

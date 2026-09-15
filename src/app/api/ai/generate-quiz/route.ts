@@ -1,15 +1,12 @@
 import { NextResponse } from 'next/server';
+import { callAIModel } from '@/lib/aiClient';
 
 export async function POST(req: Request) {
   try {
     const { topicTitle, subjectName, difficulty } = await req.json();
 
-    const apiKey = process.env.GEMINI_API_KEY || process.env.OPENAI_API_KEY || process.env.GROQ_API_KEY;
-
-    if (apiKey && process.env.GEMINI_API_KEY) {
-      try {
-        const prompt = `Generate a 4-question diagnostic quiz for the topic "${topicTitle}" in "${subjectName || 'Computer Science'}" with difficulty level "${difficulty || 'Medium'}".
-Include a mix of MCQs, conceptual questions, and code/numerical problems.
+    const prompt = `Generate a 4-question diagnostic quiz for the topic "${topicTitle || 'General Concepts'}" in "${subjectName || 'Computer Science'}" with difficulty level "${difficulty || 'Medium'}".
+Include a mix of MCQs, conceptual questions, and practical problems.
 
 Return ONLY a valid JSON array of questions with this exact structure:
 [
@@ -23,28 +20,23 @@ Return ONLY a valid JSON array of questions with this exact structure:
   }
 ]`;
 
-        const geminiRes = await fetch(
-          `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
-          {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              contents: [{ parts: [{ text: prompt }] }],
-              generationConfig: { responseMimeType: 'application/json' },
-            }),
-          }
-        );
+    const result = await callAIModel({
+      prompt,
+      systemInstruction: 'You are an expert exam creator. You generate strictly a valid JSON array of quiz questions.',
+      responseFormat: 'json',
+    });
 
-        if (geminiRes.ok) {
-          const data = await geminiRes.json();
-          const jsonText = data.candidates?.[0]?.content?.parts?.[0]?.text;
-          if (jsonText) {
-            const parsed = JSON.parse(jsonText);
-            return NextResponse.json({ questions: parsed, source: 'ai_gemini' });
-          }
+    if (result?.text) {
+      try {
+        let parsed = JSON.parse(result.text);
+        if (!Array.isArray(parsed) && parsed.questions) {
+          parsed = parsed.questions;
+        }
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return NextResponse.json({ questions: parsed, source: `ai_${result.provider}` });
         }
       } catch (err) {
-        console.warn('Gemini quiz generation failed, falling back to deterministic quiz generator', err);
+        console.warn('Failed to parse AI quiz response JSON:', err);
       }
     }
 

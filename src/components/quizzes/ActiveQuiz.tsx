@@ -339,15 +339,15 @@ export const ActiveQuiz: React.FC<ActiveQuizProps> = ({ quiz, onFinish }) => {
         <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
           Question {currentIdx + 1} of {questions.length}
         </span>
-        <span className="text-xs font-bold text-blue-600 dark:text-blue-400">
+        <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400">
           Difficulty: {currentQ?.difficulty || 'Medium'}
         </span>
       </div>
 
       {/* Progress Bar */}
-      <div className="w-full h-1.5 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+      <div className="w-full h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
         <div
-          className="h-full bg-blue-600 rounded-full transition-all duration-300"
+          className="h-full bg-emerald-600 dark:bg-emerald-500 rounded-full transition-all duration-300"
           style={{ width: `${((currentIdx + 1) / questions.length) * 100}%` }}
         />
       </div>
@@ -365,24 +365,24 @@ export const ActiveQuiz: React.FC<ActiveQuizProps> = ({ quiz, onFinish }) => {
       </div>
 
       {/* Options */}
-      <div className="space-y-2.5">
+      <div className="space-y-3">
         {(currentQ?.options || ['True', 'False']).map((opt, idx) => {
           const isSelected = selectedAnswer === opt;
           const isCorrect = opt === currentQ.correctAnswer;
 
-          let btnStyle =
-            'border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-850 text-slate-800 dark:text-slate-200 hover:border-blue-300';
+          let containerStyle =
+            'bg-white dark:bg-slate-900 border-2 border-emerald-200 dark:border-emerald-800/70 text-slate-900 dark:text-emerald-50 hover:border-emerald-500 hover:bg-emerald-50/50 dark:hover:bg-emerald-950/40 shadow-xs';
 
           if (isAnswered) {
             if (isCorrect) {
-              btnStyle =
-                'border-emerald-500 bg-emerald-50 dark:bg-emerald-950/50 text-emerald-900 dark:text-emerald-200 font-bold';
+              containerStyle =
+                'border-emerald-500 bg-emerald-100/90 dark:bg-emerald-950 text-emerald-950 dark:text-emerald-100 font-bold ring-2 ring-emerald-500/30';
             } else if (isSelected && !isCorrect) {
-              btnStyle =
-                'border-rose-500 bg-rose-50 dark:bg-rose-950/50 text-rose-900 dark:text-rose-200 font-bold';
+              containerStyle =
+                'border-rose-500 bg-rose-50 dark:bg-rose-950 text-rose-950 dark:text-rose-100 font-bold ring-2 ring-rose-500/30';
             } else {
-              btnStyle =
-                'border-slate-200 dark:border-slate-800 opacity-50 bg-slate-50 dark:bg-slate-850 text-slate-500';
+              containerStyle =
+                'border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 text-slate-400 dark:text-slate-500 opacity-60';
             }
           }
 
@@ -391,9 +391,15 @@ export const ActiveQuiz: React.FC<ActiveQuizProps> = ({ quiz, onFinish }) => {
               key={idx}
               onClick={() => handleSelectOption(opt)}
               disabled={isAnswered}
-              className={`w-full p-4 rounded-2xl border-2 text-left text-xs sm:text-sm flex items-center justify-between gap-3 transition-all ${btnStyle}`}
+              className={`w-full p-4 sm:p-4.5 rounded-2xl text-left text-xs sm:text-sm font-semibold flex items-center justify-between gap-3 transition-all cursor-pointer ${containerStyle}`}
             >
-              <span>{opt}</span>
+              <div className="flex items-center gap-3">
+                <span className="w-6 h-6 rounded-lg bg-emerald-100 dark:bg-emerald-900/60 text-emerald-800 dark:text-emerald-200 text-xs font-bold flex items-center justify-center shrink-0">
+                  {String.fromCharCode(65 + idx)}
+                </span>
+                <span className="leading-relaxed text-slate-900 dark:text-white font-medium">{opt}</span>
+              </div>
+
               {isAnswered && isCorrect && (
                 <CheckCircle2 className="w-5 h-5 text-emerald-600 dark:text-emerald-400 shrink-0" />
               )}
@@ -422,7 +428,7 @@ export const ActiveQuiz: React.FC<ActiveQuizProps> = ({ quiz, onFinish }) => {
         <div className="flex justify-end">
           <button
             onClick={handleNext}
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs shadow-md shadow-blue-600/30 transition-all hover:scale-105"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md shadow-emerald-600/30 transition-all hover:scale-105 cursor-pointer"
           >
             <span>{currentIdx < questions.length - 1 ? 'Next Question' : 'Complete Quiz'}</span>
             <ArrowRight className="w-4 h-4" />

@@ -19,33 +19,77 @@ import {
 import { AITutor } from '@/types';
 
 export default function TutorsPage() {
-  const { aiTutors, addCustomTutor, subjects } = useAppStore();
-  const [selectedTutorId, setSelectedTutorId] = useState(aiTutors[0]?.id || '');
+  const { aiTutors, addCustomTutor, subjects, userTrack } = useAppStore();
+
+  const isLearner = userTrack === 'learner';
+
+  // Sort tutors based on active track
+  const sortedTutors = [...aiTutors].sort((a, b) => {
+    if (isLearner) {
+      const learnerPriority = ['assistant-dsa-expert', 'assistant-dev-architect', 'assistant-pystat', 'assistant-sankhyiki'];
+      return learnerPriority.indexOf(a.id) - learnerPriority.indexOf(b.id);
+    } else {
+      const karmayogiPriority = ['assistant-sankhyiki', 'assistant-pystat', 'assistant-dsa-expert', 'assistant-dev-architect'];
+      return karmayogiPriority.indexOf(a.id) - karmayogiPriority.indexOf(b.id);
+    }
+  });
+
+  const [selectedTutorId, setSelectedTutorId] = useState(sortedTutors[0]?.id || aiTutors[0]?.id || '');
   const [showCustomModal, setShowCustomModal] = useState(false);
 
   // Custom Assistant Form
   const [customName, setCustomName] = useState('');
-  const [customEmoji, setCustomEmoji] = useState('📊');
-  const [customPersonality, setCustomPersonality] = useState('Rigorous & Methodical');
+  const [customEmoji, setCustomEmoji] = useState(isLearner ? '💻' : '📊');
+  const [customPersonality, setCustomPersonality] = useState(isLearner ? 'Problem-Solver & Code Mentor' : 'Rigorous & Methodical');
   const [customPrompt, setCustomPrompt] = useState('');
 
-  const activeTutor = aiTutors.find((t) => t.id === selectedTutorId) || aiTutors[0];
+  const activeTutor = sortedTutors.find((t) => t.id === selectedTutorId) || sortedTutors[0] || aiTutors[0];
+
+  const getInitialGreeting = () => {
+    if (activeTutor?.id === 'assistant-dsa-expert') {
+      return `Hey! I'm **${activeTutor?.name}**, your Data Structures & Algorithms Mentor 🧠💻.\n\nI can help you master Big-O analysis, write optimized code for arrays, trees, dynamic programming, and graphs, or break down LeetCode and NeetCode 150 patterns.\n\nWhat algorithm or problem would you like to conquer today?`;
+    }
+    if (activeTutor?.id === 'assistant-dev-architect') {
+      return `Welcome! I'm **${activeTutor?.name}**, your Full-Stack Engineering & Architecture Mentor 🚀.\n\nI can review your TypeScript types, design high-scale distributed systems, guide Next.js full-stack patterns, or debug tricky async bottlenecks.\n\nWhat are you building today?`;
+    }
+    return `Namaste! I am **${activeTutor?.name}**, your AI Statistical Learning Assistant for India's Official Statistical System.\n\nI can explain survey concepts (NSS, PLFS, ASI), verify National Accounts formulas, guide your iGOT Karmayogi capacity building, and analyze field manuals.\n\nHow may I assist your capacity development today?`;
+  };
 
   const [messages, setMessages] = useState<{ role: 'user' | 'assistant'; content: string }[]>([
     {
       role: 'assistant',
-      content: `Namaste! I am **${activeTutor?.name}**, your AI Statistical Learning Assistant for India's Official Statistical System.\n\nI can explain survey concepts (NSS, PLFS, ASI), verify National Accounts formulas, guide your iGOT Karmayogi capacity building, and analyze uploaded field manuals.\n\nHow may I assist your professional capacity building today?`,
+      content: getInitialGreeting(),
     },
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const quickPrompts = [
-    'Explain the difference between Usual Status (ps+ss) and Current Weekly Status (CWS) in PLFS.',
-    'How is Gross Value Added (GVA) at Basic Prices derived from GDP at Market Prices in SNA 2008?',
-    'What is the formula for deriving multipliers in a two-stage stratified cluster sample?',
-    'What are the mandatory data fiduciary compliance obligations under the DPDP Act 2023 for survey officers?',
-  ];
+  const getQuickPrompts = () => {
+    if (activeTutor?.id === 'assistant-dsa-expert') {
+      return [
+        'Explain how to solve Two Sum in O(N) using a Hash Map with visual walkthrough.',
+        'How does Dijkstra algorithm find the shortest path using a Min-Heap priority queue?',
+        'Walk through the 0/1 Knapsack state transition and how to optimize space to O(W).',
+        'Compare BFS vs DFS for finding connected components and detect graph cycles.',
+      ];
+    }
+    if (activeTutor?.id === 'assistant-dev-architect') {
+      return [
+        'How do Discriminated Unions and Type Narrowing work in TypeScript?',
+        'Explain React Server Components (RSC) vs Client Components and data boundaries.',
+        'What are the core differences between optimistic UI updates and server mutations?',
+        'How to design a clean REST vs GraphQL API for microservices?',
+      ];
+    }
+    return [
+      'Explain the difference between Usual Status (ps+ss) and Current Weekly Status (CWS) in PLFS.',
+      'How is Gross Value Added (GVA) at Basic Prices derived from GDP at Market Prices in SNA 2008?',
+      'What is the formula for deriving multipliers in a two-stage stratified cluster sample?',
+      'How does NeetCode 150 structure DSA topics for high-efficiency problem solving?',
+    ];
+  };
+
+  const quickPrompts = getQuickPrompts();
 
   const handleSendMessage = async (customText?: string) => {
     const query = customText || input;
@@ -105,33 +149,45 @@ export default function TutorsPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-slate-200 dark:border-slate-800">
         <div>
           <div className="flex items-center gap-2">
-            <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-300">
-              National Statistical Advisory AI
+            <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${
+              isLearner
+                ? 'bg-indigo-100 dark:bg-indigo-950 text-indigo-800 dark:text-indigo-300'
+                : 'bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-300'
+            }`}>
+              {isLearner ? 'Computer Science & AI Mentors' : 'National Statistical Advisory AI'}
             </span>
-            <span className="text-xs text-slate-400">Grounded in MoSPI & NSSTA Manuals</span>
+            <span className="text-xs text-slate-400">
+              {isLearner ? 'LeetCode, System Design & Full-Stack' : 'Grounded in MoSPI & NSSTA Manuals'}
+            </span>
           </div>
 
           <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 dark:text-white mt-1 flex items-center gap-2.5">
-            <Bot className="w-7 h-7 text-blue-700 dark:text-blue-400" />
-            AI Statistical Learning Assistant (Sankhyiki)
+            <Bot className={`w-7 h-7 ${isLearner ? 'text-indigo-600 dark:text-indigo-400' : 'text-blue-700 dark:text-blue-400'}`} />
+            {isLearner ? 'AI Coding & Computer Science Mentors' : 'AI Statistical Learning Assistant (Sankhyiki)'}
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
-            Real-time conversational mentor for official statistical standards, survey manuals, coding, and DPDP governance
+            {isLearner
+              ? 'Real-time conversational mentor for DSA, algorithmic problem-solving, React/Next.js architecture, and clean code'
+              : 'Real-time conversational mentor for official statistical standards, survey manuals, coding, and DPDP governance'}
           </p>
         </div>
 
         <button
           onClick={() => setShowCustomModal(true)}
-          className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-2xl bg-blue-700 hover:bg-blue-600 text-white text-xs font-bold shadow-sm shadow-blue-700/25 transition-all"
+          className={`inline-flex items-center gap-1.5 px-4 py-2.5 rounded-2xl text-white text-xs font-bold shadow-sm transition-all ${
+            isLearner
+              ? 'bg-indigo-600 hover:bg-indigo-500 shadow-indigo-600/25'
+              : 'bg-blue-700 hover:bg-blue-600 shadow-blue-700/25'
+          }`}
         >
           <Plus className="w-4 h-4" />
-          <span>Add Custom Statistical Persona</span>
+          <span>{isLearner ? 'Add Custom AI Persona' : 'Add Custom Statistical Persona'}</span>
         </button>
       </div>
 
       {/* Assistant Selection Pills */}
       <div className="flex items-center gap-2.5 overflow-x-auto pb-1 no-scrollbar">
-        {aiTutors.map((tutor) => {
+        {sortedTutors.map((tutor) => {
           const isSelected = tutor.id === activeTutor?.id;
           return (
             <button
@@ -141,13 +197,19 @@ export default function TutorsPage() {
                 setMessages([
                   {
                     role: 'assistant',
-                    content: `Hello! I am **${tutor.name}**. I am specialized in **${tutor.domainFocus || 'Official Statistics'}**. How can I assist your capacity development?`,
+                    content: tutor.id === 'assistant-dsa-expert'
+                      ? `Hey! I'm **${tutor.name}**. Ready to break down LeetCode problems, optimize time complexity, and master DSA!`
+                      : tutor.id === 'assistant-dev-architect'
+                      ? `Welcome! I'm **${tutor.name}**. Let's talk system design, Next.js full-stack patterns, and clean code architecture!`
+                      : `Hello! I am **${tutor.name}**. I am specialized in **${tutor.domainFocus || 'Official Statistics'}**. How can I assist your capacity development?`,
                   },
                 ]);
               }}
               className={`shrink-0 flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs font-bold transition-all ${
                 isSelected
-                  ? 'bg-blue-700 text-white shadow-md shadow-blue-700/30'
+                  ? isLearner
+                    ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/30'
+                    : 'bg-blue-700 text-white shadow-md shadow-blue-700/30'
                   : 'bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:bg-slate-50'
               }`}
             >

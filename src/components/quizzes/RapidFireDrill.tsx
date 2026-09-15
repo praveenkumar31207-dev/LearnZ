@@ -359,16 +359,16 @@ export const RapidFireDrill: React.FC<RapidFireDrillProps> = ({ onFinish, onExit
           const isCorrect = opt === currentQ.correctAnswer;
 
           let btnStyle =
-            'border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-850 hover:border-indigo-400 text-slate-800 dark:text-slate-200';
+            'border-2 border-emerald-200 dark:border-emerald-800 bg-white dark:bg-slate-900 text-slate-950 dark:text-emerald-50 hover:border-emerald-500 hover:bg-emerald-50/60 dark:hover:bg-emerald-950/40 shadow-xs';
 
           if (feedback) {
             if (isCorrect) {
               btnStyle =
-                'border-emerald-500 bg-emerald-500 text-white font-bold shadow-md shadow-emerald-500/20';
+                'border-emerald-500 bg-emerald-600 text-white font-bold shadow-md shadow-emerald-500/30';
             } else if (isSelected && !isCorrect) {
-              btnStyle = 'border-rose-500 bg-rose-500 text-white font-bold animate-shake';
+              btnStyle = 'border-rose-500 bg-rose-600 text-white font-bold animate-shake';
             } else {
-              btnStyle = 'border-slate-200 dark:border-slate-800 opacity-40 bg-slate-100 dark:bg-slate-800';
+              btnStyle = 'border-slate-200 dark:border-slate-800 opacity-40 bg-slate-100 dark:bg-slate-800 text-slate-400';
             }
           }
 
@@ -377,11 +377,16 @@ export const RapidFireDrill: React.FC<RapidFireDrillProps> = ({ onFinish, onExit
               key={idx}
               onClick={() => handleSelectOption(opt)}
               disabled={Boolean(feedback)}
-              className={`p-4 rounded-2xl border-2 text-left text-xs sm:text-sm font-semibold flex items-center justify-between gap-2 transition-all cursor-pointer ${btnStyle}`}
+              className={`p-4 rounded-2xl text-left text-xs sm:text-sm font-semibold flex items-center justify-between gap-2 transition-all cursor-pointer ${btnStyle}`}
             >
-              <span>{opt}</span>
-              {feedback && isCorrect && <CheckCircle2 className="w-4 h-4 shrink-0" />}
-              {feedback && isSelected && !isCorrect && <XCircle className="w-4 h-4 shrink-0" />}
+              <div className="flex items-center gap-2.5">
+                <span className="w-5 h-5 rounded-md bg-emerald-100 dark:bg-emerald-900/60 text-emerald-800 dark:text-emerald-200 text-xs font-bold flex items-center justify-center shrink-0">
+                  {String.fromCharCode(65 + idx)}
+                </span>
+                <span className="leading-snug text-slate-900 dark:text-white font-medium">{opt}</span>
+              </div>
+              {feedback && isCorrect && <CheckCircle2 className="w-4 h-4 shrink-0 text-white" />}
+              {feedback && isSelected && !isCorrect && <XCircle className="w-4 h-4 shrink-0 text-white" />}
             </button>
           );
         })}

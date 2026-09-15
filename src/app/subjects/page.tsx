@@ -34,7 +34,10 @@ export default function SubjectsPage() {
     updateSkillLevel,
     subjects,
     profile,
+    userTrack,
   } = useAppStore();
+
+  const isLearner = userTrack === 'learner';
 
   const [activeTab, setActiveTab] = useState<'domains' | 'gap_analysis' | 'syllabus' | 'upload'>('domains');
   const [selectedDomain, setSelectedDomain] = useState<CompetencyDomainType>('Statistical Competencies');
@@ -47,17 +50,23 @@ export default function SubjectsPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-slate-200 dark:border-slate-800">
         <div>
           <div className="flex items-center gap-2">
-            <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-300">
-              National Statistical Framework
+            <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full ${
+              isLearner
+                ? 'bg-indigo-100 dark:bg-indigo-950 text-indigo-800 dark:text-indigo-300'
+                : 'bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-300'
+            }`}>
+              {isLearner ? 'Computer Science & DSA Framework' : 'National Statistical Framework'}
             </span>
             <span className="text-xs text-slate-400">Target Benchmark: 80%+</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 dark:text-white mt-1 flex items-center gap-2.5">
-            <Award className="w-7 h-7 text-blue-700 dark:text-blue-400" />
-            Statistical Competency Profile & Gap Intelligence
+            <Award className={`w-7 h-7 ${isLearner ? 'text-indigo-600 dark:text-indigo-400' : 'text-blue-700 dark:text-blue-400'}`} />
+            {isLearner ? 'Competency Profile & Skill Intelligence' : 'Statistical Competency Profile & Gap Intelligence'}
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
-            Granular evaluation across 4 official domains: Statistical, Technical, Digital Governance & Behavioural
+            {isLearner
+              ? 'Granular evaluation across Algorithms, Data Structures, System Design, and Modern Software Engineering'
+              : 'Granular evaluation across 4 official domains: Statistical, Technical, Digital Governance & Behavioural'}
           </p>
         </div>
 
