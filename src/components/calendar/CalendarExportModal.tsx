@@ -25,7 +25,7 @@ export const CalendarExportModal: React.FC<CalendarExportModalProps> = ({
       return `${d.getUTCFullYear()}${pad(d.getUTCMonth() + 1)}${pad(d.getUTCDate())}T${pad(d.getUTCHours())}${pad(d.getUTCMinutes())}${pad(d.getUTCSeconds())}Z`;
     };
 
-    let ics = [
+    const ics = [
       'BEGIN:VCALENDAR',
       'VERSION:2.0',
       'PRODID:-//CogniStudy AI//Study Schedule & Exams//EN',

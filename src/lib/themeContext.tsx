@@ -16,8 +16,8 @@ export interface CustomThemePreset {
 
 export const PRESET_THEMES: CustomThemePreset[] = [
   {
-    id: 'karmayogi',
-    name: 'Karmayogi Emerald',
+    id: 'academic-emerald',
+    name: 'Academic Emerald',
     primary: '#059669', // Emerald 600
     secondary: '#10b981',
     accent: '#f59e0b',
@@ -26,7 +26,7 @@ export const PRESET_THEMES: CustomThemePreset[] = [
   },
   {
     id: 'official-navy',
-    name: 'Official Bharat Navy',
+    name: 'University Navy',
     primary: '#1d4ed8', // Blue 700
     secondary: '#3b82f6',
     accent: '#f97316',
@@ -62,7 +62,7 @@ export const PRESET_THEMES: CustomThemePreset[] = [
   },
   {
     id: 'cyber-amethyst',
-    name: 'Civil Amethyst',
+    name: 'Campus Amethyst',
     primary: '#7c3aed', // Violet 600
     secondary: '#a855f7',
     accent: '#06b6d4',
@@ -88,7 +88,7 @@ const CUSTOM_COLOR_KEY = 'learnz_custom_primary_color_v2';
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [themeMode, setThemeModeState] = useState<ThemeMode>('light');
-  const [selectedPreset, setSelectedPresetState] = useState<CustomThemePreset>(PRESET_THEMES[0]); // Karmayogi Emerald default (White and Green)
+  const [selectedPreset, setSelectedPresetState] = useState<CustomThemePreset>(PRESET_THEMES[0]); // Academic Emerald default
   const [customColor, setCustomColorState] = useState<string>('#059669');
   const [isMounted, setIsMounted] = useState(false);
 

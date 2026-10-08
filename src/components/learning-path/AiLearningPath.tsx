@@ -27,253 +27,229 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 
-// Pre-packaged curated official statistical learning paths
+// Pre-packaged curated semester exam learning paths
 const DEFAULT_LEARNING_PATHS: AiLearningPath[] = [
   {
-    id: 'path-sampling-plfs',
-    title: 'Modern Survey Sampling & Labour Statistics (PLFS)',
-    targetCompetency: 'Sampling Design, Multiplier Derivation & CAPI Audits',
-    domain: 'Statistical Competencies',
+    id: 'path-os-concurrency',
+    title: 'Operating Systems & Concurrency Semester Exam Sprint',
+    targetCompetency: 'Process Scheduling, Deadlocks, Paging & Virtual Memory',
+    domain: 'Operating Systems & Systems',
     totalEstimatedHours: 24,
     difficulty: 'Intermediate',
     aiRationale:
-      'Engineered to bridge critical gaps identified in NSS rotational panel surveys, probability proportional to size (PPS) sampling, and field non-sampling error reduction.',
+      'Engineered to bridge critical semester exam gaps in Process Synchronization, Banker\'s Algorithm, and Virtual Memory Paging with step-by-step derivations and university PYQ solutions.',
     progressPercentage: 40,
     createdAt: new Date().toISOString(),
     milestones: [
       {
         id: 'm-1',
         stepNumber: 1,
-        title: 'Foundations of Stratified Probability Sampling',
+        title: 'Foundations of CPU Scheduling & Process States',
         description:
-          'Master First Stage Unit (FSU) selection, Stratum allocation rules (Neyman vs Proportional), and sampling frame verification.',
+          'Master FCFS, SJF, Round Robin with time quanta, Gantt chart construction, and turnaround/waiting time derivations.',
         estimatedHours: 4,
         status: 'completed',
-        competencyDomain: 'Statistical Competencies',
-        keySkills: ['FSU Selection', 'Stratification', 'Sampling Error'],
-        recommendedIgotCourse: 'iGOT: Principles of Official Sample Surveys',
+        competencyDomain: 'Operating Systems & Systems',
+        keySkills: ['Process Scheduling', 'Context Switching', 'Gantt Charts'],
+        recommendedCourse: 'NPTEL: Operating Systems Fundamentals',
         referenceVideos: [
           {
-            title: 'Stratified Sampling & Cluster Sampling in Depth',
-            url: 'https://www.youtube.com/watch?v=pTuj57uXWiI',
-            channel: 'Khan Academy Statistics',
-            duration: '14 mins',
-          },
-          {
-            title: 'Probability Proportional to Size (PPS) Demystified',
-            url: 'https://www.youtube.com/watch?v=qTa_3B52bV4',
-            channel: 'Statistics Simplified',
+            title: 'CPU Scheduling Algorithms (FCFS, SJF, RR) Masterclass',
+            url: 'https://www.youtube.com/results?search_query=cpu+scheduling+gate+smashers',
+            channel: 'Gate Smashers',
             duration: '22 mins',
           },
         ],
         referenceWebsites: [
           {
-            title: 'MoSPI National Sample Survey Standards Manual',
-            url: 'https://www.mospi.gov.in',
-            source: 'MoSPI Portal',
-            description: 'Official methodology handbook for large-scale multi-stage household surveys.',
+            title: 'GeeksforGeeks CPU Scheduling Practice',
+            url: 'https://www.geeksforgeeks.org/cpu-scheduling-in-operating-systems/',
+            source: 'GeeksforGeeks Academic',
+            description: 'Solved numericals and Gantt chart derivations for semester exams.',
           },
           {
-            title: 'United Nations Statistics Division - Household Survey Guidelines',
-            url: 'https://unstats.un.org/unsd/demographic/sources/surveys/',
-            source: 'UN Statistics Division',
-            description: 'International standards for designing representative national surveys.',
+            title: 'NPTEL IIT Kharagpur OS Lecture Notes',
+            url: 'https://nptel.ac.in',
+            source: 'NPTEL / SWAYAM',
+            description: 'Official university curriculum notes on process management.',
           },
         ],
-        checkpointQuizTitle: 'Sampling Design & Multiplier Quiz',
+        checkpointQuizTitle: 'CPU Scheduling & Gantt Chart Diagnostic',
       },
       {
         id: 'm-2',
         stepNumber: 2,
-        title: 'PLFS Urban Rotational Panel & Estimating Multipliers',
+        title: 'Deadlock Avoidance & Banker\'s Algorithm',
         description:
-          'Learn the mathematical derivation of sample weights, pooled multipliers, and quarterly transition matrices across 4 visits.',
+          'Learn the mathematical derivation of Allocation, Max, and Need matrices, Safety algorithm execution, and Resource Request validation.',
         estimatedHours: 6,
         status: 'in_progress',
-        competencyDomain: 'Statistical Competencies',
-        keySkills: ['Current Weekly Status', 'Worker Population Ratio', 'Rotational Panel'],
-        recommendedIgotCourse: 'NSSTA: Periodic Labour Force Survey Operations',
+        competencyDomain: 'Operating Systems & Systems',
+        keySkills: ['Banker Algorithm', 'Resource Allocation Graph', 'Safety State Derivation'],
+        recommendedCourse: 'NPTEL: Concurrency & Synchronization',
         referenceVideos: [
           {
-            title: 'Measuring Employment: Usual Status vs Current Weekly Status',
-            url: 'https://www.youtube.com/watch?v=uK481p2k2a8',
-            channel: 'Centre for Monitoring Indian Economy',
-            duration: '19 mins',
+            title: 'Banker’s Algorithm Numerical Solved Step-by-Step',
+            url: 'https://www.youtube.com/results?search_query=bankers+algorithm+solved',
+            channel: 'Knowledge Gate',
+            duration: '18 mins',
           },
+        ],
+        referenceWebsites: [
           {
-            title: 'Panel Data Analysis & Household Transition Matrices',
-            url: 'https://www.youtube.com/watch?v=cM59C_yO0Z8',
-            channel: 'Econometrics Academy',
+            title: 'Gate Overflow Operating Systems PYQ Vault',
+            url: 'https://gateoverflow.in',
+            source: 'GATE Overflow',
+            description: 'Validated previous year university and competitive exam questions.',
+          },
+        ],
+        checkpointQuizTitle: 'Deadlock Detection & Banker Algorithm Quiz',
+      },
+      {
+        id: 'm-3',
+        stepNumber: 3,
+        title: 'Virtual Memory Paging, TLB & Page Replacement',
+        description:
+          'Master Effective Memory Access Time (EMAT) calculations, Two-Level Paging, and Page Fault derivations using FIFO, LRU, and Optimal algorithms.',
+        estimatedHours: 8,
+        status: 'locked',
+        competencyDomain: 'Operating Systems & Systems',
+        keySkills: ['Two-Level Paging', 'TLB Access Time Numericals', 'Page Replacement'],
+        recommendedCourse: 'NPTEL: Memory Management Mastery',
+        referenceVideos: [
+          {
+            title: 'Page Replacement Algorithms (FIFO, LRU, Optimal)',
+            url: 'https://www.youtube.com/results?search_query=page+replacement+algorithms',
+            channel: 'Gate Smashers',
             duration: '25 mins',
           },
         ],
         referenceWebsites: [
           {
-            title: 'Periodic Labour Force Survey (PLFS) Quarterly Bulletin',
-            url: 'https://www.mospi.gov.in/web/mospi/plfs',
-            source: 'MoSPI PLFS Portal',
-            description: 'Official quarterly reports, definitions of LFPR, WPR, and UR.',
-          },
-          {
-            title: 'ILOSTAT: International Labour Organization Standards',
-            url: 'https://ilostat.ilo.org',
-            source: 'ILO World Portal',
-            description: 'Global benchmark definitions for informal and formal work classifications.',
-          },
-        ],
-        checkpointQuizTitle: 'Labour Statistics & PLFS Measurement Standards',
-      },
-      {
-        id: 'm-3',
-        stepNumber: 3,
-        title: 'Digital CAPI Data Auditing & Paradata Quality Control',
-        description:
-          'Automate consistency checks, outlier detection in wage schedules, and GPS/paradata timestamp validation using Python/R.',
-        estimatedHours: 8,
-        status: 'locked',
-        competencyDomain: 'Technical Competencies',
-        keySkills: ['Computer Assisted Personal Interview (CAPI)', 'Paradata', 'Data Validation'],
-        recommendedIgotCourse: 'iGOT: Data Quality Frameworks in Public Administration',
-        referenceVideos: [
-          {
-            title: 'Data Quality Audits & Paradata in Survey Research',
-            url: 'https://www.youtube.com/watch?v=J9xV8nI3k3g',
-            channel: 'Survey Methodology Insights',
-            duration: '30 mins',
-          },
-        ],
-        referenceWebsites: [
-          {
-            title: 'World Bank Living Standards Measurement Study (LSMS)',
-            url: 'https://www.worldbank.org/en/programs/lsms',
-            source: 'World Bank LSMS',
-            description: 'CAPI best practices and automated quality control pipelines.',
+            title: 'GeeksforGeeks Virtual Memory & Paging',
+            url: 'https://www.geeksforgeeks.org/virtual-memory-in-operating-system/',
+            source: 'GFG University Vault',
+            description: 'Formula sheets for Effective Memory Access Time (EMAT) calculations.',
           },
         ],
       },
       {
         id: 'm-4',
         stepNumber: 4,
-        title: 'Macro-Aggregation & Dissemination under NDSAP',
+        title: 'File Systems, Inodes & Disk Scheduling (SCAN/C-SCAN)',
         description:
-          'Prepare microdata anonymization, synthetic data generation, and API publishing to Open Government Data (data.gov.in).',
+          'Calculate Unix Inode direct/indirect block address capacities, and solve disk arm head movement numericals.',
         estimatedHours: 6,
         status: 'locked',
-        competencyDomain: 'Digital Governance',
-        keySkills: ['Open Data (NDSAP)', 'Microdata Anonymization', 'API Dissemination'],
+        competencyDomain: 'Operating Systems & Systems',
+        keySkills: ['Disk Scheduling Algorithms', 'Unix Inode Calculation', 'University PYQ Drill'],
         referenceVideos: [
           {
-            title: 'Statistical Disclosure Control & Differential Privacy',
-            url: 'https://www.youtube.com/watch?v=gI0wM3ZSXf8',
-            channel: 'Data Governance Institute',
-            duration: '21 mins',
+            title: 'Disk Scheduling Algorithms (SSTF, SCAN, LOOK)',
+            url: 'https://www.youtube.com/results?search_query=disk+scheduling+gate+smashers',
+            channel: 'Gate Smashers',
+            duration: '20 mins',
           },
         ],
         referenceWebsites: [
           {
-            title: 'National Data Sharing and Accessibility Policy (data.gov.in)',
-            url: 'https://data.gov.in',
-            source: 'Open Government Data India',
-            description: 'Guidelines on metadata standards and open statistical API publishing.',
+            title: 'University Previous Year Question Paper Repository',
+            url: 'https://nptel.ac.in',
+            source: 'University Exam Vault',
+            description: 'Curated 10-marker derivations and solved answer keys.',
           },
         ],
       },
     ],
   },
   {
-    id: 'path-sna-gdp',
-    title: 'National Income Accounting & 2008 System of National Accounts (SNA)',
-    targetCompetency: 'GVA at Basic Prices, Supply-Use Tables & Deflators',
-    domain: 'Statistical Competencies',
+    id: 'path-dbms-normalization',
+    title: 'Database Management Systems (DBMS) Semester Mastery',
+    targetCompetency: 'Normalization (1NF-BCNF), ACID Properties, Transactions & Indexing',
+    domain: 'Database & Cloud Architecture',
     totalEstimatedHours: 20,
     difficulty: 'Advanced',
     aiRationale:
-      'Tailored for officers working in the National Accounts Division compiling Quarterly and Annual Estimates of GDP and Sectoral GVA.',
+      'Tailored for B.Tech CS semester students to master functional dependencies, canonical covers, serializability graphs, and B+ Tree indexing.',
     progressPercentage: 15,
     createdAt: new Date().toISOString(),
     milestones: [
       {
-        id: 'sna-m-1',
+        id: 'dbms-m-1',
         stepNumber: 1,
-        title: 'Principles of 2008 SNA & Production Boundary',
-        description: 'Understand Gross Value Added at Basic Prices vs Producer Prices and taxes/subsidies on products.',
+        title: 'Relational Schema Design & Functional Dependency Inference',
+        description: 'Compute attribute closure, identify candidate keys systematically, and determine minimal canonical covers.',
         estimatedHours: 5,
         status: 'in_progress',
-        competencyDomain: 'Statistical Competencies',
-        keySkills: ['Production Boundary', 'GVA Basic Prices', 'Taxes on Products'],
+        competencyDomain: 'Database & Cloud Architecture',
+        keySkills: ['Closure of Attribute Set', 'Candidate Key Finder', 'Canonical Cover'],
         referenceVideos: [
           {
-            title: 'System of National Accounts: How GDP is Calculated',
-            url: 'https://www.youtube.com/watch?v=mjJmo5mLUc4',
-            channel: 'Economics Explained',
+            title: 'How to Find Candidate Keys and Attribute Closure',
+            url: 'https://www.youtube.com/results?search_query=candidate+key+closure+gate+smashers',
+            channel: 'Gate Smashers',
             duration: '18 mins',
           },
         ],
         referenceWebsites: [
           {
-            title: 'MoSPI Sources and Methods of National Accounts Statistics',
-            url: 'https://www.mospi.gov.in',
-            source: 'MoSPI NAD',
-            description: 'Comprehensive Indian national accounting framework and base year revisions.',
-          },
-          {
-            title: 'UN Statistical Commission - System of National Accounts (SNA 2008)',
-            url: 'https://unstats.un.org/unsd/nationalaccount/sna.asp',
-            source: 'United Nations',
-            description: 'Global standard recommendations for national economic accounting.',
+            title: 'GeeksforGeeks Functional Dependency Practice',
+            url: 'https://www.geeksforgeeks.org/functional-dependency-and-attribute-closure/',
+            source: 'GeeksforGeeks Academic',
+            description: 'Canonical cover algorithms and candidate key proofs.',
           },
         ],
-        checkpointQuizTitle: 'Diagnostic Assessment: National Accounts & GVA Compilation',
+        checkpointQuizTitle: 'Diagnostic Assessment: Attribute Closure & Candidate Keys',
       },
       {
-        id: 'sna-m-2',
+        id: 'dbms-m-2',
         stepNumber: 2,
-        title: 'Supply and Use Tables (SUT) & Input-Output Multipliers',
-        description: 'Balancing commodity flows between domestic output, imports, intermediate consumption, and final demand.',
+        title: 'Database Normalization (1NF, 2NF, 3NF, BCNF) & Decomposition',
+        description: 'Prove Lossless Join Decomposition and Dependency Preservation across relational schemas.',
         estimatedHours: 8,
         status: 'locked',
-        competencyDomain: 'Statistical Competencies',
-        keySkills: ['SUT Balancing', 'Input-Output Matrix', 'Commodity Flows'],
+        competencyDomain: 'Database & Cloud Architecture',
+        keySkills: ['Lossless Join Decomposition', 'Dependency Preserving', 'BCNF vs 3NF'],
         referenceVideos: [
           {
-            title: 'Understanding Supply and Use Tables (SUT)',
-            url: 'https://www.youtube.com/watch?v=9XgqO_kF7wY',
-            channel: 'Macroeconomic Analysis Hub',
-            duration: '27 mins',
+            title: 'Database Normalization 1NF, 2NF, 3NF, BCNF with Solved Examples',
+            url: 'https://www.youtube.com/results?search_query=database+normalization+gate+smashers',
+            channel: 'Gate Smashers',
+            duration: '28 mins',
           },
         ],
         referenceWebsites: [
           {
-            title: 'Reserve Bank of India: Database on Indian Economy (DBIE)',
-            url: 'https://dbie.rbi.org.in',
-            source: 'RBI DBIE',
-            description: 'Time series macroeconomic accounts and financial balances.',
+            title: 'NPTEL Database Design & Normalization',
+            url: 'https://nptel.ac.in',
+            source: 'NPTEL / IIT Madras',
+            description: 'Formal proofs for dependency preservation and 3NF synthesis.',
           },
         ],
       },
       {
-        id: 'sna-m-3',
+        id: 'dbms-m-3',
         stepNumber: 3,
-        title: 'Double Deflation Technique & Volume Measures',
-        description: 'Deploying Separate Deflators for Gross Output and Intermediate Consumption using WPI & CPI indexes.',
+        title: 'Transaction Management & Conflict Serializability',
+        description: 'Construct precedence graphs, identify cycle conditions, and prove schedules satisfy Two-Phase Locking (2PL).',
         estimatedHours: 7,
         status: 'locked',
-        competencyDomain: 'Statistical Competencies',
-        keySkills: ['Double Deflation', 'WPI/CPI Deflators', 'Real vs Nominal GDP'],
+        competencyDomain: 'Database & Cloud Architecture',
+        keySkills: ['Conflict Serializability', 'Precedence Graph', 'Two-Phase Locking (2PL)'],
         referenceVideos: [
           {
-            title: 'Double Deflation in Value Added Estimation',
-            url: 'https://www.youtube.com/watch?v=3n5Kz0q4MVs',
-            channel: 'Applied Econometrics',
-            duration: '22 mins',
+            title: 'Conflict Serializability & Precedence Graph Method',
+            url: 'https://www.youtube.com/results?search_query=conflict+serializability+precedence+graph',
+            channel: 'Knowledge Gate',
+            duration: '21 mins',
           },
         ],
         referenceWebsites: [
           {
-            title: 'IMF Statistics Department - National Accounts Deflator Manual',
-            url: 'https://www.imf.org/en/Data',
-            source: 'IMF Portal',
-            description: 'International guidelines for real price indexation and double deflation.',
+            title: 'MIT OCW Database Systems Principles',
+            url: 'https://ocw.mit.edu',
+            source: 'MIT OpenCourseWare',
+            description: 'Concurrency control and write-ahead logging (ARIES) study materials.',
           },
         ],
       },
@@ -302,7 +278,7 @@ export const AiLearningPathView: React.FC = () => {
         domain: selectedDomain,
         totalEstimatedHours: 18,
         difficulty: 'Intermediate',
-        aiRationale: `AI synthesized customized path incorporating iGOT Karmayogi modules, official NSSTA guidelines, and curated YouTube masterclasses for ${customGoal}.`,
+        aiRationale: `AI synthesized customized path incorporating NPTEL/SWAYAM university modules, official syllabus guidelines, and curated YouTube masterclasses for ${customGoal}.`,
         progressPercentage: 0,
         createdAt: new Date().toISOString(),
         milestones: [
@@ -315,21 +291,21 @@ export const AiLearningPathView: React.FC = () => {
             status: 'in_progress',
             competencyDomain: selectedDomain,
             keySkills: ['Conceptual Foundations', 'Regulatory Standards'],
-            recommendedIgotCourse: `iGOT: Foundational ${customGoal}`,
+            recommendedCourse: `NPTEL: Foundational ${customGoal}`,
             referenceVideos: [
               {
-                title: `${customGoal} - Masterclass for Civil Servants`,
+                title: `${customGoal} - University Exam Masterclass`,
                 url: 'https://www.youtube.com/results?search_query=' + encodeURIComponent(customGoal),
-                channel: 'Karmayogi Bharat Learning Series',
+                channel: 'NPTEL Online Courses',
                 duration: '20 mins',
               },
             ],
             referenceWebsites: [
               {
-                title: 'Official National Documentation & Statistical Manual',
-                url: 'https://www.mospi.gov.in',
-                source: 'MoSPI Portal',
-                description: 'Guidelines and circulars for official implementation.',
+                title: 'University Syllabus & Exam Blueprint Portal',
+                url: 'https://nptel.ac.in',
+                source: 'NPTEL / SWAYAM',
+                description: 'University lecture series and semester exam study materials.',
               },
             ],
           },
@@ -344,30 +320,30 @@ export const AiLearningPathView: React.FC = () => {
             keySkills: ['Data Modeling', 'Field Implementation'],
             referenceVideos: [
               {
-                title: `Hands-on Tutorial: Practical ${customGoal}`,
+                title: `Hands-on Tutorial: University Exam ${customGoal}`,
                 url: 'https://www.youtube.com/results?search_query=' + encodeURIComponent(customGoal + ' tutorial'),
-                channel: 'Statistics & Governance Hub',
+                channel: 'Gate Smashers & College Waala',
                 duration: '35 mins',
               },
             ],
             referenceWebsites: [
               {
-                title: 'iGOT Karmayogi Course Repository',
-                url: 'https://igotkarmayogi.gov.in',
-                source: 'iGOT Bharat',
-                description: 'Accredited government training module.',
+                title: 'University Exam Prep Module Repository',
+                url: 'https://nptel.ac.in',
+                source: 'NPTEL / SWAYAM',
+                description: 'Accredited university exam preparation module.',
               },
             ],
           },
           {
             id: `m-c3-${Date.now()}`,
             stepNumber: 3,
-            title: `Competency Checkpoint & Cadre Assessment`,
-            description: `Synthesize outputs into official reports and complete validated MCQ evaluation.`,
+            title: `Competency Checkpoint & Semester Exam Assessment`,
+            description: `Practice previous year question papers and complete validated MCQ evaluation.`,
             estimatedHours: 8,
             status: 'locked',
             competencyDomain: selectedDomain,
-            keySkills: ['Cadre Reporting', 'Quality Assurance'],
+            keySkills: ['PYQ Practice', 'Exam Quality Assurance'],
             referenceVideos: [
               {
                 title: `Assessment Review & Common Pitfalls`,
@@ -378,10 +354,10 @@ export const AiLearningPathView: React.FC = () => {
             ],
             referenceWebsites: [
               {
-                title: 'Reserve Bank of India & MoSPI Data Repositories',
-                url: 'https://dbie.rbi.org.in',
-                source: 'RBI DBIE',
-                description: 'Benchmarking datasets.',
+                title: 'GeeksforGeeks University Previous Year Question Bank',
+                url: 'https://www.geeksforgeeks.org',
+                source: 'GeeksforGeeks Academic',
+                description: 'Semester exam PYQs and solved derivation sets.',
               },
             ],
           },
@@ -433,7 +409,7 @@ export const AiLearningPathView: React.FC = () => {
               Personalized AI Learning Paths
             </h1>
             <p className="text-xs sm:text-sm text-blue-100 max-w-xl">
-              Dynamically maps your diagnostic test scores, iGOT Karmayogi modules, and curated YouTube video lectures into an actionable milestone plan.
+              Dynamically maps your diagnostic test scores, NPTEL university modules, and curated YouTube video lectures into an actionable semester exam milestone plan.
             </p>
           </div>
 
@@ -648,28 +624,28 @@ export const AiLearningPathView: React.FC = () => {
                       ))}
                     </div>
 
-                    {/* Resources: iGOT Course + YouTube + Web Links */}
+                    {/* Resources: Course + YouTube + Web Links */}
                     <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800/80 space-y-2.5">
-                      {milestone.recommendedIgotCourse && (
+                      {(milestone.recommendedCourse || milestone.recommendedIgotCourse) && (
                         <div className="flex items-center justify-between p-2.5 rounded-xl bg-blue-50/60 dark:bg-blue-950/40 border border-blue-100 dark:border-blue-900/40 text-xs">
                           <div className="flex items-center gap-2">
                             <BookOpen className="w-4 h-4 text-blue-600 dark:text-blue-400 shrink-0" />
                             <div>
                               <span className="font-bold text-slate-900 dark:text-white">
-                                iGOT Karmayogi Module:
+                                NPTEL / Exam Module:
                               </span>{' '}
                               <span className="text-slate-700 dark:text-slate-300">
-                                {milestone.recommendedIgotCourse}
+                                {milestone.recommendedCourse || milestone.recommendedIgotCourse}
                               </span>
                             </div>
                           </div>
                           <a
-                            href="https://igotkarmayogi.gov.in"
+                            href="https://nptel.ac.in"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-[10px] font-bold text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-0.5 shrink-0"
                           >
-                            <span>Open on iGOT</span>
+                            <span>Open on NPTEL</span>
                             <ExternalLink className="w-3 h-3" />
                           </a>
                         </div>

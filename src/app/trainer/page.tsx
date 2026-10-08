@@ -35,7 +35,7 @@ export default function TrainerDashboardPage() {
   const [activeTab, setActiveTab] = useState<'overview' | 'upload' | 'generator' | 'review'>('overview');
 
   // Generator form
-  const [targetTopic, setTargetTopic] = useState('Survey Sampling & Stratification Protocol');
+  const [targetTopic, setTargetTopic] = useState('Operating Systems — Process Scheduling & Virtual Memory');
   const [difficulty, setDifficulty] = useState<'Easy' | 'Medium' | 'Hard' | 'Mixed'>('Medium');
   const [numQuestions, setNumQuestions] = useState(5);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -43,7 +43,7 @@ export default function TrainerDashboardPage() {
 
   // Material upload state
   const [newTitle, setNewTitle] = useState('');
-  const [newDomain, setNewDomain] = useState<any>('Statistical Competencies');
+  const [newDomain, setNewDomain] = useState<any>('Core Computer Science');
 
   const handleRunGenerator = () => {
     setIsGenerating(true);
@@ -67,10 +67,10 @@ export default function TrainerDashboardPage() {
       difficulty,
       questions: generatedQuestions,
       competencyDomain: newDomain,
-      sourceMaterialName: 'NSSTA Curated Faculty Manual',
+      sourceMaterialName: 'University Department Course Manual',
       createdAt: new Date().toISOString(),
     });
-    alert('Assessment approved and published to the Learner testing bank!');
+    alert('Assessment approved and published to the Student testing bank!');
     setGeneratedQuestions([]);
     setActiveTab('overview');
   };
@@ -84,14 +84,14 @@ export default function TrainerDashboardPage() {
             Faculty & Assessment Architect Module
           </span>
           <span className="text-xs text-indigo-200">
-            {profile.department || 'National Statistical Systems Training Academy'}
+            {profile.department || 'Department of Computer Science & Engineering'}
           </span>
         </div>
         <h1 className="text-2xl sm:text-3xl font-black tracking-tight">
           Welcome, {profile.fullName}
         </h1>
         <p className="text-xs sm:text-sm text-indigo-100 max-w-2xl">
-          Curate official statistical training syllabi, ingest course manuals, generate validated AI assessments, and review officer question comprehension.
+          Curate university course syllabi, ingest lecture notes and manuals, generate validated AI assessments, and review student question comprehension.
         </p>
       </div>
 
@@ -156,7 +156,7 @@ export default function TrainerDashboardPage() {
               <div className="text-2xl font-black text-blue-600 dark:text-blue-400 mt-1">
                 {quizzes.length} Tests
               </div>
-              <p className="text-[11px] text-slate-400 mt-1">Published to MoSPI officer cohorts</p>
+              <p className="text-[11px] text-slate-400 mt-1">Published to student semester cohorts</p>
             </div>
 
             <div className="p-5 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
@@ -222,7 +222,7 @@ export default function TrainerDashboardPage() {
                 type="text"
                 value={newTitle}
                 onChange={(e) => setNewTitle(e.target.value)}
-                placeholder="e.g. CPI Methodological Handbook 2025"
+                placeholder="e.g. DBMS Unit 3 — Normalization & Transactions"
                 className="w-full px-3 py-2 rounded-xl border text-xs"
               />
             </div>
@@ -236,10 +236,10 @@ export default function TrainerDashboardPage() {
                 onChange={(e) => setNewDomain(e.target.value as any)}
                 className="w-full px-3 py-2 rounded-xl border text-xs"
               >
-                <option value="Statistical Competencies">Statistical Competencies</option>
-                <option value="Technical Competencies">Technical Competencies</option>
-                <option value="Digital Governance">Digital Governance</option>
-                <option value="Behavioural & Managerial Competencies">Behavioural & Managerial</option>
+                <option value="Core Computer Science">Core Computer Science</option>
+                <option value="Algorithms & Problem Solving">Algorithms & Problem Solving</option>
+                <option value="Mathematics & Theory">Mathematics & Theory</option>
+                <option value="Software Engineering & Web">Software Engineering & Web</option>
               </select>
             </div>
 
@@ -261,8 +261,8 @@ export default function TrainerDashboardPage() {
                   fileSizeMb: 5.4,
                   uploadedBy: profile.fullName,
                   targetDomain: newDomain,
-                  extractedConcepts: ['Core Formulas', 'Field Operational Guidelines'],
-                  summary: 'Comprehensive guidelines and operational standards for statistical enumeration and validation.',
+                  extractedConcepts: ['Core Definitions', 'Key Algorithms', 'Numerical Problems', 'PYQ Patterns'],
+                  summary: 'Structured university course material indexed for AI MCQ generation and semester exam prep.',
                   totalQuestionsGenerated: 0,
                   status: 'processing',
                 });
@@ -362,7 +362,7 @@ export default function TrainerDashboardPage() {
                 Review & Approve Questions
               </h3>
               <p className="text-xs text-slate-500 mt-1">
-                Validate each question before releasing to officers on the testing portal.
+                Validate each question before releasing to students on the assessment portal.
               </p>
             </div>
 

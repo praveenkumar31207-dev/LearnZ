@@ -136,7 +136,7 @@ export default function SettingsPage() {
           <ThemeToggle />
         </div>
         <p className="text-xs text-slate-500 dark:text-slate-400">
-          Switch seamlessly between clean Light mode, high-contrast Dark mode, or Custom civil service palettes (such as Karmayogi Emerald, Bharat Navy, or Custom Hex accents). Your preference is saved locally to your device.
+          Switch seamlessly between clean Light mode, high-contrast Dark mode, or Custom academic palettes (such as Academic Emerald, Campus Navy, or Custom Hex accents). Your preference is saved locally to your device.
         </p>
       </div>
 
@@ -168,7 +168,7 @@ export default function SettingsPage() {
         </div>
 
         <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-          The platform connects to your production Supabase database with schema for Statistical Profiles, iGOT Courses, AI MCQ Assessments, and MoSPI Cadre Analytics. All tables and RLS security policies are prepared in <code>supabase/schema.sql</code>.
+          The platform connects to your production Supabase database with schema for Student Profiles, Exam Prep Courses, AI MCQ Assessments, and Academic Analytics. All tables and RLS security policies are prepared in <code>supabase/schema.sql</code>.
         </p>
 
         <div className="flex flex-wrap items-center gap-3 pt-2">

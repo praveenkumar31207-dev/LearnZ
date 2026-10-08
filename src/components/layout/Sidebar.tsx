@@ -51,18 +51,18 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onMobileClose }) =
     { name: 'Profile & Cloud Sync', href: '/settings', icon: User },
   ];
 
-  // 2. Karmayogi (Civil Service / FRAC) Track Navigation
-  const karmayogiLearnerNavItems = [
+  // 2. Semester Exam Prep Track Navigation
+  const examPrepNavItems = [
     { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
-    { name: 'FRAC Competencies', href: '/subjects', icon: Award },
+    { name: 'Exam Subjects & Domains', href: '/subjects', icon: Award },
     { name: 'Skill Gaps & AI Analysis', href: '/subjects?tab=gaps', icon: AlertCircle },
-    { name: 'AI Learning Path', href: '/schedule', icon: Compass },
-    { name: 'iGOT Karmayogi Courses', href: '/resources', icon: BookOpen },
-    { name: 'NSSTA Training Programmes', href: '/resources?tab=nssta', icon: GraduationCap },
-    { name: 'AI Assessments & MCQs', href: '/quizzes', icon: HelpCircle },
-    { name: 'Competency Progress', href: '/analytics', icon: TrendingUp },
-    { name: 'AI Statistical Assistant', href: '/tutors', icon: Bot },
-    { name: 'Official Profile', href: '/settings', icon: User },
+    { name: 'AI Timetable Learning Path', href: '/schedule', icon: Compass },
+    { name: 'Exam Prep Modules (NPTEL)', href: '/resources', icon: BookOpen },
+    { name: 'University PYQ Bank', href: '/resources?tab=pyq', icon: GraduationCap },
+    { name: 'Semester Diagnostics & MCQs', href: '/quizzes', icon: HelpCircle },
+    { name: 'Exam Readiness Analytics', href: '/analytics', icon: TrendingUp },
+    { name: 'AI ExamMentor Tutors', href: '/tutors', icon: Bot },
+    { name: 'Student Profile', href: '/settings', icon: User },
   ];
 
   const trainerNavItems = [
@@ -76,13 +76,13 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onMobileClose }) =
   ];
 
   const adminNavItems = [
-    { name: 'Cadre Governance Admin', href: '/admin', icon: LayoutDashboard },
-    { name: 'Cadre Overview Dashboard', href: '/dashboard', icon: Building2 },
-    { name: 'Workforce Analytics', href: '/analytics', icon: BarChart3 },
-    { name: 'Department Skill-Gap Heatmap', href: '/analytics?tab=heatmap', icon: Building2 },
-    { name: 'Future Skill Predictions', href: '/analytics?tab=predictions', icon: Sparkles },
-    { name: 'Official Competency Mapping', href: '/subjects', icon: Award },
-    { name: 'System & iGOT Sync Engine', href: '/admin', icon: Database },
+    { name: 'Dean Exam Governance', href: '/admin', icon: LayoutDashboard },
+    { name: 'Student Overview Dashboard', href: '/dashboard', icon: Building2 },
+    { name: 'Department Analytics', href: '/analytics', icon: BarChart3 },
+    { name: 'Subject Skill-Gap Heatmap', href: '/analytics?tab=heatmap', icon: Building2 },
+    { name: 'High-Yield Skill Predictions', href: '/analytics?tab=predictions', icon: Sparkles },
+    { name: 'Official Syllabus Mapping', href: '/subjects', icon: Award },
+    { name: 'University LMS Sync Engine', href: '/admin', icon: Database },
   ];
 
   const currentNavItems =
@@ -92,7 +92,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onMobileClose }) =
       ? adminNavItems
       : userTrack === 'learner'
       ? studentNavItems
-      : karmayogiLearnerNavItems;
+      : examPrepNavItems;
 
   const content = (
     <aside className="w-64 h-full flex flex-col justify-between bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 p-4 transition-colors">
@@ -120,9 +120,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onMobileClose }) =
           </span>
           <div className="flex items-center justify-between mt-0.5">
             <span className="text-xs font-extrabold text-emerald-700 dark:text-emerald-400 flex items-center gap-1.5">
-              {activeRole === 'learner' && '👤 Official / Learner'}
-              {activeRole === 'trainer' && '🎓 NSSTA Trainer'}
-              {activeRole === 'admin' && '🏛️ Cadre Administrator'}
+              {activeRole === 'learner' && '👤 Student / Scholar'}
+              {activeRole === 'trainer' && '👨‍🏫 Course Faculty'}
+              {activeRole === 'admin' && '🏛️ Academic Dean'}
             </span>
             <span className="text-[10px] px-1.5 py-0.2 rounded bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 font-semibold uppercase">
               {activeRole}
@@ -179,12 +179,12 @@ export const Sidebar: React.FC<SidebarProps> = ({ mobileOpen, onMobileClose }) =
           <p className="text-[10px] text-slate-500 dark:text-slate-400 leading-relaxed">
             {userTrack === 'learner'
               ? 'Personalized study schedule, coding & DSA roadmaps, and adaptive practice drills.'
-              : 'Independent capacity building track inspired by the FRAC competency model.'}
+              : 'Timetable-aligned semester exam prep, NPTEL modules, and PYQ drills.'}
           </p>
         </div>
 
         <div className="flex items-center justify-between text-[10px] text-slate-400 px-1 font-medium">
-          <span>{userTrack === 'learner' ? 'LearnZ Academic' : 'Civil Services Track'}</span>
+          <span>{userTrack === 'learner' ? 'DSA Coding Track' : 'Semester Exam Track'}</span>
           <span className="text-emerald-600 dark:text-emerald-400 font-bold">● Active Track</span>
         </div>
       </div>

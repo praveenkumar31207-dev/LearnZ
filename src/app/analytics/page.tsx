@@ -45,7 +45,7 @@ export const AnalyticsPage: React.FC = () => {
             <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-300">
               Intelligence & Workforce Evaluation
             </span>
-            <span className="text-xs text-slate-400">MoSPI Capacity Building Wing</span>
+            <span className="text-xs text-slate-400">Academic Affairs & Examinations Wing</span>
           </div>
 
           <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 dark:text-white mt-1 flex items-center gap-2.5">
@@ -113,13 +113,13 @@ export const AnalyticsPage: React.FC = () => {
               <div className="p-4 rounded-2xl bg-white/10 border border-white/10">
                 <span className="text-[11px] text-slate-300">Baseline Before Training:</span>
                 <div className="text-2xl font-black text-slate-300 mt-0.5">48%</div>
-                <p className="text-[10px] text-slate-400 mt-1">Initial Cadre Diagnostic Score</p>
+                <p className="text-[10px] text-slate-400 mt-1">Initial Semester Diagnostic Score</p>
               </div>
 
               <div className="p-4 rounded-2xl bg-white/10 border border-white/10">
-                <span className="text-[11px] text-emerald-300">Current Evaluated Competency:</span>
+                <span className="text-[11px] text-emerald-300">Current Evaluated Readiness:</span>
                 <div className="text-2xl font-black text-white mt-0.5">{profile.overallCompetencyScore}%</div>
-                <p className="text-[10px] text-emerald-300 mt-1">Post iGOT & NSSTA Modules</p>
+                <p className="text-[10px] text-emerald-300 mt-1">Post NPTEL & Exam Modules</p>
               </div>
 
               <div className="p-4 rounded-2xl bg-emerald-500/20 border border-emerald-400/30">
@@ -138,7 +138,7 @@ export const AnalyticsPage: React.FC = () => {
                 {profile.learningHoursLogged} Hours
               </div>
               <span className="text-[11px] text-emerald-600 font-semibold">
-                Across 4 iGOT / NSSTA modules
+                Across 4 NPTEL / Semester modules
               </span>
             </div>
 
@@ -148,7 +148,7 @@ export const AnalyticsPage: React.FC = () => {
                 {completedCourses} / {igotCourses.length}
               </div>
               <span className="text-[11px] text-blue-600 font-semibold">
-                Karmayogi Verified Certs
+                University & NPTEL Verified Certs
               </span>
             </div>
 
@@ -173,7 +173,7 @@ export const AnalyticsPage: React.FC = () => {
           <div className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-5">
             <h3 className="font-extrabold text-sm text-slate-900 dark:text-white flex items-center gap-2">
               <Brain className="w-4 h-4 text-blue-600" />
-              Domain-Wise Official Competency Distribution
+              Domain-Wise Semester Exam Readiness Distribution
             </h3>
 
             <div className="space-y-4">
@@ -210,14 +210,14 @@ export const AnalyticsPage: React.FC = () => {
               <div>
                 <h3 className="text-base font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
                   <Building2 className="w-5 h-5 text-blue-600" />
-                  Workforce Competency Overview across MoSPI & State Directorates
+                  Student Exam Readiness Overview across Engineering Departments
                 </h3>
                 <p className="text-xs text-slate-500 mt-0.5">
-                  Comparative skill heatmap and training completion rates across divisions
+                  Comparative subject heatmap and semester module completion rates across departments
                 </p>
               </div>
               <span className="px-3 py-1 rounded-full text-xs font-bold bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-300">
-                2,945 Active Officials Monitored
+                2,945 Active Students Monitored
               </span>
             </div>
 
@@ -226,13 +226,13 @@ export const AnalyticsPage: React.FC = () => {
               <table className="w-full text-left text-xs">
                 <thead>
                   <tr className="border-b border-slate-200 dark:border-slate-800 text-[11px] font-bold text-slate-400 uppercase">
-                    <th className="py-3 px-3">Division / Directorate</th>
-                    <th className="py-3 px-3">Cadre Size</th>
-                    <th className="py-3 px-3">Average Competency</th>
-                    <th className="py-3 px-3">iGOT Completion</th>
-                    <th className="py-3 px-3">Statistical</th>
-                    <th className="py-3 px-3">Technical</th>
-                    <th className="py-3 px-3">Top Skill Gaps</th>
+                    <th className="py-3 px-3">Department / Batch</th>
+                    <th className="py-3 px-3">Batch Size</th>
+                    <th className="py-3 px-3">Average Readiness</th>
+                    <th className="py-3 px-3">Module Completion</th>
+                    <th className="py-3 px-3">Systems & OS</th>
+                    <th className="py-3 px-3">DBMS & Arch</th>
+                    <th className="py-3 px-3">Top Topic Gaps</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
@@ -274,11 +274,11 @@ export const AnalyticsPage: React.FC = () => {
             <div className="flex items-center gap-2">
               <Sparkles className="w-5 h-5 text-blue-600" />
               <h3 className="text-base font-extrabold text-slate-900 dark:text-white">
-                AI Predictive Analytics: Future Skill Requirements for Official Statistics
+                AI Predictive Analytics: High-Yield Semester Exam Topics & Industry Skills
               </h3>
             </div>
             <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-              The platform's predictive engine forecasts emerging technological requirements based on national statistical priorities, technology shifts, and civil service capacity mandates:
+              The platform's predictive engine forecasts high-yield semester exam topics and industry hiring requirements based on past university question papers, GATE patterns, and curriculum trends:
             </p>
 
             <div className="space-y-4 pt-2">
@@ -319,7 +319,7 @@ export const AnalyticsPage: React.FC = () => {
 
                   <div className="pt-2 border-t border-slate-200 dark:border-slate-700 flex flex-wrap items-center justify-between gap-2 text-xs">
                     <span className="text-slate-500">
-                      <strong>Target Cadres:</strong> {skill.applicableCadres.join(', ')}
+                      <strong>Target Batches:</strong> {skill.applicableCadres.join(', ')}
                     </span>
                     <span className="text-blue-700 dark:text-blue-400 font-bold">
                       Recommended: {skill.recommendedPrograms[0]}

@@ -83,21 +83,21 @@ export const Navbar: React.FC<{ onMobileMenuToggle?: () => void }> = ({
           </button>
 
           <Link href="/dashboard" className="flex items-center gap-2.5 group">
-            {/* Government Emblem / Professional Badge Icon */}
+            {/* University Emblem / Academic Badge Icon */}
             <div className="w-10 h-10 rounded-xl bg-blue-700 dark:bg-blue-600 flex items-center justify-center text-white shadow-md shadow-blue-700/20 group-hover:scale-105 transition-transform shrink-0">
               <Building2 className="w-5 h-5" />
             </div>
             <div className="flex flex-col">
               <div className="flex items-center gap-2">
                 <span className="font-extrabold text-sm sm:text-base leading-tight tracking-tight text-slate-900 dark:text-white">
-                  AI-Enabled Skill Intelligence & Learning Platform
+                  University Exam Intelligence & Study Platform
                 </span>
                 <span className="hidden xl:inline-block text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
-                  MoSPI • iGOT
+                  Apex Univ • NPTEL
                 </span>
               </div>
               <span className="text-[11px] text-slate-500 dark:text-slate-400 font-medium truncate max-w-sm sm:max-w-md">
-                Personalized Competency Development for India’s Official Statistical System
+                Timetable-Aligned Semester Exam Prep & High-Yield PYQ Mastery
               </span>
             </div>
           </Link>
@@ -119,16 +119,16 @@ export const Navbar: React.FC<{ onMobileMenuToggle?: () => void }> = ({
 
         {/* Right: Security Status, Role Switcher, Badges, Profile Menu */}
         <div className="flex items-center gap-2 sm:gap-3">
-          {/* Government Security Indicator */}
+          {/* Platform Status Indicator */}
           <div className="hidden lg:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-[11px] font-semibold text-emerald-800 dark:text-emerald-300">
             <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-            <span>Secure Government-Ready Platform</span>
+            <span>Semester Exam Intelligence Active</span>
           </div>
 
           {/* Unified Theme Toggle (Light, Dark, Custom) */}
           <ThemeToggle />
 
-          {/* Learning Track Switcher (Normal Learner vs iGOT Karmayogi Track) */}
+          {/* Learning Track Switcher (Student DSA vs Semester Exam Prep Track) */}
           <div className="flex items-center p-0.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-bold">
             <button
               onClick={() => setUserTrack('learner')}
@@ -137,22 +137,22 @@ export const Navbar: React.FC<{ onMobileMenuToggle?: () => void }> = ({
                   ? 'bg-white dark:bg-slate-900 text-indigo-700 dark:text-indigo-400 shadow-2xs font-extrabold'
                   : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
               }`}
-              title="Student & General Learning Track (Subjects, DSA, Coding, Study Plans)"
+              title="DSA & Coding Track (NeetCode, LeetCode, Competitive Coding)"
             >
               <GraduationCap className="w-3.5 h-3.5" />
-              <span className="hidden md:inline">Student Track</span>
+              <span className="hidden md:inline">DSA & Coding Track</span>
             </button>
             <button
-              onClick={() => setUserTrack('karmayogi')}
+              onClick={() => setUserTrack('student')}
               className={`px-2.5 py-1 rounded-lg transition-all flex items-center gap-1.5 ${
-                !mounted || userTrack === 'karmayogi'
-                  ? 'bg-blue-700 text-white shadow-2xs font-extrabold'
+                !mounted || userTrack === 'student'
+                  ? 'bg-indigo-600 text-white shadow-2xs font-extrabold'
                   : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
               }`}
-              title="FRAC Civil Service Competencies, iGOT Courses & NSSTA Assessments"
+              title="Semester Exam Prep: NPTEL Courses, PYQs & University Syllabus"
             >
               <Building2 className="w-3.5 h-3.5" />
-              <span className="hidden md:inline">Karmayogi Track</span>
+              <span className="hidden md:inline">Semester Exam Track</span>
             </button>
           </div>
 
@@ -182,7 +182,7 @@ export const Navbar: React.FC<{ onMobileMenuToggle?: () => void }> = ({
                 >
                   <span className="flex items-center gap-2">
                     <User className="w-3.5 h-3.5" />
-                    <span>Official / Learner</span>
+                    <span>College Student</span>
                   </span>
                   {activeRole === 'learner' && <CheckCircle2 className="w-3.5 h-3.5 text-white" />}
                 </button>
@@ -196,7 +196,7 @@ export const Navbar: React.FC<{ onMobileMenuToggle?: () => void }> = ({
                 >
                   <span className="flex items-center gap-2">
                     <GraduationCap className="w-3.5 h-3.5" />
-                    <span>NSSTA Trainer / Faculty</span>
+                    <span>Course Faculty / Professor</span>
                   </span>
                   {activeRole === 'trainer' && <CheckCircle2 className="w-3.5 h-3.5 text-white" />}
                 </button>
@@ -210,7 +210,7 @@ export const Navbar: React.FC<{ onMobileMenuToggle?: () => void }> = ({
                 >
                   <span className="flex items-center gap-2">
                     <Building2 className="w-3.5 h-3.5" />
-                    <span>Cadre Administrator</span>
+                    <span>Dean of Academics</span>
                   </span>
                   {activeRole === 'admin' && <CheckCircle2 className="w-3.5 h-3.5 text-white" />}
                 </button>
@@ -362,7 +362,7 @@ export const Navbar: React.FC<{ onMobileMenuToggle?: () => void }> = ({
                     className="flex items-center gap-2 px-3 py-2 rounded-xl text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 font-medium"
                   >
                     <Settings className="w-4 h-4 text-slate-400" />
-                    <span>Cadre Profile & iGOT Sync</span>
+                    <span>Student Profile & Cloud Sync</span>
                   </Link>
 
                   <button

@@ -44,12 +44,12 @@ export default function DashboardPage() {
                 ? 'bg-indigo-100 dark:bg-indigo-950 text-indigo-800 dark:text-indigo-300 border-indigo-200 dark:border-indigo-800'
                 : 'bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-300 border border-blue-200 dark:border-blue-800'
             }`}>
-              {userTrack === 'learner' ? '🎓 General Student Track' : `🏛️ ${profile.cadre}`}
+              {userTrack === 'learner' ? '💻 DSA & Coding Track' : `🎓 ${profile.cadre}`}
             </span>
             <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">
               {userTrack === 'learner'
                 ? `Major / Focus: ${profile.courseDegree || 'Data Structures & Full-Stack Development'}`
-                : `ID: ${profile.id} • Posting: ${profile.department}`}
+                : `Roll No: ${profile.id} • Department: ${profile.department}`}
             </span>
           </div>
 
@@ -64,7 +64,7 @@ export default function DashboardPage() {
               </>
             ) : (
               <>
-                Assignment: <span className="font-bold text-slate-800 dark:text-slate-200">{profile.currentAssignment}</span> • Role:{' '}
+                Exam Focus: <span className="font-bold text-slate-800 dark:text-slate-200">{profile.currentAssignment}</span> • Specialization:{' '}
                 <span className="font-semibold text-blue-700 dark:text-blue-400">{profile.jobRole}</span>
               </>
             )}
@@ -180,15 +180,15 @@ export default function DashboardPage() {
           <div className="p-6 rounded-3xl bg-gradient-to-br from-blue-50/70 to-indigo-50/40 dark:from-slate-900 dark:to-slate-850 border border-blue-200 dark:border-blue-900/60 shadow-xs space-y-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-xl bg-blue-700 text-white flex items-center justify-center font-bold text-xs">
-                  🇮🇳
+                <div className="w-8 h-8 rounded-xl bg-indigo-600 text-white flex items-center justify-center font-bold text-xs">
+                  🎓
                 </div>
                 <div>
                   <h4 className="text-sm font-extrabold text-slate-900 dark:text-white">
-                    iGOT Karmayogi Learning Repository
+                    University Exam & NPTEL Modules
                   </h4>
                   <p className="text-[11px] text-slate-500 dark:text-slate-400">
-                    Sourced directly from Mission Karmayogi & NSSTA TPAC
+                    Sourced directly from NPTEL & University Exam Vault
                   </p>
                 </div>
               </div>
@@ -253,10 +253,10 @@ export default function DashboardPage() {
                 <BookOpen className="w-4 h-4" />
               </div>
               <h4 className="text-xs font-bold text-slate-900 dark:text-white">
-                {userTrack === 'learner' ? 'DSA & Online Repo' : 'iGOT & NSSTA Repo'}
+                {userTrack === 'learner' ? 'DSA & Coding Repo' : 'NPTEL & PYQ Repo'}
               </h4>
               <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">
-                {userTrack === 'learner' ? 'Curated code sandboxes & roadmaps' : 'Accredited capacity courses & manuals'}
+                {userTrack === 'learner' ? 'Curated code sandboxes & roadmaps' : 'Accredited semester courses & PYQ vault'}
               </p>
             </Link>
 

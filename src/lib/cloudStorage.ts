@@ -13,7 +13,7 @@ export interface CloudStorageSyncResult {
 }
 
 /**
- * Cloud Storage Manager for LearnZ / iGOT Karmayogi Platform
+ * Cloud Storage Manager for LearnZ / Semester Exam Intelligence Platform
  * Handles bidirectional cloud sync with Supabase PostgreSQL & Storage
  */
 export const cloudStorage = {

@@ -25,10 +25,10 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full">
       <head>
-        <title>AI-Enabled Skill Intelligence & Learning Platform | India's Official Statistical System</title>
+        <title>LearnZ | University Semester Exam Intelligence & Timetable Study Platform</title>
         <meta
           name="description"
-          content="Personalized Competency Development for India's Official Statistical System. Integrated with iGOT Karmayogi and NSSTA to identify skill gaps and generate validated AI assessments."
+          content="AI-Enabled Semester Exam Intelligence & Preparation Platform for College Students. Synchronized with your university syllabus, timetable, and high-yield PYQs."
         />
         <meta
           name="viewport"

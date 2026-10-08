@@ -10,7 +10,7 @@ interface AuthContextType {
     id: string;
     email: string;
     fullName?: string;
-    karmayogiId?: string;
+    studentId?: string;
     cadre?: string;
     designation?: string;
     role?: UserRole;
@@ -20,7 +20,8 @@ interface AuthContextType {
   isLoading: boolean;
   activeRole: UserRole;
   setActiveRole: (role: UserRole) => void;
-  signInWithIgot: (karmayogiIdOrEmail: string, passwordOrOtp: string, role?: UserRole) => Promise<{ error?: string }>;
+  signInWithStudentId: (studentIdOrEmail: string, passwordOrOtp: string, role?: UserRole) => Promise<{ error?: string }>;
+  signInWithIgot: (studentIdOrEmail: string, passwordOrOtp: string, role?: UserRole) => Promise<{ error?: string }>;
   signInWithGoogle: () => Promise<{ error?: string }>;
   signUp: (email: string, password: string, fullName: string, educationLevel?: any, courseDegree?: string) => Promise<{ error?: string }>;
   resetPassword: (email: string) => Promise<{ error?: string }>;
@@ -31,16 +32,16 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AUTH_USER_KEY = 'learnz_igot_auth_user_v2';
-export const AUTH_PROFILE_KEY = 'learnz_igot_user_profile_v2';
-export const AUTH_ACTIVE_ROLE_KEY = 'learnz_igot_active_role_v2';
+export const AUTH_USER_KEY = 'learnz_college_auth_user_v3';
+export const AUTH_PROFILE_KEY = 'learnz_college_user_profile_v3';
+export const AUTH_ACTIVE_ROLE_KEY = 'learnz_college_active_role_v3';
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<{
     id: string;
     email: string;
     fullName?: string;
-    karmayogiId?: string;
+    studentId?: string;
     cadre?: string;
     designation?: string;
     role?: UserRole;
@@ -67,18 +68,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           setUser(parsedUser);
           if (parsedUser.role) setActiveRoleState(parsedUser.role);
         } else {
-          // Default initial iGOT Karmayogi civil servant session
-          const defaultIgotUser = {
+          // Default initial college student session
+          const defaultStudentUser = {
             id: initialProfile.id,
             email: initialProfile.email,
             fullName: initialProfile.fullName,
-            karmayogiId: 'KB-MOSPI-8921',
+            studentId: '21BCS0842',
             cadre: initialProfile.cadre,
             designation: initialProfile.designation,
             role: 'learner' as UserRole,
           };
-          setUser(defaultIgotUser);
-          localStorage.setItem(AUTH_USER_KEY, JSON.stringify(defaultIgotUser));
+          setUser(defaultStudentUser);
+          localStorage.setItem(AUTH_USER_KEY, JSON.stringify(defaultStudentUser));
         }
 
         if (savedProfile) {
@@ -108,22 +109,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     } catch (e) {}
   };
 
-  const signInWithIgot = async (
-    karmayogiIdOrEmail: string,
+  const signInWithStudentId = async (
+    studentIdOrEmail: string,
     passwordOrOtp: string,
     role: UserRole = 'learner'
   ): Promise<{ error?: string }> => {
     setIsLoading(true);
 
-    // Validate government or karmayogi format
-    if (!karmayogiIdOrEmail.trim()) {
+    // Validate student roll number or university email
+    if (!studentIdOrEmail.trim()) {
       setIsLoading(false);
-      return { error: 'Please enter your iGOT Karmayogi ID (KB-XXXXX) or official Gov.in email.' };
+      return { error: 'Please enter your Student Roll Number (e.g. 21BCS0842) or University Email.' };
     }
 
     let targetProfile = initialProfile;
-    let targetDesignation = 'Senior Statistical Officer (SSO)';
-    let targetCadre = 'Indian Statistical Service (Subordinate / State Cadre)';
+    let targetDesignation = 'Undergraduate Engineering Scholar';
+    let targetCadre = 'B.Tech Computer Science & Engineering (Semester 6)';
 
     if (role === 'trainer') {
       targetProfile = demoTrainerProfile;
@@ -135,19 +136,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       targetCadre = demoAdminProfile.cadre;
     }
 
-    const igotId = karmayogiIdOrEmail.toUpperCase().startsWith('KB-')
-      ? karmayogiIdOrEmail.toUpperCase()
-      : `KB-${Math.floor(10000 + Math.random() * 90000)}`;
+    const studentRollNo = studentIdOrEmail.toUpperCase().includes('BCS') || studentIdOrEmail.toUpperCase().startsWith('FAC-') || studentIdOrEmail.toUpperCase().startsWith('DEAN-')
+      ? studentIdOrEmail.toUpperCase()
+      : studentIdOrEmail.toUpperCase();
 
-    const enteredName = karmayogiIdOrEmail.includes('@')
-      ? karmayogiIdOrEmail.split('@')[0].replace(/[._-]/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
-      : karmayogiIdOrEmail.toUpperCase();
+    const enteredName = studentIdOrEmail.includes('@')
+      ? studentIdOrEmail.split('@')[0].replace(/[._-]/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
+      : studentIdOrEmail.toUpperCase();
 
     const newUser = {
       id: `usr-${Date.now()}`,
-      email: karmayogiIdOrEmail.includes('@') ? karmayogiIdOrEmail : `${karmayogiIdOrEmail.toLowerCase()}@gov.in`,
+      email: studentIdOrEmail.includes('@') ? studentIdOrEmail : `${studentIdOrEmail.toLowerCase()}@apexuniv.edu`,
       fullName: enteredName,
-      karmayogiId: igotId,
+      studentId: studentRollNo,
       cadre: targetCadre,
       designation: targetDesignation,
       role,
@@ -187,9 +188,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         });
         if (error) {
           console.warn('Supabase Google provider returned error:', error.message);
-          // If Google provider is not yet enabled in Supabase dashboard, fall back to simulated Google session
         } else if (data?.url) {
-          // Redirecting to Google OAuth flow
           return {};
         }
       } catch (err: any) {
@@ -197,14 +196,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
     }
 
-    // Fast-track simulated Google authentication session (for local dev or when Supabase OAuth isn't toggled yet)
+    // Fast-track simulated Google authentication session for college student
     const googleUser = {
       id: `usr-google-${Date.now()}`,
-      email: 'user.google@gmail.com',
-      fullName: 'Google Authenticated Learner',
-      karmayogiId: `KB-GOOG-${Math.floor(1000 + Math.random() * 9000)}`,
-      cadre: 'Official Statistics Trainee',
-      designation: 'Statistical Trainee / Officer',
+      email: 'student.google@apexuniv.edu',
+      fullName: 'Aarav Sharma (Google Student)',
+      studentId: `21BCS0842`,
+      cadre: 'B.Tech CSE - Semester 6',
+      designation: 'Undergraduate Engineering Scholar',
       role: 'learner' as UserRole,
     };
 
@@ -238,14 +237,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     courseDegree?: string
   ): Promise<{ error?: string }> => {
     setIsLoading(true);
-    const karmayogiId = `KB-${Math.floor(10000 + Math.random() * 90000)}`;
+    const studentRollNo = `21BCS${Math.floor(1000 + Math.random() * 9000)}`;
     const newUser = {
       id: `usr-reg-${Date.now()}`,
       email,
-      fullName: fullName || 'Statistical Official',
-      karmayogiId,
-      cadre: 'Subordinate Statistical Service (SSS)',
-      designation: 'Junior Statistical Officer (JSO)',
+      fullName: fullName || 'College Engineering Student',
+      studentId: studentRollNo,
+      cadre: 'B.Tech CSE - 6th Semester',
+      designation: 'Undergraduate Engineering Scholar',
       role: 'learner' as UserRole,
     };
     const newProfile = {
@@ -253,8 +252,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       id: newUser.id,
       email,
       fullName: newUser.fullName,
-      educationLevel: educationLevel || 'Postgraduate',
-      courseDegree: courseDegree || 'M.Sc. Statistics',
+      educationLevel: educationLevel || 'Undergraduate',
+      courseDegree: courseDegree || 'B.Tech Computer Science',
       cadre: newUser.cadre,
       designation: newUser.designation,
     };
@@ -288,24 +287,24 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const loginAsDemoUser = (role: UserRole = 'learner') => {
     let demoP = initialProfile;
-    let demoEmail = 'rajesh.kumar@mospi.gov.in';
-    let demoKarmayogiId = 'KB-MOSPI-8921';
+    let demoEmail = 'aarav.sharma@apexuniv.edu';
+    let demoRollNo = '21BCS0842';
 
     if (role === 'trainer') {
       demoP = demoTrainerProfile;
-      demoEmail = 'sunita.sharma@nssta.gov.in';
-      demoKarmayogiId = 'KB-NSSTA-4412';
+      demoEmail = 'sunita.sharma@apexuniv.edu';
+      demoRollNo = 'FAC-CS-104';
     } else if (role === 'admin') {
       demoP = demoAdminProfile;
-      demoEmail = 'dg.cadre@mospi.gov.in';
-      demoKarmayogiId = 'KB-ADG-0010';
+      demoEmail = 'dean.exams@apexuniv.edu';
+      demoRollNo = 'DEAN-ACAD-01';
     }
 
     const demoUser = {
       id: demoP.id,
       email: demoEmail,
       fullName: demoP.fullName,
-      karmayogiId: demoKarmayogiId,
+      studentId: demoRollNo,
       cadre: demoP.cadre,
       designation: demoP.designation,
       role,
@@ -341,7 +340,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         isLoading,
         activeRole,
         setActiveRole,
-        signInWithIgot,
+        signInWithStudentId,
+        signInWithIgot: signInWithStudentId,
         signInWithGoogle,
         signUp,
         resetPassword,

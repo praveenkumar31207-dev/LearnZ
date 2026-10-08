@@ -1,11 +1,11 @@
 // ==============================================================================
-// AI-Enabled Skill Intelligence & Learning Platform
-// Personalized Competency Development for India's Official Statistical System
+// AI-Enabled Exam Intelligence & Adaptive Study Timetable Platform
+// Personalized Preparation for College Students Aligned with Exam Schedules
 // Full TypeScript Types & Domain Interfaces
 // ==============================================================================
 
 export type UserRole = 'learner' | 'trainer' | 'admin';
-export type UserTrack = 'learner' | 'karmayogi';
+export type UserTrack = 'learner' | 'student' | 'exam_prep';
 
 export type EducationLevel = 
   | 'High School' 
@@ -19,6 +19,14 @@ export type PreferredStudyTime = 'morning' | 'afternoon' | 'evening' | 'night';
 export type DrillMode = 'standard' | 'rapid_fire' | 'weak_target' | 'custom';
 
 export type CompetencyDomainType = 
+  | 'Operating Systems & Systems'
+  | 'Database & Cloud Architecture'
+  | 'Computer Networks & Security'
+  | 'Algorithms & Core CS'
+  | 'Core Computer Science'
+  | 'Algorithms & Problem Solving'
+  | 'Theoretical Computer Science & Math'
+  | 'Software Engineering & Web Systems'
   | 'Statistical Competencies'
   | 'Technical Competencies'
   | 'Digital Governance'
@@ -30,7 +38,7 @@ export type DifficultyLevel = 'Easy' | 'Medium' | 'Hard' | 'Mixed';
 export type ImportanceLevel = 'Low' | 'Medium' | 'High' | 'Critical';
 export type KnowledgeLevel = 'Low' | 'Medium' | 'High';
 export type PriorityTag = 'Critical' | 'High' | 'Medium' | 'Low';
-export type TaskType = 'study' | 'revision' | 'practice' | 'quiz' | 'break' | 'training_module' | 'igot_course';
+export type TaskType = 'study' | 'revision' | 'practice' | 'quiz' | 'break' | 'training_module' | 'exam_module';
 export type TaskStatus = 'pending' | 'in_progress' | 'completed' | 'skipped' | 'rescheduled';
 export type UnderstandingRating = 'didnt_understand' | 'partially_understood' | 'understood' | 'fully_understood';
 
@@ -52,14 +60,14 @@ export interface UserProfile {
   fullName: string;
   role: UserRole;
   userTrack?: UserTrack;
-  designation: string; // e.g. "Senior Statistical Officer (SSO)"
-  department: string; // e.g. "National Accounts Division, MoSPI"
-  cadre: string; // e.g. "Indian Statistical Service (ISS) / Subordinate Statistical Service (SSS)"
-  currentAssignment: string; // e.g. "Periodic Labour Force Survey (PLFS) Tabulation"
-  jobRole: string; // e.g. "Macroeconomic Aggregate Compiler & Data Analyst"
-  educationalQualification: string; // e.g. "M.Sc. in Statistics / Mathematical Economics"
-  workExperience: string; // e.g. "7 Years in Survey Methodologies & CPI Operations"
-  previousTraining: string[]; // e.g. ["NSSTA Induction Course", "UNSIAP System of National Accounts"]
+  designation: string; // e.g. "Second Year B.Tech Student"
+  department: string; // e.g. "Department of Computer Science & Engineering"
+  cadre: string; // e.g. "B.Tech CSE / MCA / BCA"
+  currentAssignment: string; // e.g. "Semester 4 — Operating Systems & DBMS"
+  jobRole: string; // e.g. "Student — University Exam Prep"
+  educationalQualification: string; // e.g. "B.Tech Computer Science (Pursuing)"
+  workExperience: string; // e.g. "2 Years of Engineering Studies"
+  previousTraining: string[]; // e.g. ["NPTEL Python for Data Science", "Coursera DSA Specialization"]
   completedCourses: string[];
   currentCompetencyLevels: Record<string, number>; // competency name -> score %
   overallCompetencyScore: number; // e.g. 72%
@@ -128,7 +136,8 @@ export interface CompetencySkill {
   priority: PriorityTag;
   recommendedActions: string[];
   keyManualsAndStandards: string[];
-  relatedIgotCourseIds: string[];
+  relatedCourseIds?: string[];
+  relatedIgotCourseIds?: string[];
 }
 
 export interface Subject {
@@ -188,27 +197,39 @@ export interface Subtopic {
   isCompleted: boolean;
 }
 
-// iGOT Karmayogi & NSSTA Learning Repository Models
-export interface IGOTCourse {
+// College Exam Preparation & University Syllabus Course Models
+export interface ExamCourseModule {
   id: string;
   courseName: string;
-  provider: 'iGOT Karmayogi' | 'NSSTA TPAC' | 'UNSIAP' | 'ISI Kolkata' | 'MoSPI Academy';
+  provider: 
+    | 'NPTEL / SWAYAM' 
+    | 'University Syllabus' 
+    | 'MIT OpenCourseWare' 
+    | 'IIT Madras / NPTEL'
+    | 'Stanford / NPTEL'
+    | 'Coursera Academic' 
+    | 'GATE & Semester Prep'
+    | string;
   competencyDomain: CompetencyDomainType;
   targetedSkill: string;
   durationHours: number;
-  difficulty: 'Foundational' | 'Intermediate' | 'Advanced';
+  difficulty: 'Foundational' | 'Intermediate' | 'Advanced' | 'Hard';
   description: string;
   enrolmentUrl?: string;
   completionStatus: 'Not Started' | 'Enrolled' | 'In Progress' | 'Completed';
   progressPercentage: number;
+  rating: number;
+  enrolledStudentsCount?: number;
+  enrolledOfficialsCount?: number;
   isNsstaRecommended?: boolean;
   tpacAccredited?: boolean;
-  rating: number; // 4.8
-  enrolledOfficialsCount: number;
   priority: PriorityTag;
   reasonRecommended: string;
   syllabusModules: string[];
 }
+
+/** @deprecated Use ExamCourseModule instead */
+export type IGOTCourse = ExamCourseModule;
 
 export interface ScheduleTask {
   id: string;
@@ -295,7 +316,7 @@ export interface AIQualityCheck {
 export interface ReferenceWebsite {
   title: string;
   url: string;
-  source: string; // e.g. "MoSPI Official Portal", "World Bank Data", "RBI DBIE"
+  source: string; // e.g. "NPTEL Official Portal", "GeeksForGeeks", "LeetCode"
   description?: string;
 }
 
@@ -350,6 +371,7 @@ export interface LearningPathMilestone {
   status: 'completed' | 'in_progress' | 'locked';
   competencyDomain: CompetencyDomainType;
   keySkills: string[];
+  recommendedCourse?: string;
   recommendedIgotCourse?: string;
   referenceVideos: ReferenceVideo[];
   referenceWebsites: ReferenceWebsite[];
@@ -473,7 +495,7 @@ export interface DrillResult {
 export interface DepartmentWorkforceMetric {
   departmentId: string;
   departmentName: string; // e.g. "National Accounts Division (NAD)"
-  ministry: string; // e.g. "MoSPI"
+  ministry: string; // e.g. "University Dean's Office"
   totalOfficials: number;
   averageCompetency: number; // %
   trainingCompletionRate: number; // %

@@ -23,14 +23,14 @@ export default function TutorsPage() {
 
   const isLearner = userTrack === 'learner';
 
-  // Sort tutors based on active track
+  // Sort tutors: exam-core tutors first for exam_prep/student track, algo-first for learner
   const sortedTutors = [...aiTutors].sort((a, b) => {
     if (isLearner) {
-      const learnerPriority = ['assistant-dsa-expert', 'assistant-dev-architect', 'assistant-pystat', 'assistant-sankhyiki'];
+      const learnerPriority = ['assistant-dsa-expert', 'assistant-exam-mentor', 'assistant-sys-tutor', 'assistant-db-master'];
       return learnerPriority.indexOf(a.id) - learnerPriority.indexOf(b.id);
     } else {
-      const karmayogiPriority = ['assistant-sankhyiki', 'assistant-pystat', 'assistant-dsa-expert', 'assistant-dev-architect'];
-      return karmayogiPriority.indexOf(a.id) - karmayogiPriority.indexOf(b.id);
+      const examPriority = ['assistant-exam-mentor', 'assistant-sys-tutor', 'assistant-dsa-expert', 'assistant-db-master'];
+      return examPriority.indexOf(a.id) - examPriority.indexOf(b.id);
     }
   });
 
@@ -39,20 +39,26 @@ export default function TutorsPage() {
 
   // Custom Assistant Form
   const [customName, setCustomName] = useState('');
-  const [customEmoji, setCustomEmoji] = useState(isLearner ? '💻' : '📊');
-  const [customPersonality, setCustomPersonality] = useState(isLearner ? 'Problem-Solver & Code Mentor' : 'Rigorous & Methodical');
+  const [customEmoji, setCustomEmoji] = useState(isLearner ? '⚡' : '🎓');
+  const [customPersonality, setCustomPersonality] = useState(isLearner ? 'Problem-Solver & Code Mentor' : 'Structured & Exam-Centric');
   const [customPrompt, setCustomPrompt] = useState('');
 
   const activeTutor = sortedTutors.find((t) => t.id === selectedTutorId) || sortedTutors[0] || aiTutors[0];
 
   const getInitialGreeting = () => {
+    if (activeTutor?.id === 'assistant-exam-mentor') {
+      return `Hey! I'm **${activeTutor?.name}** 🎓\n\nI'm your all-round semester exam coach. Ask me to explain any concept, structure a 10-marker answer, solve PYQs, or give you a rapid revision summary for your next exam.\n\nWhich subject or topic do you want to tackle today?`;
+    }
+    if (activeTutor?.id === 'assistant-sys-tutor') {
+      return `Hello! I'm **${activeTutor?.name}** 🖥️\n\nI specialise in **Operating Systems** (scheduling, paging, deadlocks) and **Computer Networks** (OSI/TCP-IP, subnetting, sliding window). Drop a numerical or theory doubt and I'll walk you through it step-by-step.\n\nWhat concept or problem should we crack first?`;
+    }
     if (activeTutor?.id === 'assistant-dsa-expert') {
-      return `Hey! I'm **${activeTutor?.name}**, your Data Structures & Algorithms Mentor 🧠💻.\n\nI can help you master Big-O analysis, write optimized code for arrays, trees, dynamic programming, and graphs, or break down LeetCode and NeetCode 150 patterns.\n\nWhat algorithm or problem would you like to conquer today?`;
+      return `Hey! I'm **${activeTutor?.name}** ⚡\n\nI'll help you master Data Structures & Algorithms — Big-O analysis, C++/Java implementations, lab practicals, and university viva questions.\n\nWhich algorithm, data structure, or coding problem would you like to conquer today?`;
     }
-    if (activeTutor?.id === 'assistant-dev-architect') {
-      return `Welcome! I'm **${activeTutor?.name}**, your Full-Stack Engineering & Architecture Mentor 🚀.\n\nI can review your TypeScript types, design high-scale distributed systems, guide Next.js full-stack patterns, or debug tricky async bottlenecks.\n\nWhat are you building today?`;
+    if (activeTutor?.id === 'assistant-db-master') {
+      return `Welcome! I'm **${activeTutor?.name}** 🗄️\n\nI specialise in **DBMS** — normalization (1NF→BCNF), relational algebra, complex SQL queries, B+ trees, and concurrency control.\n\nAsk me a numerical, theory question, or paste your SQL query and I'll debug it!`;
     }
-    return `Namaste! I am **${activeTutor?.name}**, your AI Statistical Learning Assistant for India's Official Statistical System.\n\nI can explain survey concepts (NSS, PLFS, ASI), verify National Accounts formulas, guide your iGOT Karmayogi capacity building, and analyze field manuals.\n\nHow may I assist your capacity development today?`;
+    return `Hello! I'm **${activeTutor?.name}** 🎓\n\nI'm here to help you ace your university semester exams. Ask me any concept, PYQ, or doubt!\n\nWhat would you like to study today?`;
   };
 
   const [messages, setMessages] = useState<{ role: 'user' | 'assistant'; content: string }[]>([
@@ -65,27 +71,43 @@ export default function TutorsPage() {
   const [loading, setLoading] = useState(false);
 
   const getQuickPrompts = () => {
-    if (activeTutor?.id === 'assistant-dsa-expert') {
+    if (activeTutor?.id === 'assistant-exam-mentor') {
       return [
-        'Explain how to solve Two Sum in O(N) using a Hash Map with visual walkthrough.',
-        'How does Dijkstra algorithm find the shortest path using a Min-Heap priority queue?',
-        'Walk through the 0/1 Knapsack state transition and how to optimize space to O(W).',
-        'Compare BFS vs DFS for finding connected components and detect graph cycles.',
+        'Write a 10-marker answer on the differences between process scheduling algorithms with examples.',
+        'Explain virtual memory and demand paging with a diagram for my OS exam.',
+        'Give me 5 important PYQs from Computer Networks with model answers.',
+        'Summarise the key differences between TCP and UDP in 2 minutes for quick revision.',
       ];
     }
-    if (activeTutor?.id === 'assistant-dev-architect') {
+    if (activeTutor?.id === 'assistant-sys-tutor') {
       return [
-        'How do Discriminated Unions and Type Narrowing work in TypeScript?',
-        'Explain React Server Components (RSC) vs Client Components and data boundaries.',
-        'What are the core differences between optimistic UI updates and server mutations?',
-        'How to design a clean REST vs GraphQL API for microservices?',
+        "Solve a Banker's Algorithm safety sequence problem step-by-step.",
+        'Calculate Effective Access Time (EAT) with TLB hit rate 90% and given access times.',
+        'Explain CIDR subnetting and solve: divide 192.168.1.0/24 into 4 equal subnets.',
+        'Compare OSI vs TCP/IP model with a clean table for my exam answer.',
+      ];
+    }
+    if (activeTutor?.id === 'assistant-dsa-expert') {
+      return [
+        'Explain how to solve Two Sum in O(N) using a Hash Map with a visual walkthrough.',
+        "How does Dijkstra's algorithm find shortest paths using a Min-Heap priority queue?",
+        'Walk through the 0/1 Knapsack DP state transition and space optimisation to O(W).',
+        'Compare BFS vs DFS for finding connected components and detecting cycles in a graph.',
+      ];
+    }
+    if (activeTutor?.id === 'assistant-db-master') {
+      return [
+        'Explain 1NF, 2NF, 3NF, and BCNF with an example relation and step-by-step decomposition.',
+        'Write a SQL query with GROUP BY, HAVING, and a subquery for the student database.',
+        'Prove lossless join decomposition for a given set of functional dependencies.',
+        'Explain B+ Tree insertion with an example — how pages split at order 3.',
       ];
     }
     return [
-      'Explain the difference between Usual Status (ps+ss) and Current Weekly Status (CWS) in PLFS.',
-      'How is Gross Value Added (GVA) at Basic Prices derived from GDP at Market Prices in SNA 2008?',
-      'What is the formula for deriving multipliers in a two-stage stratified cluster sample?',
-      'How does NeetCode 150 structure DSA topics for high-efficiency problem solving?',
+      'Explain the most important concepts I need to know for my upcoming semester exam.',
+      'Give me a 10-marker question and model answer from core computer science.',
+      'What are the most common mistakes students make in university exams?',
+      'Create a quick 5-point revision checklist for any topic I tell you.',
     ];
   };
 
@@ -109,7 +131,7 @@ export default function TutorsPage() {
           tutorName: activeTutor.name,
           personality: activeTutor.personality,
           systemPrompt: activeTutor.systemPrompt,
-          topicContext: activeTutor.domainFocus || 'Official Statistics of India',
+          topicContext: activeTutor.domainFocus || 'University Semester Exam Preparation',
         }),
       });
 
@@ -117,11 +139,11 @@ export default function TutorsPage() {
         const data = await res.json();
         setMessages((prev) => [
           ...prev,
-          { role: 'assistant', content: data.reply || 'Let me know if you need more depth on this statistical standard!' },
+          { role: 'assistant', content: data.reply || 'Let me know if you need more clarity on this topic!' },
         ]);
       }
     } catch (err) {
-      console.warn('Statistical Assistant chat error', err);
+      console.warn('Exam tutor chat error', err);
     } finally {
       setLoading(false);
     }
@@ -135,9 +157,9 @@ export default function TutorsPage() {
       personality: customPersonality,
       systemPrompt:
         customPrompt ||
-        `You are ${customName}, a specialized AI advisor in Indian official statistics. Ground all replies in MoSPI, NSSTA, and UN statistical guidelines.`,
+        `You are ${customName}, a specialized AI semester exam mentor for engineering students. Ground all replies in university syllabi, standard reference textbooks (Tanenbaum, Galvin, Korth, Cormen), and NPTEL course notes.`,
       isDefault: false,
-      domainFocus: 'Statistical Competencies',
+      domainFocus: 'Operating Systems & Systems',
     });
     setCustomName('');
     setShowCustomModal(false);
@@ -154,21 +176,21 @@ export default function TutorsPage() {
                 ? 'bg-indigo-100 dark:bg-indigo-950 text-indigo-800 dark:text-indigo-300'
                 : 'bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-300'
             }`}>
-              {isLearner ? 'Computer Science & AI Mentors' : 'National Statistical Advisory AI'}
+              {isLearner ? 'Computer Science & AI Mentors' : 'Semester Exam AI Mentors'}
             </span>
             <span className="text-xs text-slate-400">
-              {isLearner ? 'LeetCode, System Design & Full-Stack' : 'Grounded in MoSPI & NSSTA Manuals'}
+              {isLearner ? 'LeetCode, System Design & Full-Stack' : 'Grounded in University Syllabus & NPTEL Modules'}
             </span>
           </div>
 
           <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 dark:text-white mt-1 flex items-center gap-2.5">
             <Bot className={`w-7 h-7 ${isLearner ? 'text-indigo-600 dark:text-indigo-400' : 'text-blue-700 dark:text-blue-400'}`} />
-            {isLearner ? 'AI Coding & Computer Science Mentors' : 'AI Statistical Learning Assistant (Sankhyiki)'}
+            {isLearner ? 'AI Coding & Computer Science Mentors' : 'AI Semester Exam Mentor (ExamBot)'}
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
             {isLearner
               ? 'Real-time conversational mentor for DSA, algorithmic problem-solving, React/Next.js architecture, and clean code'
-              : 'Real-time conversational mentor for official statistical standards, survey manuals, coding, and DPDP governance'}
+              : 'Real-time conversational mentor for semester exams, university syllabus, coding, and NPTEL modules'}
           </p>
         </div>
 
@@ -181,7 +203,7 @@ export default function TutorsPage() {
           }`}
         >
           <Plus className="w-4 h-4" />
-          <span>{isLearner ? 'Add Custom AI Persona' : 'Add Custom Statistical Persona'}</span>
+          <span>{isLearner ? 'Add Custom AI Persona' : 'Add Custom Exam Tutor'}</span>
         </button>
       </div>
 
@@ -197,11 +219,15 @@ export default function TutorsPage() {
                 setMessages([
                   {
                     role: 'assistant',
-                    content: tutor.id === 'assistant-dsa-expert'
-                      ? `Hey! I'm **${tutor.name}**. Ready to break down LeetCode problems, optimize time complexity, and master DSA!`
-                      : tutor.id === 'assistant-dev-architect'
-                      ? `Welcome! I'm **${tutor.name}**. Let's talk system design, Next.js full-stack patterns, and clean code architecture!`
-                      : `Hello! I am **${tutor.name}**. I am specialized in **${tutor.domainFocus || 'Official Statistics'}**. How can I assist your capacity development?`,
+                    content: tutor.id === 'assistant-exam-mentor'
+                      ? `Hey! I'm **${tutor.name}** 🎓. I'm your all-round semester exam coach — PYQs, 10-marker answers, rapid revision, you name it!`
+                      : tutor.id === 'assistant-sys-tutor'
+                      ? `Hello! I'm **${tutor.name}** 🖥️. Ready to solve OS scheduling, paging numericals, subnetting problems, and CN theory questions!`
+                      : tutor.id === 'assistant-dsa-expert'
+                      ? `Hey! I'm **${tutor.name}** ⚡. Let's crush DSA — algorithms, Big-O, C++/Java lab code, and university exam patterns!`
+                      : tutor.id === 'assistant-db-master'
+                      ? `Welcome! I'm **${tutor.name}** 🗄️. Let's master DBMS — normalization, SQL, relational algebra, B+ trees!`
+                      : `Hello! I'm **${tutor.name}**. I specialise in **${tutor.domainFocus || 'University Exam Preparation'}**. What would you like to study?`,
                   },
                 ]);
               }}
@@ -282,7 +308,7 @@ export default function TutorsPage() {
             <div className="flex justify-start">
               <div className="p-3.5 rounded-2xl bg-slate-100 dark:bg-slate-800 text-xs text-slate-500 flex items-center gap-2">
                 <Sparkles className="w-4 h-4 animate-spin text-blue-600" />
-                <span>{activeTutor?.name} is referencing official statistical manuals...</span>
+                <span>{activeTutor?.name} is thinking through your question...</span>
               </div>
             </div>
           )}
@@ -300,7 +326,7 @@ export default function TutorsPage() {
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder={`Ask ${activeTutor?.name} about survey design, national accounts, formulas, or iGOT courses...`}
+            placeholder={`Ask ${activeTutor?.name} a concept, PYQ, numerical, or theory question...`}
             className="flex-1 px-4 py-3 rounded-2xl bg-white dark:bg-slate-950 border border-slate-300 dark:border-slate-700 text-xs sm:text-sm font-medium text-slate-900 dark:text-white placeholder:text-slate-400 focus:border-blue-600 focus:ring-2 focus:ring-blue-500/25 shadow-xs"
           />
           <button
@@ -319,7 +345,7 @@ export default function TutorsPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-xs">
           <div className="w-full max-w-md rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 shadow-2xl space-y-4">
             <h3 className="text-base font-bold text-slate-900 dark:text-white">
-              Add Custom Statistical AI Persona
+              Add Custom Exam Tutor AI Persona
             </h3>
 
             <div className="space-y-3">
@@ -332,7 +358,7 @@ export default function TutorsPage() {
                     type="text"
                     value={customName}
                     onChange={(e) => setCustomName(e.target.value)}
-                    placeholder="e.g. PriceIndex — CPI Analyst"
+                    placeholder="e.g. MathTutor — Calculus & Linear Algebra Coach"
                     className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white"
                   />
                 </div>
@@ -358,10 +384,10 @@ export default function TutorsPage() {
                   onChange={(e) => setCustomPersonality(e.target.value)}
                   className="w-full px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white"
                 >
-                  <option value="Rigorous & Methodical">Rigorous & Methodical (Cites MoSPI Manuals)</option>
-                  <option value="Code-Centric Python/R">Code-Centric (Python/R Microdata Scripts)</option>
-                  <option value="Concise Doubt Solver">Concise & Direct (Rapid Field Query Resolver)</option>
-                  <option value="Governance & DPDP Compliance">Governance & Data Privacy Legal Advisor</option>
+                  <option value="Rigorous & Methodical">Rigorous & Academic (Cites Standard Engineering Textbooks)</option>
+                  <option value="Code-Centric Python/R">Implementation-Focused (C/C++, Java & Python Code Snippets)</option>
+                  <option value="Concise Doubt Solver">Concise & Direct (Rapid Exam Doubt Resolver)</option>
+                  <option value="Governance & DPDP Compliance">High-Yield PYQ & Derivation Specialist</option>
                 </select>
               </div>
 
@@ -372,7 +398,7 @@ export default function TutorsPage() {
                 <textarea
                   value={customPrompt}
                   onChange={(e) => setCustomPrompt(e.target.value)}
-                  placeholder="e.g. Focus on Agricultural Statistics, Crop Cutting Experiments, and Village Frame surveys..."
+                    placeholder="e.g. Focus on Compiler Design, parsing algorithms, and LL(1)/LR(1) grammar tables for university exams..."
                   className="w-full h-20 p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-white resize-none"
                 />
               </div>

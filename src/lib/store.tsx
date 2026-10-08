@@ -84,7 +84,7 @@ interface AppContextType {
   moderateGaps: CompetencySkill[];
   strengths: CompetencySkill[];
 
-  // iGOT Karmayogi Repository & Learning Path
+  // Exam Modules Repository & Learning Path
   igotCourses: IGOTCourse[];
   enrolInCourse: (courseId: string) => void;
   updateCourseProgress: (courseId: string, progress: number) => void;
@@ -198,7 +198,7 @@ const LOCAL_STORAGE_KEY = 'skill_intelligence_platform_v2';
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [profile, setProfile] = useState<UserProfile>(initialProfile);
   const [activeRole, setActiveRoleState] = useState<UserRole>('learner');
-  const [userTrack, setUserTrackState] = useState<UserTrack>(initialProfile.userTrack || 'karmayogi');
+  const [userTrack, setUserTrackState] = useState<UserTrack>(initialProfile.userTrack || 'student');
   const [availability, setAvailability] = useState<UserAvailability>(initialAvailability);
   const [competencyDomains, setCompetencyDomains] = useState<CompetencyDomain[]>(initialCompetencyDomains);
   const [igotCourses, setIgotCourses] = useState<IGOTCourse[]>(initialIGOTCourses);
@@ -412,7 +412,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     });
   };
 
-  // iGOT Course Actions
+  // Exam Course Module Actions
   const enrolInCourse = (courseId: string) => {
     setIgotCourses((prev) => {
       const updated = prev.map((c) =>
@@ -429,8 +429,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     });
 
     addNotification({
-      title: 'Enrolled in iGOT Karmayogi Course',
-      message: `You have successfully enrolled in the capacity building module. Course added to your learning path.`,
+      title: 'Enrolled in Exam Prep Module',
+      message: `You have successfully enrolled in the semester exam module. Course added to your timetable learning path.`,
       notificationType: 'course_recommended',
     });
   };
@@ -473,7 +473,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
     addNotification({
       title: '🎉 Course Completed: ' + course.courseName,
-      message: `Certified on iGOT Karmayogi ecosystem! Competency in "${course.targetedSkill}" has been upgraded.`,
+      message: `Completed university exam module! Competency in "${course.targetedSkill}" has been upgraded.`,
       notificationType: 'achievement',
     });
   };
@@ -500,25 +500,25 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     difficulty: 'Easy' | 'Medium' | 'Hard' | 'Mixed'
   ): QuizQuestion[] => {
     const material = uploadedMaterials.find((m) => m.id === materialId);
-    const sourceTitle = material ? material.title : 'Official Statistics Manual';
+    const sourceTitle = material ? material.title : 'University Course Syllabus & Notes';
 
     const samplePool: QuizQuestion[] = [
       {
         id: `gen-q-${Date.now()}-1`,
-        questionText: `Under the provisions of ${sourceTitle}, what is the prescribed verification standard for validating unit-level respondent data?`,
+        questionText: `Under standard CPU scheduling policies in ${sourceTitle}, what is the primary consequence of setting an excessively large time quantum in Round Robin scheduling?`,
         questionType: 'mcq',
         options: [
-          'Dual independent CAPI audit with GPS boundary correlation',
-          'Automatic discarding of non-responding households without replacement',
-          'Relying solely on aggregate telephone confirmations',
-          'Single-point verification with no supervisory re-check',
+          'It degenerates into First-Come, First-Served (FCFS) scheduling',
+          'It causes starvation of compute-bound processes',
+          'It increases context-switching overhead to 100%',
+          'It reduces average waiting time to zero',
         ],
-        correctAnswer: 'Dual independent CAPI audit with GPS boundary correlation',
-        explanation: 'MoSPI field audit guidelines mandate supervisory paradata inspection, including automated GPS boundary correlation and randomized re-interviews.',
-        topic: topic || 'Survey Quality & Validation',
+        correctAnswer: 'It degenerates into First-Come, First-Served (FCFS) scheduling',
+        explanation: 'If the time quantum is larger than the longest CPU burst, every process completes in its first turn, behaving identically to FCFS.',
+        topic: topic || 'CPU Scheduling & Process Management',
         difficulty: difficulty === 'Mixed' ? 'Medium' : difficulty,
-        competencyDomain: material?.targetDomain || 'Statistical Competencies',
-        sourceDocRef: `${sourceTitle} (Section 4.1)`,
+        competencyDomain: material?.targetDomain || 'Operating Systems & Systems',
+        sourceDocRef: `${sourceTitle} (Unit 2: Process Scheduling)`,
         qualityCheck: {
           sourceSupported: true,
           singleCorrectAnswer: true,
@@ -527,26 +527,26 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
           appropriateDifficulty: true,
           relevantToTopic: true,
           score: 100,
-          notes: ['Directly grounded in uploaded operational guidelines.'],
+          notes: ['Directly grounded in uploaded university syllabus notes.'],
         },
         status: 'approved',
       },
       {
         id: `gen-q-${Date.now()}-2`,
-        questionText: `Which computational tool is recommended for automating outlier detection in large-scale macroeconomic datasets?`,
+        questionText: `In relational database design according to ${sourceTitle}, which normal form guarantees lossless join and dependency preservation while eliminating all transitive dependencies?`,
         questionType: 'mcq',
         options: [
-          'Manual visual inspection of printed ledger sheets',
-          'Interquartile Range (IQR) & Isolation Forest algorithms in Python/R',
-          'Truncating the lowest and highest 20% of all observations blindly',
-          'Replacing all flagged anomalies with zero',
+          'Third Normal Form (3NF)',
+          'Boyce-Codd Normal Form (BCNF)',
+          'Second Normal Form (2NF)',
+          'First Normal Form (1NF)',
         ],
-        correctAnswer: 'Interquartile Range (IQR) & Isolation Forest algorithms in Python/R',
-        explanation: 'Modern statistical protocols utilize statistical bounds (IQR) combined with machine learning anomaly detection to isolate genuine outliers while preserving valid economic variance.',
-        topic: topic || 'Data Cleaning & Validation',
+        correctAnswer: 'Third Normal Form (3NF)',
+        explanation: '3NF preserves dependencies and ensures lossless decomposition. BCNF eliminates all redundancy based on functional dependencies but cannot always preserve functional dependencies.',
+        topic: topic || 'Relational Database Normalization',
         difficulty: difficulty === 'Mixed' ? 'Hard' : difficulty,
-        competencyDomain: 'Technical Competencies',
-        sourceDocRef: `${sourceTitle} (Technical Annex)`,
+        competencyDomain: 'Database & Cloud Architecture',
+        sourceDocRef: `${sourceTitle} (Unit 3: Normalization)`,
         qualityCheck: {
           sourceSupported: true,
           singleCorrectAnswer: true,
@@ -555,26 +555,26 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
           appropriateDifficulty: true,
           relevantToTopic: true,
           score: 98,
-          notes: ['Meets technical competency quality parameters.'],
+          notes: ['Meets university semester exam rigor.'],
         },
         status: 'approved',
       },
       {
         id: `gen-q-${Date.now()}-3`,
-        questionText: `How does the 2008 System of National Accounts (SNA) classify government research and development (R&D) expenditures?`,
+        questionText: `In a paging memory system with a TLB access time of 20 ns and main memory access time of 100 ns, what is the Effective Memory Access Time (EMAT) with an 80% TLB hit ratio?`,
         questionType: 'mcq',
         options: [
-          'As intermediate consumption expenses',
-          'As Gross Fixed Capital Formation (GFCF / Intellectual Property Products)',
-          'As direct export subsidies',
-          'As current consumption transfers excluded from capital accounts',
+          '140 ns',
+          '120 ns',
+          '220 ns',
+          '100 ns',
         ],
-        correctAnswer: 'As Gross Fixed Capital Formation (GFCF / Intellectual Property Products)',
-        explanation: 'SNA 2008 introduced the recognition of R&D expenditures as capital formation (intangible fixed assets / intellectual property) rather than intermediate consumption.',
-        topic: topic || 'National Accounts Compilation',
+        correctAnswer: '140 ns',
+        explanation: 'EMAT = (0.80 * (20 + 100)) + (0.20 * (20 + 100 + 100)) = (0.80 * 120) + (0.20 * 220) = 96 + 44 = 140 ns.',
+        topic: topic || 'Virtual Memory & Paging Numericals',
         difficulty: difficulty === 'Mixed' ? 'Medium' : difficulty,
-        competencyDomain: 'Statistical Competencies',
-        sourceDocRef: 'National Accounts Source Manual',
+        competencyDomain: 'Operating Systems & Systems',
+        sourceDocRef: `${sourceTitle} (Unit 4: Memory Management)`,
         qualityCheck: {
           sourceSupported: true,
           singleCorrectAnswer: true,
@@ -583,26 +583,26 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
           appropriateDifficulty: true,
           relevantToTopic: true,
           score: 100,
-          notes: ['Standard national accounting benchmark.'],
+          notes: ['Standard semester exam 5-marker numerical.'],
         },
         status: 'approved',
       },
       {
         id: `gen-q-${Date.now()}-4`,
-        questionText: `Under the Digital Personal Data Protection (DPDP) Act 2023, what is the primary prerequisite before releasing synthetic statistical datasets?`,
+        questionText: `Which property of transactions ensures that either all operations of the transaction are reflected in the database or none are?`,
         questionType: 'mcq',
         options: [
-          'Ensuring re-identification risk is suppressed below statistical disclosure control thresholds',
-          'Publishing respondent names with masked telephone digits',
-          'Selling data exclusively to private corporations',
-          'Removing only the first three letters of geographic identifiers',
+          'Atomicity',
+          'Consistency',
+          'Isolation',
+          'Durability',
         ],
-        correctAnswer: 'Ensuring re-identification risk is suppressed below statistical disclosure control thresholds',
-        explanation: 'Statistical Disclosure Control (SDC) ensures that respondent re-identification is mathematically impossible via k-anonymity or differential privacy before public dissemination.',
-        topic: topic || 'Digital Governance & Data Privacy',
+        correctAnswer: 'Atomicity',
+        explanation: 'Atomicity (all-or-nothing property) guarantees that an incomplete or failed transaction is rolled back completely to preserve consistency.',
+        topic: topic || 'ACID Properties & Transactions',
         difficulty: difficulty === 'Mixed' ? 'Easy' : difficulty,
-        competencyDomain: 'Digital Governance',
-        sourceDocRef: 'DPDP Act Guidelines for Public Fiduciaries',
+        competencyDomain: 'Database & Cloud Architecture',
+        sourceDocRef: `${sourceTitle} (Unit 5: Transaction Management)`,
         qualityCheck: {
           sourceSupported: true,
           singleCorrectAnswer: true,
@@ -611,7 +611,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
           appropriateDifficulty: true,
           relevantToTopic: true,
           score: 100,
-          notes: ['Essential privacy compliance standard.'],
+          notes: ['Essential fundamental exam concept.'],
         },
         status: 'approved',
       },
@@ -869,7 +869,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
     addNotification({
       title: 'AI Learning Path Realigned ⚡',
-      message: `AI re-prioritized capacity building tasks to address critical gaps in Data Visualization and AI/ML.`,
+      message: `AI re-prioritized study tasks to address critical gaps in Data Visualization and AI/ML.`,
       notificationType: 'schedule_update',
     });
 
@@ -982,7 +982,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       topicId: task.topicId,
       subjectId: task.subjectId,
       topicTitle: task.title,
-      subjectName: task.subjectName || 'Capacity Building',
+      subjectName: task.subjectName || 'Exam Preparation',
       startTime: task.startTime,
       endTime: new Date().toISOString(),
       plannedMins,
@@ -1136,7 +1136,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
     // Adaptive Competency update based on quiz performance
     // If high score (>70%), increase competency in domain; if low, generate gap alert
-    const targetDomain = newAttempt.quizTitle.includes('Labour') || newAttempt.quizTitle.includes('PLFS')
+    const targetDomain = newAttempt.quizTitle.includes('Networks') || newAttempt.quizTitle.includes('DBMS')
       ? 'Statistical Competencies'
       : newAttempt.quizTitle.includes('Visualization')
       ? 'Technical Competencies'
@@ -1154,7 +1154,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       message:
         newAttempt.accuracyPercentage >= 75
           ? `Excellent performance! Your competency rating in ${targetDomain} has been updated.`
-          : `Improvement needed in ${newAttempt.weakAreasIdentified.join(', ') || targetDomain}. Additional iGOT learning path recommended.`,
+          : `Improvement needed in ${newAttempt.weakAreasIdentified.join(', ') || targetDomain}. Review NPTEL resources and practice more PYQs.`,
       notificationType: 'achievement',
     });
   };
@@ -1280,7 +1280,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     });
   };
 
-  // AI Recommendation Logic: Prioritizes Critical Competency Gaps & iGOT Trainings
+  // AI Recommendation Logic: Prioritizes Critical Competency Gaps & NPTEL Courses
   const whatShouldIStudyNow = () => {
     const pendingTask = scheduleTasks.find((t) => t.status === 'pending');
     const topCriticalGap = criticalGaps[0];
@@ -1291,11 +1291,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       const reasons: string[] = [];
 
       if (topCriticalGap) {
-        reasons.push(`Addresses Critical Competency Gap: ${topCriticalGap.title} (${topCriticalGap.currentLevel}%)`);
+        reasons.push(`Addresses Critical Exam Concept: ${topCriticalGap.title} (${topCriticalGap.currentLevel}%)`);
       }
-      reasons.push(`Prioritized for Cadre Capacity Building in ${profile.department}`);
-      reasons.push(`Sourced from iGOT Karmayogi / NSSTA Curriculum`);
-      reasons.push(`Fits your morning focus window before office hours`);
+      reasons.push(`Prioritized for Semester Exam Mastery in ${profile.department}`);
+      reasons.push(`Sourced from University Syllabus & NPTEL Repositories`);
+      reasons.push(`Fits your daily timetable study slot`);
 
       return {
         task: pendingTask,
@@ -1313,8 +1313,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         skill: topCriticalGap,
         reason: [
           `Critical Skill Gap detected in ${topCriticalGap.domainName}`,
-          `Current level (${topCriticalGap.currentLevel}%) is below Cadre benchmark (${topCriticalGap.requiredLevel}%)`,
-          'AI recommends enrolling in iGOT Karmayogi module',
+          `Current level (${topCriticalGap.currentLevel}%) is below exam benchmark (${topCriticalGap.requiredLevel}%)`,
+          'AI recommends enrolling in Semester Exam prep module',
         ],
         priorityTag: 'Critical' as PriorityTag,
         recommendedDurationMins: 45,
@@ -1322,7 +1322,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
 
     return {
-      reason: ['All competency targets met! Review recent survey manuals or take an adaptive quiz.'],
+      reason: ['All exam targets met! Review university previous year question papers (PYQs) or take a mock exam.'],
       priorityTag: 'Low' as PriorityTag,
       recommendedDurationMins: 30,
     };

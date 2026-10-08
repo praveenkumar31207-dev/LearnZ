@@ -33,8 +33,8 @@ export const WeakTopicsAlert: React.FC = () => {
       </div>
 
       <p className="text-xs text-rose-900/80 dark:text-rose-300/80 mb-4 leading-relaxed">
-        The AI has benchmarked your current competency against requirements for your posting in the{' '}
-        <strong>Official Statistical System</strong>. Immediate capacity building is recommended:
+        The AI has benchmarked your current competency against your semester exam requirements.{' '}
+        <strong>Focused revision is recommended</strong> for these critical topics:
       </p>
 
       <div className="space-y-3">

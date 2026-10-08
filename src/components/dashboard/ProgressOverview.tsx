@@ -46,7 +46,7 @@ export const ProgressOverview: React.FC = () => {
           />
         </div>
         <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-2 truncate">
-          Evaluated across 33 official statistical competencies
+          Evaluated across core university semester exam competencies
         </p>
       </div>
 
@@ -100,7 +100,7 @@ export const ProgressOverview: React.FC = () => {
           />
         </div>
         <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-2 truncate">
-          Mission Karmayogi Verified Certificates
+          University Verified Certificates
         </p>
       </div>
 
@@ -125,7 +125,7 @@ export const ProgressOverview: React.FC = () => {
           />
         </div>
         <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-2 truncate">
-          Target: 50h continuous capacity development
+          Target: 50h continuous university exam preparation
         </p>
       </div>
     </div>

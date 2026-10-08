@@ -41,36 +41,36 @@ export default function AdminDashboardPage() {
       <div className="rounded-3xl bg-gradient-to-r from-slate-900 via-blue-950 to-slate-900 p-6 sm:p-8 text-white shadow-xl space-y-3 border border-blue-900/40">
         <div className="flex items-center gap-2">
           <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-blue-500/20 text-blue-300 border border-blue-400/30">
-            System Administration & Cadre Governance Module
+            University Academic Dean & Exam Governance Module
           </span>
           <span className="text-xs text-slate-400">
-            Higher Administrative Grade (HAG) Control Level
+            Dean of Academics & Controller of Examinations (CoE) Level
           </span>
         </div>
         <h1 className="text-2xl sm:text-3xl font-black tracking-tight">
           Welcome, {profile.fullName}
         </h1>
         <p className="text-xs sm:text-sm text-slate-300 max-w-2xl">
-          National cadre overview: configure iGOT Bharat synchronization, manage platform security policies, and monitor cross-department competency benchmarks.
+          University academic overview: configure NPTEL/LMS synchronization, manage exam security policies, and monitor department-wide semester readiness benchmarks.
         </p>
       </div>
 
-      {/* Cadre Top Metrics */}
+      {/* University Top Metrics */}
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
         <div className="p-5 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
-          <span className="text-[10px] font-bold uppercase text-slate-400">Active Officers Enrolled</span>
+          <span className="text-[10px] font-bold uppercase text-slate-400">Active Students Enrolled</span>
           <div className="text-2xl font-black text-slate-900 dark:text-white mt-1">
             2,480
           </div>
-          <p className="text-[10px] text-emerald-600 font-semibold mt-1">↑ 12% across ISS/SSS cadres</p>
+          <p className="text-[10px] text-emerald-600 font-semibold mt-1">↑ 12% across CSE/ECE batches</p>
         </div>
 
         <div className="p-5 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
-          <span className="text-[10px] font-bold uppercase text-slate-400">iGOT Accreditations Completed</span>
+          <span className="text-[10px] font-bold uppercase text-slate-400">Exam Modules Completed</span>
           <div className="text-2xl font-black text-blue-600 dark:text-blue-400 mt-1">
             1,842
           </div>
-          <p className="text-[10px] text-slate-400 mt-1">TPAC verified certificates</p>
+          <p className="text-[10px] text-slate-400 mt-1">NPTEL & University verified</p>
         </div>
 
         <div className="p-5 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
@@ -90,18 +90,18 @@ export default function AdminDashboardPage() {
         </div>
       </div>
 
-      {/* iGOT Sync Engine & System Governance */}
+      {/* University LMS & NPTEL Sync Engine */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Card: iGOT Integration */}
+        {/* Card: LMS & NPTEL Integration */}
         <div className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-4">
           <div className="flex items-center justify-between">
             <div>
               <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
                 <Database className="w-5 h-5 text-blue-600" />
-                iGOT Karmayogi Bharat Direct Sync
+                University LMS & NPTEL Direct Sync
               </h3>
               <p className="text-xs text-slate-500 mt-0.5">
-                Sync national competency standards, officer course credits, and TPAC badges.
+                Sync university curriculum guidelines, student exam credits, and NPTEL badges.
               </p>
             </div>
             <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300">
@@ -112,7 +112,7 @@ export default function AdminDashboardPage() {
           <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 space-y-2 text-xs">
             <div className="flex justify-between">
               <span className="text-slate-500">Connected Endpoint:</span>
-              <span className="font-mono text-slate-700 dark:text-slate-300">api.igotkarmayogi.gov.in/v2/competency</span>
+              <span className="font-mono text-slate-700 dark:text-slate-300">api.lms.apexuniv.edu/v1/curriculum-sync</span>
             </div>
             <div className="flex justify-between">
               <span className="text-slate-500">Last Successful Sync:</span>
@@ -120,7 +120,7 @@ export default function AdminDashboardPage() {
             </div>
             <div className="flex justify-between">
               <span className="text-slate-500">Synced Records:</span>
-              <span className="font-semibold text-blue-600">2,480 Profiles & 45 Accredited Courses</span>
+              <span className="font-semibold text-blue-600">2,480 Student Profiles & 45 Exam Modules</span>
             </div>
           </div>
 
@@ -132,10 +132,10 @@ export default function AdminDashboardPage() {
             <RefreshCw className={`w-3.5 h-3.5 ${syncStatus === 'syncing' ? 'animate-spin' : ''}`} />
             <span>
               {syncStatus === 'syncing'
-                ? 'Pulling iGOT Karmayogi Catalog...'
+                ? 'Pulling University & NPTEL Catalog...'
                 : syncStatus === 'synced'
-                ? '✓ Successfully Synced with iGOT Bharat!'
-                : 'Trigger Manual iGOT Sync'}
+                ? '✓ Successfully Synced with University LMS!'
+                : 'Trigger Manual LMS Sync'}
             </span>
           </button>
         </div>
@@ -145,7 +145,7 @@ export default function AdminDashboardPage() {
           <div>
             <h3 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
               <Sliders className="w-5 h-5 text-indigo-600" />
-              Cadre Policy & Security Controls
+              Academic Policy & Security Controls
             </h3>
             <p className="text-xs text-slate-500 mt-0.5">
               Control access levels, proctoring enforcement, and AI assistance privileges.
@@ -156,10 +156,10 @@ export default function AdminDashboardPage() {
             <label className="flex items-center justify-between p-3 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 cursor-pointer">
               <div>
                 <div className="text-xs font-bold text-slate-900 dark:text-white">
-                  Enable AI Statistical Assistant for Learners
+                  Enable AI ExamMentor Assistant for Students
                 </div>
                 <div className="text-[10px] text-slate-500">
-                  Allows officers to consult the interactive AI statistical chatbot
+                  Allows students to consult the interactive AI semester exam chatbot
                 </div>
               </div>
               <input
@@ -173,10 +173,10 @@ export default function AdminDashboardPage() {
             <label className="flex items-center justify-between p-3 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 cursor-pointer">
               <div>
                 <div className="text-xs font-bold text-slate-900 dark:text-white">
-                  Require iGOT Karmayogi SSO Verification
+                  Require University SSO Verification
                 </div>
                 <div className="text-[10px] text-slate-500">
-                  Enforces government domain email or KB-XXXX credentials
+                  Enforces official university email or roll number credentials
                 </div>
               </div>
               <input

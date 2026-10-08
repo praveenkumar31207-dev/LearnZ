@@ -116,15 +116,15 @@ export default function QuizzesPage() {
             <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-300">
               AI Intelligent Assessment Engine
             </span>
-            <span className="text-xs text-slate-400">MoSPI Capacity Building & Competency Loop</span>
+            <span className="text-xs text-slate-400">University Semester Exam Assessment Loop</span>
           </div>
 
           <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 dark:text-white mt-1 flex items-center gap-2.5">
             <Cpu className="w-7 h-7 text-blue-700 dark:text-blue-400" />
-            AI Question Generator & Adaptive Assessments
+            AI Question Generator & Semester Assessments
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
-            Upload learning materials (PDF/DOCX), extract statistical concepts, validate AI MCQs, and assess officials
+            Upload syllabus notes or textbooks (PDF/DOCX), extract high-yield concepts, validate PYQ-style MCQs, and test readiness
           </p>
         </div>
 
@@ -219,7 +219,7 @@ export default function QuizzesPage() {
                     >
                       <div className="space-y-1">
                         <span className="text-[10px] font-bold uppercase tracking-wider text-blue-700 dark:text-blue-400">
-                          {q.competencyDomain || 'Official Statistics'}
+                          {q.competencyDomain || 'Computer Science Core'}
                         </span>
                         <h4 className="text-xs font-bold text-slate-900 dark:text-white leading-snug">
                           {q.title}
@@ -227,7 +227,7 @@ export default function QuizzesPage() {
                         <div className="flex items-center gap-2 text-[10px] text-slate-500">
                           <span>{q.questions?.length || 0} Questions</span>
                           <span>•</span>
-                          <span>Source: {q.sourceMaterialName || 'NSSTA Curriculum'}</span>
+                          <span>Source: {q.sourceMaterialName || 'University Exam Syllabus'}</span>
                         </div>
                       </div>
 

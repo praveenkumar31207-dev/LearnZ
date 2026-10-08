@@ -39,10 +39,10 @@ export const HeroSection: React.FC = () => {
         {/* Main Hero Header */}
         <div className="text-center max-w-4xl mx-auto space-y-6">
           {/* Top Pill */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-950/70 border border-blue-500/30 text-blue-300 text-xs font-semibold shadow-inner shadow-blue-500/20 animate-in fade-in slide-in-from-bottom-3 duration-500">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-950/70 border border-indigo-500/30 text-indigo-300 text-xs font-semibold shadow-inner shadow-indigo-500/20 animate-in fade-in slide-in-from-bottom-3 duration-500">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
-            <ShieldCheck className="w-3.5 h-3.5 text-blue-400" />
-            <span>Mission Karmayogi • India’s Official Statistical System</span>
+            <ShieldCheck className="w-3.5 h-3.5 text-indigo-400" />
+            <span>Semester Exam AI • University Engineering & CS Curriculum</span>
           </div>
 
           {/* Title */}
@@ -70,11 +70,11 @@ export const HeroSection: React.FC = () => {
 
           {/* Subtitle */}
           <h2 className="text-lg sm:text-2xl text-blue-200/90 font-bold max-w-3xl mx-auto">
-            Personalized Competency Development for India’s Official Statistical System
+            Timetable-Aligned Exam Prep for B.Tech & University Engineering Semester Students
           </h2>
 
           <p className="text-sm sm:text-lg text-slate-300 max-w-3xl mx-auto leading-relaxed font-normal">
-            Transitioning from one-size-fits-all training to continuous, AI-driven competency intelligence. Dynamically evaluates statistical gaps across MoSPI, State DES, and central ministries, recommending targeted <strong>iGOT Karmayogi</strong> courses and generating accredited <strong>NSSTA assessments</strong> from uploaded survey manuals.
+            Transitioning from passive study to AI-driven semester exam intelligence. Dynamically diagnoses topic gaps across OS, DBMS, Networks and Algorithms, recommends targeted <strong>NPTEL university modules</strong> and generates <strong>University PYQ-style assessments</strong> from your uploaded syllabus PDFs.
           </p>
 
           {/* Core Philosophy Banner */}
@@ -109,19 +109,19 @@ export const HeroSection: React.FC = () => {
           <div className="pt-3 flex flex-wrap items-center justify-center gap-6 text-xs text-slate-400 font-medium">
             <div className="flex items-center gap-2">
               <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-              <span>iGOT Karmayogi Synchronized</span>
+              <span>NPTEL & University Syllabus Synced</span>
             </div>
             <div className="flex items-center gap-2">
               <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-              <span>NSSTA TPAC Curriculum</span>
+              <span>PYQ Question Bank Integrated</span>
             </div>
             <div className="flex items-center gap-2">
               <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-              <span>Role-Based Access Control</span>
+              <span>Timetable-Driven Study Slots</span>
             </div>
             <div className="flex items-center gap-2">
               <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-              <span>DPDP Act 2023 Secure</span>
+              <span>AI ExamMentor Coach Active</span>
             </div>
           </div>
         </div>
@@ -140,7 +140,7 @@ export const HeroSection: React.FC = () => {
                     </h3>
                   </div>
                   <p className="text-xs text-slate-400">
-                    Experience the complete end-to-end capacity building workflow for official statistical personnel:
+                    Experience the complete end-to-end AI-powered semester exam workflow for college engineering students:
                   </p>
                 </div>
 
@@ -154,7 +154,7 @@ export const HeroSection: React.FC = () => {
                         : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
                     }`}
                   >
-                    1. Official Profile (72%)
+                    1. Student Profile (72%)
                   </button>
                   <button
                     onClick={() => setSimState('gap_detected')}
@@ -176,7 +176,7 @@ export const HeroSection: React.FC = () => {
                     }`}
                   >
                     <BookOpen className="w-3.5 h-3.5 text-blue-400" />
-                    <span>3. iGOT Enrolment</span>
+                    <span>3. Exam Module Enrolled</span>
                   </button>
                   <button
                     onClick={() => setSimState('reassessed')}
@@ -199,10 +199,10 @@ export const HeroSection: React.FC = () => {
                     <div className="flex items-center gap-2">
                       <ShieldCheck className="w-4 h-4 text-blue-400 shrink-0" />
                       <span>
-                        <strong>Rajesh Kumar, ISS (Senior Statistical Officer):</strong> Baseline evaluated across 4 domains (Statistical 78%, Technical 52%, Digital Governance 68%, Managerial 74%). Overall: 72%.
+                        <strong>Aarav Sharma (B.Tech CSE, 6th Sem):</strong> Baseline evaluated across 4 core subjects (OS 78%, DBMS 52%, Networks 68%, DSA 74%). Overall Exam Readiness: 72%.
                       </span>
                     </div>
-                    <span className="font-bold text-emerald-400 hidden sm:inline">Active Cadre Profile</span>
+                    <span className="font-bold text-emerald-400 hidden sm:inline">Active Student Profile</span>
                   </div>
                 )}
 
@@ -211,7 +211,7 @@ export const HeroSection: React.FC = () => {
                     <div className="flex items-center gap-2">
                       <AlertTriangle className="w-4 h-4 text-rose-400 shrink-0" />
                       <span>
-                        <strong>🔴 Critical Gaps Detected:</strong> Data Visualization (48% vs 80%) and AI/ML (42% vs 75%). Cadre requires modern infographic & automated microdata tabulation.
+                        <strong>🔴 Critical Gaps Detected:</strong> Virtual Memory Paging (42% vs 80%) and SQL Normalization (48% vs 78%). High-probability 10-marker exam topics need focused revision.
                       </span>
                     </div>
                     <span className="font-bold text-rose-300 hidden sm:inline">-32% Gap</span>
@@ -223,7 +223,7 @@ export const HeroSection: React.FC = () => {
                     <div className="flex items-center gap-2">
                       <BookOpen className="w-4 h-4 text-blue-400 shrink-0" />
                       <span>
-                        <strong>Personalized Training Assigned:</strong> Enrolled in <em>"Data Visualization Fundamentals for Official Statistics (iGOT)"</em> + <em>"AI/ML for Statistical Analysis (NSSTA TPAC)"</em>.
+                        <strong>Personalized Study Assigned:</strong> Enrolled in <em>"OS: Virtual Memory & Scheduling University Sprint (NPTEL)"</em> + <em>"DBMS: BCNF & SQL Mastery Module (University Vault)"</em>.
                       </span>
                     </div>
                     <span className="font-bold text-blue-300 hidden sm:inline">In Progress (45%)</span>
@@ -235,7 +235,7 @@ export const HeroSection: React.FC = () => {
                     <div className="flex items-center gap-2">
                       <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                       <span>
-                        <strong>Competency Score Updated!</strong> Passed AI-generated MCQ assessment on PLFS & Data Viz. Competency upgraded to <strong>76% (+28 percentage points improvement)</strong>.
+                        <strong>Exam Score Updated!</strong> Passed AI-generated MCQ assessment on OS Paging & DBMS Normalization. Exam readiness upgraded to <strong>76% (+28 percentage points improvement)</strong>.
                       </span>
                     </div>
                     <span className="font-bold text-emerald-300 hidden sm:inline">+350 XP Verified</span>
@@ -247,39 +247,39 @@ export const HeroSection: React.FC = () => {
               <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="p-4 rounded-2xl bg-slate-900/70 border border-slate-800">
                   <span className="text-[10px] font-bold text-slate-400 uppercase">Stage 1 • Diagnostic</span>
-                  <h4 className="text-sm font-bold text-white mt-1">Syllabus & Cadre Baseline</h4>
+                  <h4 className="text-sm font-bold text-white mt-1">University Syllabus Baseline</h4>
                   <p className="text-xs text-slate-400 mt-1">
-                    Continuous monitoring across 33 statistical skills using NSS & National Accounts rubrics.
+                    AI diagnoses across 30+ core CS exam topics using university question patterns and PYQ frequency data.
                   </p>
                 </div>
 
                 <div className="p-4 rounded-2xl bg-slate-900/70 border border-slate-800">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase">Stage 2 • iGOT Ecosystem</span>
-                  <h4 className="text-sm font-bold text-white mt-1">Targeted Course Recommendation</h4>
+                  <span className="text-[10px] font-bold text-slate-400 uppercase">Stage 2 • NPTEL Exam Ecosystem</span>
+                  <h4 className="text-sm font-bold text-white mt-1">Timetable-Aligned Module Recommendation</h4>
                   <p className="text-xs text-slate-400 mt-1">
-                    Direct integration with Mission Karmayogi learning repositories and NSSTA workshops.
+                    Direct integration with NPTEL/SWAYAM lecture repositories and university exam vault PYQs.
                   </p>
                 </div>
 
                 <div className="p-4 rounded-2xl bg-slate-900/70 border border-slate-800">
                   <span className="text-[10px] font-bold text-slate-400 uppercase">Stage 3 • AI MCQs & Reassessment</span>
-                  <h4 className="text-sm font-bold text-white mt-1">Validated Assessment Engine</h4>
+                  <h4 className="text-sm font-bold text-white mt-1">Validated Exam Assessment Engine</h4>
                   <p className="text-xs text-slate-400 mt-1">
-                    Faculty upload training manuals; AI extracts concepts, checks quality, and updates score.
+                    Faculty upload syllabus PDFs; AI extracts concepts, generates PYQ-style MCQs, and updates exam readiness score.
                   </p>
                 </div>
               </div>
 
               <div className="mt-6 pt-4 border-t border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs">
                 <span className="text-slate-400 flex items-center gap-1.5">
-                  <BrainCircuit className="w-4 h-4 text-blue-400" />
-                  Aligned with Smart India Hackathon (SIH) capacity building prototype specifications.
+                  <BrainCircuit className="w-4 h-4 text-indigo-400" />
+                  Aligned with Smart India Hackathon (SIH) university semester exam intelligence prototype.
                 </span>
                 <Link
                   href="/dashboard"
-                  className="text-blue-400 hover:text-blue-300 font-bold flex items-center gap-1 transition-colors"
+                  className="text-indigo-400 hover:text-indigo-300 font-bold flex items-center gap-1 transition-colors"
                 >
-                  <span>Enter Employee Competency Dashboard</span>
+                  <span>Enter Student Exam Dashboard</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
               </div>

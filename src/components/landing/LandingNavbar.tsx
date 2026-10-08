@@ -44,20 +44,20 @@ export const LandingNavbar: React.FC = () => {
         <div className="flex items-center justify-between">
           {/* Logo & Official Brand */}
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 rounded-2xl bg-blue-700 flex items-center justify-center text-white shadow-lg shadow-blue-700/25 group-hover:scale-105 transition-transform shrink-0">
-              <span className="text-xl">🏛️</span>
+            <div className="w-10 h-10 rounded-2xl bg-indigo-600 flex items-center justify-center text-white shadow-lg shadow-indigo-600/25 group-hover:scale-105 transition-transform shrink-0">
+              <span className="text-xl">🎓</span>
             </div>
             <div className="flex flex-col">
               <div className="flex items-center gap-2">
                 <span className="font-extrabold text-sm sm:text-base tracking-tight text-white">
-                  Skill Intelligence & Learning Platform
+                  University Exam Intelligence Platform
                 </span>
-                <span className="px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider rounded-full bg-blue-500/20 text-blue-300 border border-blue-500/30">
-                  MoSPI • iGOT
+                <span className="px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+                  Apex Univ • NPTEL
                 </span>
               </div>
               <span className="text-[11px] text-slate-400 font-medium hidden sm:block">
-                Personalized Competency Development for India’s Official Statistical System
+                Timetable-Aligned Semester Exam Prep & High-Yield PYQ Mastery
               </span>
             </div>
           </Link>
@@ -74,13 +74,13 @@ export const LandingNavbar: React.FC = () => {
               href="/subjects"
               className="px-3.5 py-1.5 text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800/60 rounded-full transition-colors"
             >
-              Competencies
+              Subjects & Units
             </Link>
             <Link
               href="/resources"
               className="px-3.5 py-1.5 text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800/60 rounded-full transition-colors"
             >
-              iGOT Repository
+              Exam Resources
             </Link>
             <Link
               href="/quizzes"
@@ -92,7 +92,7 @@ export const LandingNavbar: React.FC = () => {
               href="/analytics"
               className="px-3.5 py-1.5 text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800/60 rounded-full transition-colors"
             >
-              Workforce Analytics
+              Exam Analytics
             </Link>
           </nav>
 

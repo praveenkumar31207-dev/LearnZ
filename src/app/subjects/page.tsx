@@ -171,7 +171,7 @@ export default function SubjectsPage() {
                   {currentDomainObj.name}
                 </h2>
                 <p className="text-xs text-slate-500 mt-0.5">
-                  Official benchmark required: {currentDomainObj.requiredBenchmark}% • Cadre Average: {currentDomainObj.averageScore}%
+                  Semester benchmark required: {currentDomainObj.requiredBenchmark}% • Batch Average: {currentDomainObj.averageScore}%
                 </p>
               </div>
 
@@ -267,7 +267,7 @@ export default function SubjectsPage() {
               </h2>
             </div>
             <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-              The AI engine compares your evaluated skill levels against the benchmark required for your cadre (
+              The AI engine compares your evaluated topic mastery against the benchmark required for your academic batch (
               <span className="font-semibold text-slate-800 dark:text-slate-200">{profile.cadre}</span> in{' '}
               <span className="font-semibold text-slate-800 dark:text-slate-200">{profile.department}</span>
               ), categorizing competencies into 🔴 Critical Gaps, 🟠 Moderate Gaps, and 🟢 Strengths:
@@ -280,7 +280,7 @@ export default function SubjectsPage() {
                   🔴 Critical Gaps (&lt;50%)
                 </span>
                 <div className="text-2xl font-black text-rose-600 mt-1">{criticalGaps.length} Skills</div>
-                <p className="text-[10px] text-slate-500 mt-1">Immediate intervention required on iGOT</p>
+                <p className="text-[10px] text-slate-500 mt-1">Immediate intervention required on NPTEL & study plan</p>
               </div>
 
               <div className="p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900/60">
@@ -296,7 +296,7 @@ export default function SubjectsPage() {
                   🟢 Strong Competencies (≥75%)
                 </span>
                 <div className="text-2xl font-black text-emerald-600 mt-1">{strengths.length} Skills</div>
-                <p className="text-[10px] text-slate-500 mt-1">Exceeds official benchmark</p>
+                <p className="text-[10px] text-slate-500 mt-1">Exceeds semester exam benchmark</p>
               </div>
             </div>
 

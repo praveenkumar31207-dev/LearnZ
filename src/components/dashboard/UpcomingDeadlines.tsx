@@ -26,7 +26,7 @@ export const UpcomingDeadlines: React.FC = () => {
       <div className="flex items-center justify-between gap-4 mb-4">
         <h3 className="font-bold text-sm sm:text-base text-slate-900 dark:text-white flex items-center gap-2">
           <GraduationCap className="w-4 h-4 text-blue-600" />
-          Cadre Milestones & TPAC Evaluations
+          Semester Milestones & Exam Deadlines
         </h3>
         <Link
           href="/schedule"

@@ -48,22 +48,22 @@ const DEFAULT_TOPIC_RESOURCES: Record<
     ],
     websites: [
       {
-        title: 'Ministry of Statistics & Programme Implementation (MoSPI) Official Portal',
-        url: 'https://www.mospi.gov.in',
-        source: 'MoSPI National Portal',
-        description: 'Access official methodological notes, statistical releases, and PLFS documentation.',
+        title: 'NPTEL SWAYAM Computer Science & Engineering Video Archives',
+        url: 'https://nptel.ac.in',
+        source: 'NPTEL / SWAYAM',
+        description: 'Comprehensive university lectures by IIT Kharagpur, Madras, and Bombay faculties.',
       },
       {
-        title: 'iGOT Karmayogi Bharat Learning Portal',
-        url: 'https://igotkarmayogi.gov.in',
-        source: 'iGOT Karmayogi Bharat',
-        description: 'Explore accredited civil services competency modules and statistical certifications.',
+        title: 'MIT OpenCourseWare Electrical Engineering & Computer Science',
+        url: 'https://ocw.mit.edu',
+        source: 'MIT OCW',
+        description: 'World-renowned lecture notes, assignments, and exam problem sets for OS, DBMS, and Algorithms.',
       },
       {
-        title: 'Reserve Bank of India - Database on Indian Economy (DBIE)',
-        url: 'https://dbie.rbi.org.in',
-        source: 'RBI DBIE',
-        description: 'High-frequency time-series datasets and macroeconomic indicators.',
+        title: 'GeeksforGeeks University Exam Vault & Gate PYQs',
+        url: 'https://www.geeksforgeeks.org',
+        source: 'GeeksforGeeks Academic',
+        description: 'Semester exam question solutions, derivations, and lab practical code implementations.',
       },
     ],
   },
@@ -224,7 +224,7 @@ export const ActiveQuiz: React.FC<ActiveQuizProps> = ({ quiz, onFinish }) => {
                 Recommended Study References & Video Tutorials
               </h3>
               <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                Targeted external video lectures & government portals to close identified skill gaps
+                Targeted external video lectures & academic portals to close identified exam gaps
               </p>
             </div>
           </div>

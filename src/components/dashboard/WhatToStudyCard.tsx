@@ -57,11 +57,11 @@ export const WhatToStudyCard: React.FC = () => {
         {/* Question Title & Focus Topic */}
         <div className="space-y-1 mb-5">
           <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-white flex items-center gap-2">
-            Recommended Capacity Building Module
+            Recommended Exam Preparation Module
           </h2>
           <p className="text-sm text-blue-200/80">
-            Intelligently derived from your current competency gaps, job role in{' '}
-            <span className="font-semibold text-white">{profile.department}</span>, and iGOT Karmayogi curriculum:
+            Intelligently derived from your current semester syllabus gaps, upcoming timetable in{' '}
+            <span className="font-semibold text-white">{profile.department}</span>, and high-yield PYQ weightage:
           </p>
         </div>
 
@@ -71,10 +71,10 @@ export const WhatToStudyCard: React.FC = () => {
             <div>
               <span className="text-xs font-semibold text-emerald-300 uppercase tracking-wider flex items-center gap-1.5">
                 <GraduationCap className="w-4 h-4" />
-                {skill?.domainName || subject?.name || 'Technical Competencies'}
+                {skill?.domainName || subject?.name || 'Computer Science Core'}
               </span>
               <h3 className="text-lg sm:text-xl font-bold text-white mt-0.5">
-                {task?.title || skill?.title || 'Data Visualization & Interactive Dashboarding'}
+                {task?.title || skill?.title || 'Virtual Memory Paging & TLB Hit Ratios'}
               </h3>
             </div>
 
@@ -85,7 +85,7 @@ export const WhatToStudyCard: React.FC = () => {
               </div>
               <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-black/30 border border-white/10 text-xs font-semibold text-slate-200">
                 <BookOpen className="w-4 h-4 text-blue-400" />
-                <span>iGOT Karmayogi</span>
+                <span>NPTEL / Exam Vault</span>
               </div>
             </div>
           </div>
@@ -113,7 +113,7 @@ export const WhatToStudyCard: React.FC = () => {
             className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-6 py-3 rounded-2xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm shadow-lg shadow-blue-600/30 hover:scale-[1.02] active:scale-[0.98] transition-all"
           >
             <Play className="w-4 h-4 fill-white" />
-            <span>Start Learning (iGOT Module)</span>
+            <span>Start Learning Module</span>
           </Link>
 
           <Link

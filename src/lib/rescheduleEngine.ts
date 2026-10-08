@@ -22,7 +22,7 @@ export function calculateDynamicReschedule(
     const affectedTasks: RescheduleAdjustmentPlan['affectedTasks'] = [];
     
     // Shift following unlocked tasks forward
-    let shiftMinutes = plannedMins;
+    const shiftMinutes = plannedMins;
     for (let i = taskIndex + 1; i < tasks.length; i++) {
       const task = tasks[i];
       if (task.isLocked) continue;
